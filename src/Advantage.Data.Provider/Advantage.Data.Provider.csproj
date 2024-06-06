@@ -18,4 +18,9 @@
     <Folder Include="Raw" />
   </ItemGroup>
   
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\*.bmp" />
+    <EmbeddedResource Include="Resources\*.xml" />
+  </ItemGroup>
+  
 </Project>
