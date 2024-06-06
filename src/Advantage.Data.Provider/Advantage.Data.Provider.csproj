@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Company>Sybase</Company>
+    <Description>Advantage .NET Data Provider</Description>
+    <Copyright>Copyright © 2015 Sybase</Copyright>
+    <Title>Advantage .NET Data Provider</Title>
+    <Product>Advantage .NET Data Provider</Product>
+    <Version>12.0.2.0</Version>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Folder Include="Raw" />
+  </ItemGroup>
+  
+</Project>
