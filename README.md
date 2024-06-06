@@ -1,2 +1,2 @@
 # ADS4Net
-ADS is for .NET
+Use your database in .NET or go broke.
