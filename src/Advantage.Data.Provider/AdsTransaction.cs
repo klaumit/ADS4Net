@@ -1,7 +1,7 @@
-﻿using AdvantageClientEngine;
-using System;
+﻿using System;
 using System.Data;
 using System.Data.Common;
+using AdvantageClientEngine;
 
 namespace Advantage.Data.Provider
 {
@@ -15,21 +15,21 @@ namespace Advantage.Data.Provider
         public AdsTransaction(AdsConnection Conn)
         {
             AdsException.CheckACE(ACE.AdsBeginTransaction(Conn.InternalConnection.Handle));
-            this.mConnection = Conn;
+            mConnection = Conn;
         }
 
-        ~AdsTransaction() => this.Dispose(false);
+        ~AdsTransaction() => Dispose(false);
 
         protected override void Dispose(bool bDisposing)
         {
-            if (!this.mbDisposed)
+            if (!mbDisposed)
             {
                 lock (this)
                 {
-                    if (!this.mbDisposed)
+                    if (!mbDisposed)
                     {
-                        int num = bDisposing ? 1 : 0;
-                        this.mbDisposed = true;
+                        var num = bDisposing ? 1 : 0;
+                        mbDisposed = true;
                     }
                 }
             }
@@ -39,15 +39,15 @@ namespace Advantage.Data.Provider
 
         public override IsolationLevel IsolationLevel => IsolationLevel.ReadCommitted;
 
-        IDbConnection IDbTransaction.Connection => (IDbConnection)this.Connection;
+        IDbConnection IDbTransaction.Connection => Connection;
 
-        protected override DbConnection DbConnection => (DbConnection)this.Connection;
+        protected override DbConnection DbConnection => Connection;
 
-        public new AdsConnection Connection => this.mConnection;
+        public new AdsConnection Connection => mConnection;
 
         internal void InternalCommit(IntPtr hConn)
         {
-            uint ulRet = ACE.AdsCommitTransaction(hConn);
+            var ulRet = ACE.AdsCommitTransaction(hConn);
             if (ulRet == 5047U)
                 throw new InvalidOperationException("This transaction has already been committed or rolled back.");
             AdsException.CheckACE(ulRet);
@@ -55,16 +55,16 @@ namespace Advantage.Data.Provider
 
         public override void Commit()
         {
-            if (this.mbDisposed)
-                throw new ObjectDisposedException(this.ToString());
-            if (this.mConnection.State != ConnectionState.Open)
+            if (mbDisposed)
+                throw new ObjectDisposedException(ToString());
+            if (mConnection.State != ConnectionState.Open)
                 return;
-            this.InternalCommit(this.mConnection.InternalConnection.Handle);
+            InternalCommit(mConnection.InternalConnection.Handle);
         }
 
         internal void InternalRollback(IntPtr hConn)
         {
-            uint ulRet = ACE.AdsRollbackTransaction(hConn);
+            var ulRet = ACE.AdsRollbackTransaction(hConn);
             if (ulRet == 5047U)
                 throw new InvalidOperationException("This transaction has already been committed or rolled back.");
             AdsException.CheckACE(ulRet);
@@ -72,20 +72,20 @@ namespace Advantage.Data.Provider
 
         public override void Rollback()
         {
-            if (this.mbDisposed)
-                throw new ObjectDisposedException(this.ToString());
-            if (this.mConnection.State != ConnectionState.Open)
+            if (mbDisposed)
+                throw new ObjectDisposedException(ToString());
+            if (mConnection.State != ConnectionState.Open)
                 return;
-            this.InternalRollback(this.mConnection.InternalConnection.Handle);
+            InternalRollback(mConnection.InternalConnection.Handle);
         }
 
         public void Rollback(string strSavepoint)
         {
-            if (this.mbDisposed)
-                throw new ObjectDisposedException(this.ToString());
-            if (this.mConnection.State != ConnectionState.Open)
+            if (mbDisposed)
+                throw new ObjectDisposedException(ToString());
+            if (mConnection.State != ConnectionState.Open)
                 return;
-            uint ulRet = ACE.AdsRollbackTransaction80(this.mConnection.InternalConnection.Handle, strSavepoint, 0U);
+            var ulRet = ACE.AdsRollbackTransaction80(mConnection.InternalConnection.Handle, strSavepoint, 0U);
             if (ulRet == 5047U)
                 throw new InvalidOperationException("This transaction has already been committed or rolled back.");
             AdsException.CheckACE(ulRet);
@@ -93,11 +93,11 @@ namespace Advantage.Data.Provider
 
         public void Save(string strSavepoint)
         {
-            if (this.mbDisposed)
-                throw new ObjectDisposedException(this.ToString());
-            if (this.mConnection.State != ConnectionState.Open)
+            if (mbDisposed)
+                throw new ObjectDisposedException(ToString());
+            if (mConnection.State != ConnectionState.Open)
                 return;
-            uint savepoint = ACE.AdsCreateSavepoint(this.mConnection.InternalConnection.Handle, strSavepoint, 0U);
+            var savepoint = ACE.AdsCreateSavepoint(mConnection.InternalConnection.Handle, strSavepoint, 0U);
             if (savepoint == 5047U)
                 throw new InvalidOperationException("This transaction has already been committed or rolled back.");
             AdsException.CheckACE(savepoint);

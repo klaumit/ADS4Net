@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+####################################################################################################################
+
+BE AWARE THAT THE ORDER IN WHICH TYPES ARE DESCRIBED IN THE PROVIDER MANIFEST IS RELEVANT AND HAVE IMPACT IN LOOKUP
+PROCESS
+
+####################################################################################################################
+-->
+<ProviderManifest Namespace="EFAdvantageProvider" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/providermanifest">
+   <Types>
+      <Type Name="logical" PrimitiveTypeKind="Boolean">
+      </Type>
+     <Type Name="guid" PrimitiveTypeKind="Guid">
+     </Type>
+     <Type Name="longinteger" PrimitiveTypeKind="Int64">
+     </Type>
+      <Type Name ="blob" PrimitiveTypeKind="Binary">
+         <FacetDescriptions>
+            <MaxLength DefaultValue="2147483640" Constant="true" />
+            <FixedLength DefaultValue="false" Constant="true" />
+         </FacetDescriptions>
+      </Type>
+      <Type Name ="varbinaryfox" PrimitiveTypeKind="Binary">
+         <FacetDescriptions>
+            <MaxLength Minimum="1" Maximum="65000" DefaultValue="65000" Constant="false" />
+            <FixedLength DefaultValue="true" Constant="true" />
+         </FacetDescriptions>
+      </Type>
+      <Type Name ="raw" PrimitiveTypeKind="Binary">
+         <FacetDescriptions>
+            <MaxLength Minimum="1" Maximum="65530" DefaultValue="65530" Constant="false" />
+            <FixedLength DefaultValue="true" Constant="true" />
+         </FacetDescriptions>
+      </Type>
+      <Type Name ="memo" PrimitiveTypeKind="String">
+         <FacetDescriptions>
+            <MaxLength DefaultValue="2147483640" Constant="true" />
+            <Unicode DefaultValue="false" Constant="true" />
+            <FixedLength DefaultValue="false" Constant="true" />
+         </FacetDescriptions>
+      </Type>
+      <Type Name="char" PrimitiveTypeKind="String">
+         <FacetDescriptions>
+            <MaxLength Minimum="1" Maximum="65530" DefaultValue="65530" Constant="false" />
+            <Unicode DefaultValue="false" Constant="true" />
+            <FixedLength DefaultValue="true" Constant="true" />
+         </FacetDescriptions>
+      </Type>
+      <Type Name ="varcharfox" PrimitiveTypeKind="String">
+         <FacetDescriptions>
+            <MaxLength Minimum="1" Maximum="65000" DefaultValue="65000" Constant="false" />
+            <Unicode DefaultValue="false" Constant="true" />
+            <FixedLength DefaultValue="true" Constant="true" />
+         </FacetDescriptions>
+      </Type>
+      <Type Name ="nmemo" PrimitiveTypeKind="String">
+         <FacetDescriptions>
+            <MaxLength DefaultValue="1073741820" Constant="true" />
+            <Unicode DefaultValue="true" Constant="true" />
+            <FixedLength DefaultValue="false" Constant="true" />
+         </FacetDescriptions>
+      </Type>
+      <Type Name="nchar" PrimitiveTypeKind="String">
+         <FacetDescriptions>
+            <MaxLength Minimum="1" Maximum="32500" DefaultValue="32500" Constant="false" />
+            <Unicode DefaultValue="true" Constant="true" />
+            <FixedLength DefaultValue="true" Constant="true" />
+         </FacetDescriptions>
+      </Type>
+      <Type Name ="nvarchar" PrimitiveTypeKind="String">
+         <FacetDescriptions>
+            <MaxLength Minimum="1" Maximum="32500" DefaultValue="32500" Constant="false" />
+            <Unicode DefaultValue="true" Constant="true" />
+            <FixedLength DefaultValue="true" Constant="true" />
+         </FacetDescriptions>
+      </Type>
+      <Type Name="integer" PrimitiveTypeKind="Int32">
+      </Type>
+      <Type Name="autoinc" PrimitiveTypeKind="Int32">
+      </Type>
+      <Type Name="short" PrimitiveTypeKind="Int16">
+      </Type>
+      <Type Name="numeric" PrimitiveTypeKind="Decimal">
+         <FacetDescriptions>
+            <Precision Minimum="1" Maximum="38" DefaultValue="18" Constant="false" />
+            <Scale Minimum="0" Maximum="38" DefaultValue="0" Constant="false" />
+         </FacetDescriptions>
+      </Type>
+      <Type Name="double" PrimitiveTypeKind="Double">
+      </Type>
+      <Type Name="curdouble" PrimitiveTypeKind="Double">
+      </Type>
+      <Type Name="date" PrimitiveTypeKind="DateTime">
+         <FacetDescriptions>
+            <Precision Constant="true" DefaultValue="6" />
+         </FacetDescriptions>
+      </Type>
+      <Type Name="time" PrimitiveTypeKind="Time">
+         <FacetDescriptions>
+            <Precision Minimum="0" Maximum="7" DefaultValue="7" Constant="false" />
+         </FacetDescriptions>
+      </Type>
+      <Type Name="timestamp" PrimitiveTypeKind="DateTime">
+         <FacetDescriptions>
+            <Precision Constant="true" DefaultValue="6" />
+         </FacetDescriptions>
+      </Type>
+      <Type Name="modtime" PrimitiveTypeKind="DateTime">
+         <FacetDescriptions>
+            <Precision Constant="true" DefaultValue="6" />
+         </FacetDescriptions>
+      </Type>
+      <Type Name="money" PrimitiveTypeKind="Decimal">
+         <FacetDescriptions>
+            <Precision DefaultValue="22" Constant="true" />
+            <Scale DefaultValue="4" Constant="true" />
+         </FacetDescriptions>
+      </Type>
+      <Type Name="cichar" PrimitiveTypeKind="String">
+         <FacetDescriptions>
+            <MaxLength Minimum="1" Maximum="65530" DefaultValue="65530" Constant="false" />
+            <Unicode DefaultValue="false" Constant="true" />
+            <FixedLength DefaultValue="true" Constant="true" />
+         </FacetDescriptions>
+      </Type>
+      <Type Name="rowversion" PrimitiveTypeKind="Int64">         
+      </Type>
+      <Type Name ="varchar" PrimitiveTypeKind="String">
+         <FacetDescriptions>
+            <MaxLength DefaultValue="2147483640" Constant="true" />
+            <Unicode DefaultValue="false" Constant="true" />
+            <FixedLength DefaultValue="false" Constant="true" />
+         </FacetDescriptions>
+      </Type>
+   </Types>
+  <Functions>     
+  </Functions>
+</ProviderManifest>

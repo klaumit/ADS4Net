@@ -26,42 +26,42 @@ namespace Advantage.Data.Provider
 
         public AdsDataAdapter(AdsCommand selectCommand)
         {
-            this.m_selectCommand = selectCommand;
-            this.mbExternalSelect = true;
+            m_selectCommand = selectCommand;
+            mbExternalSelect = true;
         }
 
         public AdsDataAdapter(string selectCommandText, AdsConnection selectConnection)
         {
-            this.m_selectCommand = new AdsCommand(selectCommandText);
-            this.m_selectCommand.Connection = selectConnection;
+            m_selectCommand = new AdsCommand(selectCommandText);
+            m_selectCommand.Connection = selectConnection;
         }
 
         public AdsDataAdapter(string selectCommandText, string selectConnectionString)
         {
-            this.m_selectCommand = new AdsCommand(selectCommandText);
-            this.m_selectCommand.Connection = new AdsConnection(selectConnectionString);
-            this.m_selectCommand.Connection.Open();
+            m_selectCommand = new AdsCommand(selectCommandText);
+            m_selectCommand.Connection = new AdsConnection(selectConnectionString);
+            m_selectCommand.Connection.Open();
         }
 
-        ~AdsDataAdapter() => this.Dispose(false);
+        ~AdsDataAdapter() => Dispose(false);
 
         protected override void Dispose(bool bExplicitDispose)
         {
-            if (this.mbDisposed)
+            if (mbDisposed)
                 return;
             lock (this)
             {
-                if (this.mbDisposed)
+                if (mbDisposed)
                     return;
                 if (bExplicitDispose)
                 {
-                    if (!this.mbExternalSelect && this.m_selectCommand != null)
-                        this.m_selectCommand.Dispose();
-                    this.m_selectCommand = (AdsCommand)null;
+                    if (!mbExternalSelect && m_selectCommand != null)
+                        m_selectCommand.Dispose();
+                    m_selectCommand = null;
                 }
 
                 base.Dispose(bExplicitDispose);
-                this.mbDisposed = true;
+                mbDisposed = true;
             }
         }
 
@@ -69,56 +69,56 @@ namespace Advantage.Data.Provider
         [Description("Used during Fill/FillSchema.")]
         public new AdsCommand SelectCommand
         {
-            get => this.m_selectCommand;
-            set => this.m_selectCommand = value;
+            get => m_selectCommand;
+            set => m_selectCommand = value;
         }
 
         IDbCommand IDbDataAdapter.SelectCommand
         {
-            get => (IDbCommand)this.m_selectCommand;
-            set => this.m_selectCommand = (AdsCommand)value;
+            get => m_selectCommand;
+            set => m_selectCommand = (AdsCommand)value;
         }
 
         [Category("Update")]
         [Description("Used during Update for new rows in DataSet.")]
         public new AdsCommand InsertCommand
         {
-            get => this.m_insertCommand;
-            set => this.m_insertCommand = value;
+            get => m_insertCommand;
+            set => m_insertCommand = value;
         }
 
         IDbCommand IDbDataAdapter.InsertCommand
         {
-            get => (IDbCommand)this.m_insertCommand;
-            set => this.m_insertCommand = (AdsCommand)value;
+            get => m_insertCommand;
+            set => m_insertCommand = (AdsCommand)value;
         }
 
         [Category("Update")]
         [Description("Used during Update for modified rows in DataSet.")]
         public new AdsCommand UpdateCommand
         {
-            get => this.m_updateCommand;
-            set => this.m_updateCommand = value;
+            get => m_updateCommand;
+            set => m_updateCommand = value;
         }
 
         IDbCommand IDbDataAdapter.UpdateCommand
         {
-            get => (IDbCommand)this.m_updateCommand;
-            set => this.m_updateCommand = (AdsCommand)value;
+            get => m_updateCommand;
+            set => m_updateCommand = (AdsCommand)value;
         }
 
         [Description("Used during Update for deleted rows in DataSet.")]
         [Category("Update")]
         public new AdsCommand DeleteCommand
         {
-            get => this.m_deleteCommand;
-            set => this.m_deleteCommand = value;
+            get => m_deleteCommand;
+            set => m_deleteCommand = value;
         }
 
         IDbCommand IDbDataAdapter.DeleteCommand
         {
-            get => (IDbCommand)this.m_deleteCommand;
-            set => this.m_deleteCommand = (AdsCommand)value;
+            get => m_deleteCommand;
+            set => m_deleteCommand = (AdsCommand)value;
         }
 
         protected override RowUpdatedEventArgs CreateRowUpdatedEvent(
@@ -127,7 +127,7 @@ namespace Advantage.Data.Provider
             StatementType statementType,
             DataTableMapping tableMapping)
         {
-            return (RowUpdatedEventArgs)new AdsRowUpdatedEventArgs(dataRow, command, statementType, tableMapping);
+            return new AdsRowUpdatedEventArgs(dataRow, command, statementType, tableMapping);
         }
 
         protected override RowUpdatingEventArgs CreateRowUpdatingEvent(
@@ -136,37 +136,37 @@ namespace Advantage.Data.Provider
             StatementType statementType,
             DataTableMapping tableMapping)
         {
-            return (RowUpdatingEventArgs)new AdsRowUpdatingEventArgs(dataRow, command, statementType, tableMapping);
+            return new AdsRowUpdatingEventArgs(dataRow, command, statementType, tableMapping);
         }
 
         protected override void OnRowUpdating(RowUpdatingEventArgs value)
         {
-            AdsRowUpdatingEventHandler updatingEventHandler =
-                (AdsRowUpdatingEventHandler)this.Events[AdsDataAdapter.EventRowUpdating];
+            var updatingEventHandler =
+                (AdsRowUpdatingEventHandler)Events[EventRowUpdating];
             if (updatingEventHandler == null || !(value is AdsRowUpdatingEventArgs))
                 return;
-            updatingEventHandler((object)this, (AdsRowUpdatingEventArgs)value);
+            updatingEventHandler(this, (AdsRowUpdatingEventArgs)value);
         }
 
         protected override void OnRowUpdated(RowUpdatedEventArgs value)
         {
-            AdsRowUpdatedEventHandler updatedEventHandler =
-                (AdsRowUpdatedEventHandler)this.Events[AdsDataAdapter.EventRowUpdated];
+            var updatedEventHandler =
+                (AdsRowUpdatedEventHandler)Events[EventRowUpdated];
             if (updatedEventHandler == null || !(value is AdsRowUpdatedEventArgs))
                 return;
-            updatedEventHandler((object)this, (AdsRowUpdatedEventArgs)value);
+            updatedEventHandler(this, (AdsRowUpdatedEventArgs)value);
         }
 
         public event AdsRowUpdatingEventHandler RowUpdating
         {
-            add => this.Events.AddHandler(AdsDataAdapter.EventRowUpdating, (Delegate)value);
-            remove => this.Events.RemoveHandler(AdsDataAdapter.EventRowUpdating, (Delegate)value);
+            add => Events.AddHandler(EventRowUpdating, value);
+            remove => Events.RemoveHandler(EventRowUpdating, value);
         }
 
         public event AdsRowUpdatedEventHandler RowUpdated
         {
-            add => this.Events.AddHandler(AdsDataAdapter.EventRowUpdated, (Delegate)value);
-            remove => this.Events.RemoveHandler(AdsDataAdapter.EventRowUpdated, (Delegate)value);
+            add => Events.AddHandler(EventRowUpdated, value);
+            remove => Events.RemoveHandler(EventRowUpdated, value);
         }
     }
 }

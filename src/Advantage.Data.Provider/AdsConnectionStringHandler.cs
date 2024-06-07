@@ -1,7 +1,7 @@
-﻿using AdvantageClientEngine;
-using System;
+﻿using System;
 using System.Collections;
 using System.Globalization;
+using AdvantageClientEngine;
 
 namespace Advantage.Data.Provider
 {
@@ -96,124 +96,124 @@ namespace Advantage.Data.Provider
 
         public AdsConnectionStringHandler()
         {
-            this.mapProps = new Hashtable((IEqualityComparer)StringComparer.InvariantCultureIgnoreCase);
-            this.mapProps.Add((object)nameof(TableType), (object)(ushort)3);
-            this.mapProps.Add((object)nameof(CharType), (object)"ANSI");
-            this.mapProps.Add((object)nameof(UnicodeCollation), (object)"");
-            this.mapProps.Add((object)"LockMode", (object)(ushort)1);
-            this.mapProps.Add((object)"SecurityMode", (object)(ushort)2);
-            this.mapProps.Add((object)nameof(ServerType), (object)null);
-            this.mapProps.Add((object)nameof(ShowDeleted), (object)false);
-            this.mapProps.Add((object)"IncrementUserCount", (object)false);
-            this.mapProps.Add((object)"StoredProcedureConnection", (object)false);
-            this.mapProps.Add((object)nameof(EncryptionPassword), (object)null);
-            this.mapProps.Add((object)nameof(DbfsUseNulls), (object)false);
-            this.mapProps.Add((object)nameof(FilterOptions),
-                (object)AdsConnectionStringHandler.FilterOption.IgnoreWhenCounting);
-            this.mapProps.Add((object)nameof(TrimTrailingSpaces), (object)false);
-            this.mapProps.Add((object)nameof(Compression), (object)null);
-            this.mapProps.Add((object)"Data Source", (object)null);
-            this.mapProps.Add((object)"Initial Catalog", (object)null);
-            this.mapProps.Add((object)"User ID", (object)null);
-            this.mapProps.Add((object)nameof(Password), (object)null);
-            this.mapProps.Add((object)nameof(Shared), (object)true);
-            this.mapProps.Add((object)nameof(ReadOnly), (object)false);
-            this.mapProps.Add((object)nameof(Pooling), (object)true);
-            this.mapProps.Add((object)"Min Pool Size", (object)0);
-            this.mapProps.Add((object)"Max Pool Size", (object)100);
-            this.mapProps.Add((object)"Connection Reset", (object)true);
-            this.mapProps.Add((object)"Connection Lifetime", (object)0);
-            this.mapProps.Add((object)nameof(ConnectionHandle), (object)IntPtr.Zero);
-            this.mapProps.Add((object)"Connect Timeout", (object)15);
-            this.mapProps.Add((object)nameof(CommType), (object)null);
-            this.mapProps.Add((object)"Enlist", (object)true);
-            this.mapProps.Add((object)nameof(EncryptionType), (object)null);
-            this.mapProps.Add((object)nameof(DDPassword), (object)null);
-            this.mapProps.Add((object)"FIPS", (object)false);
-            this.mapProps.Add((object)nameof(TLSCiphers), (object)null);
-            this.mapProps.Add((object)nameof(TLSCertificate), (object)null);
-            this.mapProps.Add((object)nameof(TLSCommonName), (object)null);
+            mapProps = new Hashtable(StringComparer.InvariantCultureIgnoreCase);
+            mapProps.Add(nameof(TableType), (ushort)3);
+            mapProps.Add(nameof(CharType), "ANSI");
+            mapProps.Add(nameof(UnicodeCollation), "");
+            mapProps.Add("LockMode", (ushort)1);
+            mapProps.Add("SecurityMode", (ushort)2);
+            mapProps.Add(nameof(ServerType), null);
+            mapProps.Add(nameof(ShowDeleted), false);
+            mapProps.Add("IncrementUserCount", false);
+            mapProps.Add("StoredProcedureConnection", false);
+            mapProps.Add(nameof(EncryptionPassword), null);
+            mapProps.Add(nameof(DbfsUseNulls), false);
+            mapProps.Add(nameof(FilterOptions),
+                FilterOption.IgnoreWhenCounting);
+            mapProps.Add(nameof(TrimTrailingSpaces), false);
+            mapProps.Add(nameof(Compression), null);
+            mapProps.Add("Data Source", null);
+            mapProps.Add("Initial Catalog", null);
+            mapProps.Add("User ID", null);
+            mapProps.Add(nameof(Password), null);
+            mapProps.Add(nameof(Shared), true);
+            mapProps.Add(nameof(ReadOnly), false);
+            mapProps.Add(nameof(Pooling), true);
+            mapProps.Add("Min Pool Size", 0);
+            mapProps.Add("Max Pool Size", 100);
+            mapProps.Add("Connection Reset", true);
+            mapProps.Add("Connection Lifetime", 0);
+            mapProps.Add(nameof(ConnectionHandle), IntPtr.Zero);
+            mapProps.Add("Connect Timeout", 15);
+            mapProps.Add(nameof(CommType), null);
+            mapProps.Add("Enlist", true);
+            mapProps.Add(nameof(EncryptionType), null);
+            mapProps.Add(nameof(DDPassword), null);
+            mapProps.Add("FIPS", false);
+            mapProps.Add(nameof(TLSCiphers), null);
+            mapProps.Add(nameof(TLSCertificate), null);
+            mapProps.Add(nameof(TLSCommonName), null);
         }
 
         public static void Initialize()
         {
-            if (AdsConnectionStringHandler.mbInitialized)
+            if (mbInitialized)
                 return;
-            Hashtable hashtable = new Hashtable((IEqualityComparer)StringComparer.InvariantCultureIgnoreCase);
-            hashtable.Add((object)"Advantage Table Type", (object)"TableType");
-            hashtable.Add((object)"Advantage Character Data Type", (object)"CharType");
-            hashtable.Add((object)"Advantage Locking Mode", (object)"LockMode");
-            hashtable.Add((object)"Advantage Security Mode", (object)"SecurityMode");
-            hashtable.Add((object)"Advantage Server Type", (object)"ServerType");
-            hashtable.Add((object)"Show Deleted Records in DBF Tables with Advantage", (object)"ShowDeleted");
-            hashtable.Add((object)"Increment User Count", (object)"IncrementUserCount");
-            hashtable.Add((object)"Stored Procedure Connection", (object)"StoredProcedureConnection");
-            hashtable.Add((object)"Advantage Encryption Password", (object)"EncryptionPassword");
-            hashtable.Add((object)"Use NULL values in DBF Tables with Advantage", (object)"DbfsUseNulls");
-            hashtable.Add((object)"Advantage Filter Options", (object)"FilterOptions");
-            hashtable.Add((object)"Trim Trailing Spaces", (object)"TrimTrailingSpaces");
-            hashtable.Add((object)"Advantage Compression", (object)"Compression");
-            hashtable.Add((object)"TableType", (object)"TableType");
-            hashtable.Add((object)"CharType", (object)"CharType");
-            hashtable.Add((object)"UnicodeCollation", (object)"UnicodeCollation");
-            hashtable.Add((object)"LockMode", (object)"LockMode");
-            hashtable.Add((object)"SecurityMode", (object)"SecurityMode");
-            hashtable.Add((object)"ServerType", (object)"ServerType");
-            hashtable.Add((object)"ShowDeleted", (object)"ShowDeleted");
-            hashtable.Add((object)"IncrementUserCount", (object)"IncrementUserCount");
-            hashtable.Add((object)"StoredProcedureConnection", (object)"StoredProcedureConnection");
-            hashtable.Add((object)"EncryptionPassword", (object)"EncryptionPassword");
-            hashtable.Add((object)"DbfsUseNulls", (object)"DbfsUseNulls");
-            hashtable.Add((object)"FilterOptions", (object)"FilterOptions");
-            hashtable.Add((object)"TrimTrailingSpaces", (object)"TrimTrailingSpaces");
-            hashtable.Add((object)"Compression", (object)"Compression");
-            hashtable.Add((object)"Shared", (object)"Shared");
-            hashtable.Add((object)"ReadOnly", (object)"ReadOnly");
-            hashtable.Add((object)"Data Source", (object)"Data Source");
-            hashtable.Add((object)"Initial Catalog", (object)"Initial Catalog");
-            hashtable.Add((object)"User ID", (object)"User ID");
-            hashtable.Add((object)"Password", (object)"Password");
-            hashtable.Add((object)"ConnectionHandle", (object)"ConnectionHandle");
-            hashtable.Add((object)"Pooling", (object)"Pooling");
-            hashtable.Add((object)"Min Pool Size", (object)"Min Pool Size");
-            hashtable.Add((object)"Max Pool Size", (object)"Max Pool Size");
-            hashtable.Add((object)"Connection Reset", (object)"Connection Reset");
-            hashtable.Add((object)"Connection Lifetime", (object)"Connection Lifetime");
-            hashtable.Add((object)"Connect Timeout", (object)"Connect Timeout");
-            hashtable.Add((object)"CommType", (object)"CommType");
-            hashtable.Add((object)"Enlist", (object)"Enlist");
-            hashtable.Add((object)"EncryptionType", (object)"EncryptionType");
-            hashtable.Add((object)"DDPassword", (object)"DDPassword");
-            hashtable.Add((object)"FIPS", (object)"FIPS");
-            hashtable.Add((object)"TLSCiphers", (object)"TLSCiphers");
-            hashtable.Add((object)"TLSCertificate", (object)"TLSCertificate");
-            hashtable.Add((object)"TLSCommonName", (object)"TLSCommonName");
-            if (AdsConnectionStringHandler.mbInitialized)
+            var hashtable = new Hashtable(StringComparer.InvariantCultureIgnoreCase);
+            hashtable.Add("Advantage Table Type", "TableType");
+            hashtable.Add("Advantage Character Data Type", "CharType");
+            hashtable.Add("Advantage Locking Mode", "LockMode");
+            hashtable.Add("Advantage Security Mode", "SecurityMode");
+            hashtable.Add("Advantage Server Type", "ServerType");
+            hashtable.Add("Show Deleted Records in DBF Tables with Advantage", "ShowDeleted");
+            hashtable.Add("Increment User Count", "IncrementUserCount");
+            hashtable.Add("Stored Procedure Connection", "StoredProcedureConnection");
+            hashtable.Add("Advantage Encryption Password", "EncryptionPassword");
+            hashtable.Add("Use NULL values in DBF Tables with Advantage", "DbfsUseNulls");
+            hashtable.Add("Advantage Filter Options", "FilterOptions");
+            hashtable.Add("Trim Trailing Spaces", "TrimTrailingSpaces");
+            hashtable.Add("Advantage Compression", "Compression");
+            hashtable.Add("TableType", "TableType");
+            hashtable.Add("CharType", "CharType");
+            hashtable.Add("UnicodeCollation", "UnicodeCollation");
+            hashtable.Add("LockMode", "LockMode");
+            hashtable.Add("SecurityMode", "SecurityMode");
+            hashtable.Add("ServerType", "ServerType");
+            hashtable.Add("ShowDeleted", "ShowDeleted");
+            hashtable.Add("IncrementUserCount", "IncrementUserCount");
+            hashtable.Add("StoredProcedureConnection", "StoredProcedureConnection");
+            hashtable.Add("EncryptionPassword", "EncryptionPassword");
+            hashtable.Add("DbfsUseNulls", "DbfsUseNulls");
+            hashtable.Add("FilterOptions", "FilterOptions");
+            hashtable.Add("TrimTrailingSpaces", "TrimTrailingSpaces");
+            hashtable.Add("Compression", "Compression");
+            hashtable.Add("Shared", "Shared");
+            hashtable.Add("ReadOnly", "ReadOnly");
+            hashtable.Add("Data Source", "Data Source");
+            hashtable.Add("Initial Catalog", "Initial Catalog");
+            hashtable.Add("User ID", "User ID");
+            hashtable.Add("Password", "Password");
+            hashtable.Add("ConnectionHandle", "ConnectionHandle");
+            hashtable.Add("Pooling", "Pooling");
+            hashtable.Add("Min Pool Size", "Min Pool Size");
+            hashtable.Add("Max Pool Size", "Max Pool Size");
+            hashtable.Add("Connection Reset", "Connection Reset");
+            hashtable.Add("Connection Lifetime", "Connection Lifetime");
+            hashtable.Add("Connect Timeout", "Connect Timeout");
+            hashtable.Add("CommType", "CommType");
+            hashtable.Add("Enlist", "Enlist");
+            hashtable.Add("EncryptionType", "EncryptionType");
+            hashtable.Add("DDPassword", "DDPassword");
+            hashtable.Add("FIPS", "FIPS");
+            hashtable.Add("TLSCiphers", "TLSCiphers");
+            hashtable.Add("TLSCertificate", "TLSCertificate");
+            hashtable.Add("TLSCommonName", "TLSCommonName");
+            if (mbInitialized)
                 return;
-            AdsConnectionStringHandler.mbInitialized = true;
-            AdsConnectionStringHandler.mapLongProps = hashtable;
+            mbInitialized = true;
+            mapLongProps = hashtable;
         }
 
         public string MapPropertyName(string strProp)
         {
-            if (!AdsConnectionStringHandler.mbInitialized)
-                AdsConnectionStringHandler.Initialize();
-            return (string)AdsConnectionStringHandler.mapLongProps[(object)strProp];
+            if (!mbInitialized)
+                Initialize();
+            return (string)mapLongProps[strProp];
         }
 
         public void ParseConnectionString(string strConnect)
         {
-            bool flag = false;
-            if (!AdsConnectionStringHandler.mbInitialized)
-                AdsConnectionStringHandler.Initialize();
+            var flag = false;
+            if (!mbInitialized)
+                Initialize();
             strConnect = strConnect.Trim();
-            this.mbHaveConnectionHandle = false;
+            mbHaveConnectionHandle = false;
             while (strConnect.Length > 0)
             {
                 string strProp;
                 string strValue;
-                AdsConnectionStringHandler.GetPropPair(ref strConnect, out strProp, out strValue);
-                string mapLongProp = (string)AdsConnectionStringHandler.mapLongProps[(object)strProp];
+                GetPropPair(ref strConnect, out strProp, out strValue);
+                var mapLongProp = (string)mapLongProps[strProp];
                 if (mapLongProp != null)
                     strProp = mapLongProp;
                 switch (strProp)
@@ -231,26 +231,26 @@ namespace Advantage.Data.Provider
                     case "CommType":
                     case "Compression":
                     case "ServerType":
-                        this.mapProps[(object)strProp] = (object)strValue;
+                        mapProps[strProp] = strValue;
                         continue;
                     case "TableType":
                         switch (strValue.ToUpper(CultureInfo.InvariantCulture))
                         {
                             case "ADS_ADT":
                             case "ADT":
-                                this.mapProps[(object)strProp] = (object)(ushort)3;
+                                mapProps[strProp] = (ushort)3;
                                 continue;
                             case "ADS_CDX":
                             case "CDX":
-                                this.mapProps[(object)strProp] = (object)(ushort)2;
+                                mapProps[strProp] = (ushort)2;
                                 continue;
                             case "ADS_NTX":
                             case "NTX":
-                                this.mapProps[(object)strProp] = (object)(ushort)1;
+                                mapProps[strProp] = (ushort)1;
                                 continue;
                             case "ADS_VFP":
                             case "VFP":
-                                this.mapProps[(object)strProp] = (object)(ushort)4;
+                                mapProps[strProp] = (ushort)4;
                                 continue;
                             default:
                                 throw new ArgumentException("Unrecognized value '" + strValue + "' for property " +
@@ -260,17 +260,17 @@ namespace Advantage.Data.Provider
                         switch (strValue.ToUpper(CultureInfo.InvariantCulture))
                         {
                             case "ANSI":
-                                this.mapProps[(object)strProp] = (object)ACE.AdsCharTypes.ADS_ANSI.ToString();
+                                mapProps[strProp] = ACE.AdsCharTypes.ADS_ANSI.ToString();
                                 continue;
                             case "OEM":
-                                this.mapProps[(object)strProp] = (object)ACE.AdsCharTypes.ADS_OEM.ToString();
+                                mapProps[strProp] = ACE.AdsCharTypes.ADS_OEM.ToString();
                                 continue;
                             default:
                                 try
                                 {
                                     Enum.Parse(typeof(ACE.AdsCharTypes),
                                         strValue.ToUpper(CultureInfo.InvariantCulture));
-                                    this.mapProps[(object)strProp] = (object)strValue.Trim();
+                                    mapProps[strProp] = strValue.Trim();
                                     continue;
                                 }
                                 catch
@@ -280,18 +280,18 @@ namespace Advantage.Data.Provider
                                 }
                         }
                     case "UnicodeCollation":
-                        this.mapProps[(object)strProp] = (object)strValue.Trim();
+                        mapProps[strProp] = strValue.Trim();
                         continue;
                     case "LockMode":
                         switch (strValue.ToUpper(CultureInfo.InvariantCulture))
                         {
                             case "ADS_PROPRIETARY_LOCKING":
                             case "PROPRIETARY":
-                                this.mapProps[(object)strProp] = (object)(ushort)1;
+                                mapProps[strProp] = (ushort)1;
                                 continue;
                             case "ADS_COMPATIBLE_LOCKING":
                             case "COMPATIBLE":
-                                this.mapProps[(object)strProp] = (object)(ushort)0;
+                                mapProps[strProp] = (ushort)0;
                                 continue;
                             default:
                                 throw new ArgumentException("Unrecognized value '" + strValue + "' for property " +
@@ -302,11 +302,11 @@ namespace Advantage.Data.Provider
                         {
                             case "ADS_CHECKRIGHTS":
                             case "CHECKRIGHTS":
-                                this.mapProps[(object)strProp] = (object)(ushort)1;
+                                mapProps[strProp] = (ushort)1;
                                 continue;
                             case "ADS_IGNORERIGHTS":
                             case "IGNORERIGHTS":
-                                this.mapProps[(object)strProp] = (object)(ushort)2;
+                                mapProps[strProp] = (ushort)2;
                                 continue;
                             default:
                                 throw new ArgumentException("Unrecognized value '" + strValue + "' for property " +
@@ -326,10 +326,10 @@ namespace Advantage.Data.Provider
                         switch (strValue.ToUpper(CultureInfo.InvariantCulture))
                         {
                             case "TRUE":
-                                this.mapProps[(object)strProp] = (object)true;
+                                mapProps[strProp] = true;
                                 continue;
                             case "FALSE":
-                                this.mapProps[(object)strProp] = (object)false;
+                                mapProps[strProp] = false;
                                 continue;
                             default:
                                 throw new ArgumentException("Unrecognized value '" + strValue + "' for property " +
@@ -339,12 +339,12 @@ namespace Advantage.Data.Provider
                         switch (strValue.ToUpper(CultureInfo.InvariantCulture))
                         {
                             case "IGNORE_WHEN_COUNTING":
-                                this.mapProps[(object)strProp] =
-                                    (object)AdsConnectionStringHandler.FilterOption.IgnoreWhenCounting;
+                                mapProps[strProp] =
+                                    FilterOption.IgnoreWhenCounting;
                                 continue;
                             case "RESPECT_WHEN_COUNTING":
-                                this.mapProps[(object)strProp] =
-                                    (object)AdsConnectionStringHandler.FilterOption.RespectWhenCounting;
+                                mapProps[strProp] =
+                                    FilterOption.RespectWhenCounting;
                                 continue;
                             default:
                                 throw new ArgumentException("Unrecognized value '" + strValue + "' for property " +
@@ -354,10 +354,10 @@ namespace Advantage.Data.Provider
                         try
                         {
                             if (strValue.StartsWith("0x"))
-                                this.mapProps[(object)strProp] = (object)(IntPtr)long.Parse(strValue.Substring(2),
+                                mapProps[strProp] = (IntPtr)long.Parse(strValue.Substring(2),
                                     NumberStyles.AllowHexSpecifier);
                             else
-                                this.mapProps[(object)strProp] = (object)(IntPtr)long.Parse(strValue);
+                                mapProps[strProp] = (IntPtr)long.Parse(strValue);
                         }
                         catch
                         {
@@ -365,10 +365,10 @@ namespace Advantage.Data.Provider
                                                         strProp + " in connection string.");
                         }
 
-                        this.mbHaveConnectionHandle = true;
+                        mbHaveConnectionHandle = true;
                         ushort pusType;
-                        if (ACE.AdsGetHandleType((IntPtr)this.mapProps[(object)strProp], out pusType) != 0U ||
-                            pusType != (ushort)1 && pusType != (ushort)6)
+                        if (ACE.AdsGetHandleType((IntPtr)mapProps[strProp], out pusType) != 0U ||
+                            pusType != 1 && pusType != 6)
                             throw new ArgumentException("Unrecognized value '" + strValue + "' for property " +
                                                         strProp + " in connection string.");
                         continue;
@@ -376,8 +376,8 @@ namespace Advantage.Data.Provider
                     case "Max Pool Size":
                     case "Connection Lifetime":
                     case "Connect Timeout":
-                        int int32 = Convert.ToInt32(strValue);
-                        this.mapProps[(object)strProp] = int32 >= 0
+                        var int32 = Convert.ToInt32(strValue);
+                        mapProps[strProp] = int32 >= 0
                             ? (object)int32
                             : throw new ArgumentException("Invalid value for key '" + strProp + "'.");
                         continue;
@@ -385,7 +385,6 @@ namespace Advantage.Data.Provider
                         if (strValue.ToUpper(CultureInfo.InvariantCulture) == "TRUE")
                         {
                             flag = true;
-                            continue;
                         }
 
                         continue;
@@ -400,8 +399,8 @@ namespace Advantage.Data.Provider
 
         private static void GetPropPair(ref string strConnect, out string strProp, out string strValue)
         {
-            char minValue = char.MinValue;
-            int length = strConnect.IndexOf('=');
+            var minValue = char.MinValue;
+            var length = strConnect.IndexOf('=');
             if (length == -1)
                 throw new ArgumentException("Separator '=' not found while parsing connection string.");
             strProp = strConnect.Substring(0, length).Trim();
@@ -423,7 +422,7 @@ namespace Advantage.Data.Provider
                 }
                 else
                 {
-                    int num2 = strConnect.IndexOf(minValue, 1);
+                    var num2 = strConnect.IndexOf(minValue, 1);
                     if (num2 == -1)
                         throw new ArgumentException("Closing quote for property " + strProp +
                                                     " not found in connection string.");
@@ -441,210 +440,210 @@ namespace Advantage.Data.Provider
 
         internal ushort TableType
         {
-            get => (ushort)this.mapProps[(object)nameof(TableType)];
-            set => this.mapProps[(object)nameof(TableType)] = (object)value;
+            get => (ushort)mapProps[nameof(TableType)];
+            set => mapProps[nameof(TableType)] = value;
         }
 
         internal string CharType
         {
-            get => (string)this.mapProps[(object)nameof(CharType)];
-            set => this.mapProps[(object)nameof(CharType)] = (object)value;
+            get => (string)mapProps[nameof(CharType)];
+            set => mapProps[nameof(CharType)] = value;
         }
 
         internal string UnicodeCollation
         {
-            get => (string)this.mapProps[(object)nameof(UnicodeCollation)];
-            set => this.mapProps[(object)nameof(UnicodeCollation)] = (object)value;
+            get => (string)mapProps[nameof(UnicodeCollation)];
+            set => mapProps[nameof(UnicodeCollation)] = value;
         }
 
         internal ushort LockType
         {
-            get => (ushort)this.mapProps[(object)"LockMode"];
-            set => this.mapProps[(object)"LockMode"] = (object)value;
+            get => (ushort)mapProps["LockMode"];
+            set => mapProps["LockMode"] = value;
         }
 
         internal ushort CheckRights
         {
-            get => (ushort)this.mapProps[(object)"SecurityMode"];
-            set => this.mapProps[(object)"SecurityMode"] = (object)value;
+            get => (ushort)mapProps["SecurityMode"];
+            set => mapProps["SecurityMode"] = value;
         }
 
         internal string ServerType
         {
-            get => (string)this.mapProps[(object)nameof(ServerType)];
-            set => this.mapProps[(object)nameof(ServerType)] = (object)value;
+            get => (string)mapProps[nameof(ServerType)];
+            set => mapProps[nameof(ServerType)] = value;
         }
 
         internal bool ShowDeleted
         {
-            get => (bool)this.mapProps[(object)nameof(ShowDeleted)];
-            set => this.mapProps[(object)nameof(ShowDeleted)] = (object)value;
+            get => (bool)mapProps[nameof(ShowDeleted)];
+            set => mapProps[nameof(ShowDeleted)] = value;
         }
 
         internal bool DbfsUseNulls
         {
-            get => (bool)this.mapProps[(object)nameof(DbfsUseNulls)];
-            set => this.mapProps[(object)nameof(DbfsUseNulls)] = (object)value;
+            get => (bool)mapProps[nameof(DbfsUseNulls)];
+            set => mapProps[nameof(DbfsUseNulls)] = value;
         }
 
         internal string EncryptionPassword
         {
-            get => (string)this.mapProps[(object)nameof(EncryptionPassword)];
-            set => this.mapProps[(object)nameof(EncryptionPassword)] = (object)value;
+            get => (string)mapProps[nameof(EncryptionPassword)];
+            set => mapProps[nameof(EncryptionPassword)] = value;
         }
 
         internal bool TrimTrailingSpaces
         {
-            get => (bool)this.mapProps[(object)nameof(TrimTrailingSpaces)];
-            set => this.mapProps[(object)nameof(TrimTrailingSpaces)] = (object)value;
+            get => (bool)mapProps[nameof(TrimTrailingSpaces)];
+            set => mapProps[nameof(TrimTrailingSpaces)] = value;
         }
 
         internal string Compression
         {
-            get => (string)this.mapProps[(object)nameof(Compression)];
-            set => this.mapProps[(object)nameof(Compression)] = (object)value;
+            get => (string)mapProps[nameof(Compression)];
+            set => mapProps[nameof(Compression)] = value;
         }
 
-        internal AdsConnectionStringHandler.FilterOption FilterOptions
+        internal FilterOption FilterOptions
         {
-            get { return (AdsConnectionStringHandler.FilterOption)this.mapProps[(object)nameof(FilterOptions)]; }
-            set => this.mapProps[(object)nameof(FilterOptions)] = (object)value;
+            get { return (FilterOption)mapProps[nameof(FilterOptions)]; }
+            set => mapProps[nameof(FilterOptions)] = value;
         }
 
         internal bool IncUserCount
         {
-            get => (bool)this.mapProps[(object)"IncrementUserCount"];
-            set => this.mapProps[(object)"IncrementUserCount"] = (object)value;
+            get => (bool)mapProps["IncrementUserCount"];
+            set => mapProps["IncrementUserCount"] = value;
         }
 
         internal bool StoredProcConn
         {
-            get => (bool)this.mapProps[(object)"StoredProcedureConnection"];
-            set => this.mapProps[(object)"StoredProcedureConnection"] = (object)value;
+            get => (bool)mapProps["StoredProcedureConnection"];
+            set => mapProps["StoredProcedureConnection"] = value;
         }
 
         internal bool Shared
         {
-            get => (bool)this.mapProps[(object)nameof(Shared)];
-            set => this.mapProps[(object)nameof(Shared)] = (object)value;
+            get => (bool)mapProps[nameof(Shared)];
+            set => mapProps[nameof(Shared)] = value;
         }
 
         internal bool ReadOnly
         {
-            get => (bool)this.mapProps[(object)nameof(ReadOnly)];
-            set => this.mapProps[(object)nameof(ReadOnly)] = (object)value;
+            get => (bool)mapProps[nameof(ReadOnly)];
+            set => mapProps[nameof(ReadOnly)] = value;
         }
 
         internal string DataSource
         {
-            get => (string)this.mapProps[(object)"Data Source"];
-            set => this.mapProps[(object)"Data Source"] = (object)value;
+            get => (string)mapProps["Data Source"];
+            set => mapProps["Data Source"] = value;
         }
 
         internal string InitialCatalog
         {
-            get => (string)this.mapProps[(object)"Initial Catalog"];
-            set => this.mapProps[(object)"Initial Catalog"] = (object)value;
+            get => (string)mapProps["Initial Catalog"];
+            set => mapProps["Initial Catalog"] = value;
         }
 
         internal string UserID
         {
-            get => (string)this.mapProps[(object)"User ID"];
-            set => this.mapProps[(object)"User ID"] = (object)value;
+            get => (string)mapProps["User ID"];
+            set => mapProps["User ID"] = value;
         }
 
         internal string Password
         {
-            get => (string)this.mapProps[(object)nameof(Password)];
-            set => this.mapProps[(object)nameof(Password)] = (object)value;
+            get => (string)mapProps[nameof(Password)];
+            set => mapProps[nameof(Password)] = value;
         }
 
-        internal bool HaveConnectionHandle => this.mbHaveConnectionHandle;
+        internal bool HaveConnectionHandle => mbHaveConnectionHandle;
 
-        internal IntPtr ConnectionHandle => (IntPtr)this.mapProps[(object)nameof(ConnectionHandle)];
+        internal IntPtr ConnectionHandle => (IntPtr)mapProps[nameof(ConnectionHandle)];
 
         internal int LifeTime
         {
-            get => (int)this.mapProps[(object)"Connection Lifetime"];
-            set => this.mapProps[(object)"Connection Lifetime"] = (object)value;
+            get => (int)mapProps["Connection Lifetime"];
+            set => mapProps["Connection Lifetime"] = value;
         }
 
         internal int MinPoolSize
         {
-            get => (int)this.mapProps[(object)"Min Pool Size"];
-            set => this.mapProps[(object)"Min Pool Size"] = (object)value;
+            get => (int)mapProps["Min Pool Size"];
+            set => mapProps["Min Pool Size"] = value;
         }
 
         internal int MaxPoolSize
         {
-            get => (int)this.mapProps[(object)"Max Pool Size"];
-            set => this.mapProps[(object)"Max Pool Size"] = (object)value;
+            get => (int)mapProps["Max Pool Size"];
+            set => mapProps["Max Pool Size"] = value;
         }
 
         internal bool ConnectionReset
         {
-            get => (bool)this.mapProps[(object)"Connection Reset"];
-            set => this.mapProps[(object)"Connection Reset"] = (object)value;
+            get => (bool)mapProps["Connection Reset"];
+            set => mapProps["Connection Reset"] = value;
         }
 
         internal bool Pooling
         {
-            get => (bool)this.mapProps[(object)nameof(Pooling)];
-            set => this.mapProps[(object)nameof(Pooling)] = (object)value;
+            get => (bool)mapProps[nameof(Pooling)];
+            set => mapProps[nameof(Pooling)] = value;
         }
 
         internal int ConnectTimeout
         {
-            get => (int)this.mapProps[(object)"Connect Timeout"];
-            set => this.mapProps[(object)"Connect Timeout"] = (object)value;
+            get => (int)mapProps["Connect Timeout"];
+            set => mapProps["Connect Timeout"] = value;
         }
 
         internal bool TransScopeEnlist
         {
-            get => (bool)this.mapProps[(object)"Enlist"];
-            set => this.mapProps[(object)"Enlist"] = (object)value;
+            get => (bool)mapProps["Enlist"];
+            set => mapProps["Enlist"] = value;
         }
 
         internal string CommType
         {
-            get => (string)this.mapProps[(object)nameof(CommType)];
-            set => this.mapProps[(object)nameof(CommType)] = (object)value;
+            get => (string)mapProps[nameof(CommType)];
+            set => mapProps[nameof(CommType)] = value;
         }
 
         internal string EncryptionType
         {
-            get => (string)this.mapProps[(object)nameof(EncryptionType)];
-            set => this.mapProps[(object)nameof(EncryptionType)] = (object)value;
+            get => (string)mapProps[nameof(EncryptionType)];
+            set => mapProps[nameof(EncryptionType)] = value;
         }
 
         internal bool FIPSMode
         {
-            get => (bool)this.mapProps[(object)"FIPS"];
-            set => this.mapProps[(object)"FIPS"] = (object)value;
+            get => (bool)mapProps["FIPS"];
+            set => mapProps["FIPS"] = value;
         }
 
         internal string DDPassword
         {
-            get => (string)this.mapProps[(object)nameof(DDPassword)];
-            set => this.mapProps[(object)nameof(DDPassword)] = (object)value;
+            get => (string)mapProps[nameof(DDPassword)];
+            set => mapProps[nameof(DDPassword)] = value;
         }
 
         internal string TLSCiphers
         {
-            get => (string)this.mapProps[(object)nameof(TLSCiphers)];
-            set => this.mapProps[(object)nameof(TLSCiphers)] = (object)value;
+            get => (string)mapProps[nameof(TLSCiphers)];
+            set => mapProps[nameof(TLSCiphers)] = value;
         }
 
         internal string TLSCertificate
         {
-            get => (string)this.mapProps[(object)nameof(TLSCertificate)];
-            set => this.mapProps[(object)nameof(TLSCertificate)] = (object)value;
+            get => (string)mapProps[nameof(TLSCertificate)];
+            set => mapProps[nameof(TLSCertificate)] = value;
         }
 
         internal string TLSCommonName
         {
-            get => (string)this.mapProps[(object)nameof(TLSCommonName)];
-            set => this.mapProps[(object)nameof(TLSCommonName)] = (object)value;
+            get => (string)mapProps[nameof(TLSCommonName)];
+            set => mapProps[nameof(TLSCommonName)] = value;
         }
 
         public enum FilterOption

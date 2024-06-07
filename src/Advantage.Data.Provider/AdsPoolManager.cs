@@ -1,8 +1,8 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using Microsoft.Win32;
 
 namespace Advantage.Data.Provider
 {
@@ -16,37 +16,37 @@ namespace Advantage.Data.Provider
 
         public AdsPoolManager()
         {
-            AdsPoolManager.mConnectionPools = new ArrayList();
+            mConnectionPools = new ArrayList();
             try
             {
-                Type type = typeof(AdsConnection);
-                IntPtr num = new IntPtr(0);
+                var type = typeof(AdsConnection);
+                var num = new IntPtr(0);
                 if (!type.Assembly.GlobalAssemblyCache)
-                    num = AdsPoolManager.LoadLibrary(Regex.Replace(type.Assembly.Location.ToLower(),
+                    num = LoadLibrary(Regex.Replace(type.Assembly.Location.ToLower(),
                         "advantage.data.provider.dll", "ace32.dll"));
                 if (num.ToInt32() == 0)
                 {
-                    RegistryKey registryKey1 =
+                    var registryKey1 =
                         Registry.LocalMachine.OpenSubKey(
                             "SOFTWARE\\Microsoft\\.NETFramework\\AssemblyFolders\\Advantage .NET");
                     if (registryKey1 != null)
                     {
-                        string str = (string)registryKey1.GetValue("");
+                        var str = (string)registryKey1.GetValue("");
                         if (!str.EndsWith("\\"))
                             str += "\\";
-                        num = AdsPoolManager.LoadLibrary(str + "ace32.dll");
+                        num = LoadLibrary(str + "ace32.dll");
                     }
                     else
                     {
-                        RegistryKey registryKey2 =
+                        var registryKey2 =
                             Registry.CurrentUser.OpenSubKey(
                                 "SOFTWARE\\Microsoft\\.NETFramework\\AssemblyFolders\\Advantage .NET");
                         if (registryKey2 != null)
                         {
-                            string str = (string)registryKey2.GetValue("");
+                            var str = (string)registryKey2.GetValue("");
                             if (!str.EndsWith("\\"))
                                 str += "\\";
-                            num = AdsPoolManager.LoadLibrary(str + "ace32.dll");
+                            num = LoadLibrary(str + "ace32.dll");
                         }
                     }
                 }
@@ -58,26 +58,26 @@ namespace Advantage.Data.Provider
             AdsConnectionStringHandler.Initialize();
         }
 
-        ~AdsPoolManager() => this.Dispose(false);
+        ~AdsPoolManager() => Dispose(false);
 
         public void Dispose()
         {
-            this.Dispose(true);
-            GC.SuppressFinalize((object)this);
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         public void Dispose(bool bDisposing)
         {
-            if (this.mbDisposed)
+            if (mbDisposed)
                 return;
             lock (this)
             {
-                if (this.mbDisposed)
+                if (mbDisposed)
                     return;
-                this.mbDisposed = true;
-                foreach (AdsConnectionPool mConnectionPool in AdsPoolManager.mConnectionPools)
+                mbDisposed = true;
+                foreach (AdsConnectionPool mConnectionPool in mConnectionPools)
                     mConnectionPool?.Dispose(bDisposing);
-                AdsPoolManager.mConnectionPools.Clear();
+                mConnectionPools.Clear();
             }
         }
 
@@ -86,39 +86,39 @@ namespace Advantage.Data.Provider
             out AdsInternalConnection internalConnection,
             out AdsConnectionPool pool)
         {
-            AdsConnectionStringHandler handler = new AdsConnectionStringHandler();
-            internalConnection = (AdsInternalConnection)null;
-            pool = (AdsConnectionPool)null;
+            var handler = new AdsConnectionStringHandler();
+            internalConnection = null;
+            pool = null;
             handler.ParseConnectionString(strConnectionString);
-            bool flag = handler.Pooling;
-            int connectTimeout = handler.ConnectTimeout;
+            var flag = handler.Pooling;
+            var connectTimeout = handler.ConnectTimeout;
             if (flag && handler.HaveConnectionHandle)
                 flag = false;
             if (flag)
             {
-                AdsPoolManager.AdsConnectionPoolCompare connectionPoolCompare =
-                    new AdsPoolManager.AdsConnectionPoolCompare();
+                var connectionPoolCompare =
+                    new AdsConnectionPoolCompare();
                 pool = new AdsConnectionPool(strConnectionString, handler);
-                int index = AdsPoolManager.mConnectionPools.BinarySearch((object)pool,
-                    (IComparer)connectionPoolCompare);
+                var index = mConnectionPools.BinarySearch(pool,
+                    connectionPoolCompare);
                 if (index >= 0)
                 {
-                    pool = (AdsConnectionPool)AdsPoolManager.mConnectionPools[index];
-                    internalConnection = (AdsInternalConnection)pool.GetOpenPoolConnection(handler, connectTimeout);
+                    pool = (AdsConnectionPool)mConnectionPools[index];
+                    internalConnection = pool.GetOpenPoolConnection(handler, connectTimeout);
                 }
                 else
                 {
-                    internalConnection = (AdsInternalConnection)pool.GetOpenPoolConnection(handler, connectTimeout);
+                    internalConnection = pool.GetOpenPoolConnection(handler, connectTimeout);
                     if (internalConnection != null)
                     {
                         lock (this)
                         {
-                            AdsPoolManager.mConnectionPools.Add((object)pool);
-                            AdsPoolManager.mConnectionPools.Sort((IComparer)connectionPoolCompare);
+                            mConnectionPools.Add(pool);
+                            mConnectionPools.Sort(connectionPoolCompare);
                         }
                     }
                     else
-                        pool = (AdsConnectionPool)null;
+                        pool = null;
                 }
             }
             else
@@ -130,20 +130,20 @@ namespace Advantage.Data.Provider
 
         public void FlushConnections(string strConnectionString)
         {
-            AdsPoolManager.AdsConnectionPoolCompare connectionPoolCompare =
-                new AdsPoolManager.AdsConnectionPoolCompare();
-            AdsConnectionStringHandler handler = new AdsConnectionStringHandler();
-            AdsConnectionPool adsConnectionPool = new AdsConnectionPool(strConnectionString, handler);
-            int index = AdsPoolManager.mConnectionPools.BinarySearch((object)adsConnectionPool,
-                (IComparer)connectionPoolCompare);
+            var connectionPoolCompare =
+                new AdsConnectionPoolCompare();
+            var handler = new AdsConnectionStringHandler();
+            var adsConnectionPool = new AdsConnectionPool(strConnectionString, handler);
+            var index = mConnectionPools.BinarySearch(adsConnectionPool,
+                connectionPoolCompare);
             if (index < 0)
                 return;
-            ((AdsConnectionPool)AdsPoolManager.mConnectionPools[index]).FlushConnections();
+            ((AdsConnectionPool)mConnectionPools[index]).FlushConnections();
         }
 
         public void FlushConnections()
         {
-            foreach (AdsConnectionPool mConnectionPool in AdsPoolManager.mConnectionPools)
+            foreach (AdsConnectionPool mConnectionPool in mConnectionPools)
                 mConnectionPool.FlushConnections();
         }
 

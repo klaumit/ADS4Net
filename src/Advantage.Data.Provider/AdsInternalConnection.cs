@@ -1,8 +1,8 @@
-﻿using AdvantageClientEngine;
-using System;
+﻿using System;
 using System.Data;
 using System.Text;
 using System.Transactions;
+using AdvantageClientEngine;
 
 namespace Advantage.Data.Provider
 {
@@ -37,36 +37,36 @@ namespace Advantage.Data.Provider
 
         public AdsInternalConnection(string strConnectionString, AdsConnectionStringHandler handler)
         {
-            this.mhConnect = IntPtr.Zero;
-            this.mState = ConnectionState.Closed;
-            this.mstrConnectionString = strConnectionString;
-            this.ExtractConnectionPropsFromHash(handler);
+            mhConnect = IntPtr.Zero;
+            mState = ConnectionState.Closed;
+            mstrConnectionString = strConnectionString;
+            ExtractConnectionPropsFromHash(handler);
         }
 
         ~AdsInternalConnection()
         {
             if (this is AdsPooledInternalConnection)
                 ((AdsPooledInternalConnection)this).DecrementPoolOpenCount();
-            this.Dispose(false);
+            Dispose(false);
         }
 
         public void Dispose()
         {
-            this.Dispose(true);
-            GC.SuppressFinalize((object)this);
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         public virtual void Dispose(bool bDisposing)
         {
-            if (this.mbDisposed)
+            if (mbDisposed)
                 return;
             lock (this)
             {
-                if (this.mbDisposed)
+                if (mbDisposed)
                     return;
-                this.mbDisposed = true;
-                int num = bDisposing ? 1 : 0;
-                this.Disconnect();
+                mbDisposed = true;
+                var num = bDisposing ? 1 : 0;
+                Disconnect();
             }
         }
 
@@ -89,54 +89,54 @@ namespace Advantage.Data.Provider
 
         private void ExtractConnectionPropsFromHash(AdsConnectionStringHandler handler)
         {
-            if (this.mbDisposed)
-                throw new ObjectDisposedException(this.ToString());
-            this.musTableType = handler.TableType;
-            this.mstrCharType = handler.CharType;
-            this.mstrUnicodeCollation = handler.UnicodeCollation;
-            this.musLockType = handler.LockType;
-            this.musCheckRights = handler.CheckRights;
-            this.mbShowDeleted = handler.ShowDeleted;
-            this.mstrEncryptionPassword = handler.EncryptionPassword;
-            this.mbDbfsUseNulls = handler.DbfsUseNulls;
-            this.meFilterOptions = handler.FilterOptions;
-            this.mbTrimTrailingSpaces = handler.TrimTrailingSpaces;
-            this.muiOpenOptions = !handler.Shared ? 1U : 4U;
+            if (mbDisposed)
+                throw new ObjectDisposedException(ToString());
+            musTableType = handler.TableType;
+            mstrCharType = handler.CharType;
+            mstrUnicodeCollation = handler.UnicodeCollation;
+            musLockType = handler.LockType;
+            musCheckRights = handler.CheckRights;
+            mbShowDeleted = handler.ShowDeleted;
+            mstrEncryptionPassword = handler.EncryptionPassword;
+            mbDbfsUseNulls = handler.DbfsUseNulls;
+            meFilterOptions = handler.FilterOptions;
+            mbTrimTrailingSpaces = handler.TrimTrailingSpaces;
+            muiOpenOptions = !handler.Shared ? 1U : 4U;
             if (handler.ReadOnly)
-                this.muiOpenOptions |= 2U;
-            this.mstrDataSource = handler.DataSource;
-            this.mstrInitialCatalog = handler.InitialCatalog;
-            this.mbEnlist = handler.TransScopeEnlist;
+                muiOpenOptions |= 2U;
+            mstrDataSource = handler.DataSource;
+            mstrInitialCatalog = handler.InitialCatalog;
+            mbEnlist = handler.TransScopeEnlist;
             if (handler.HaveConnectionHandle)
             {
-                this.mhInitConnect = handler.ConnectionHandle;
+                mhInitConnect = handler.ConnectionHandle;
             }
             else
             {
-                this.CreateConnectionPath(this.mstrDataSource, this.mstrInitialCatalog, out this.mstrConnectPath);
-                if (this.mstrConnectPath == null || this.mstrConnectPath == "")
+                CreateConnectionPath(mstrDataSource, mstrInitialCatalog, out mstrConnectPath);
+                if (mstrConnectPath == null || mstrConnectPath == "")
                     throw new ArgumentException("A Data Source must be provided with the connection string.");
             }
 
-            StringBuilder strCS = new StringBuilder();
-            this.AddProperty(strCS, "Data Source", this.mstrConnectPath);
-            this.AddProperty(strCS, "User ID", handler.UserID);
-            this.AddProperty(strCS, "Password", handler.Password);
-            this.AddProperty(strCS, "ServerType", handler.ServerType);
-            this.AddProperty(strCS, "CommType", handler.CommType);
-            this.AddProperty(strCS, "Compression", handler.Compression);
+            var strCS = new StringBuilder();
+            AddProperty(strCS, "Data Source", mstrConnectPath);
+            AddProperty(strCS, "User ID", handler.UserID);
+            AddProperty(strCS, "Password", handler.Password);
+            AddProperty(strCS, "ServerType", handler.ServerType);
+            AddProperty(strCS, "CommType", handler.CommType);
+            AddProperty(strCS, "Compression", handler.Compression);
             if (handler.IncUserCount)
-                this.AddProperty(strCS, "IncrementUserCount", "TRUE");
+                AddProperty(strCS, "IncrementUserCount", "TRUE");
             if (handler.StoredProcConn)
-                this.AddProperty(strCS, "StoredProcedureConnection", "TRUE");
-            this.AddProperty(strCS, "EncryptionType", handler.EncryptionType);
+                AddProperty(strCS, "StoredProcedureConnection", "TRUE");
+            AddProperty(strCS, "EncryptionType", handler.EncryptionType);
             if (handler.FIPSMode)
-                this.AddProperty(strCS, "FIPS", "TRUE");
-            this.AddProperty(strCS, "DDPassword", handler.DDPassword);
-            this.AddProperty(strCS, "TLSCiphers", handler.TLSCiphers);
-            this.AddProperty(strCS, "TLSCertificate", handler.TLSCertificate);
-            this.AddProperty(strCS, "TLSCommonName", handler.TLSCommonName);
-            this.mstrConnect101 = strCS.ToString();
+                AddProperty(strCS, "FIPS", "TRUE");
+            AddProperty(strCS, "DDPassword", handler.DDPassword);
+            AddProperty(strCS, "TLSCiphers", handler.TLSCiphers);
+            AddProperty(strCS, "TLSCertificate", handler.TLSCertificate);
+            AddProperty(strCS, "TLSCommonName", handler.TLSCommonName);
+            mstrConnect101 = strCS.ToString();
         }
 
         private void CreateConnectionPath(
@@ -165,41 +165,41 @@ namespace Advantage.Data.Provider
         public virtual void Connect()
         {
             uint num = 0;
-            if (this.mbDisposed)
-                throw new ObjectDisposedException(this.ToString());
-            if (this.mState == ConnectionState.Open)
+            if (mbDisposed)
+                throw new ObjectDisposedException(ToString());
+            if (mState == ConnectionState.Open)
                 return;
-            if (this.mhInitConnect != IntPtr.Zero)
-                this.mhConnect = this.mhInitConnect;
+            if (mhInitConnect != IntPtr.Zero)
+                mhConnect = mhInitConnect;
             else
-                num = ACE.AdsConnect101(this.mstrConnect101, IntPtr.Zero, out this.mhConnect);
+                num = ACE.AdsConnect101(mstrConnect101, IntPtr.Zero, out mhConnect);
             if (num != 0U)
                 throw new AdsException();
-            AdsException.CheckACE(ACE.AdsGetHandleType(this.mhConnect, out this.musHandleType));
-            if (this.mhInitConnect == IntPtr.Zero)
-                AdsException.CheckACE(ACE.AdsShowDeleted(this.mbShowDeleted ? (ushort)1 : (ushort)0));
-            this.mState = ConnectionState.Open;
+            AdsException.CheckACE(ACE.AdsGetHandleType(mhConnect, out musHandleType));
+            if (mhInitConnect == IntPtr.Zero)
+                AdsException.CheckACE(ACE.AdsShowDeleted(mbShowDeleted ? (ushort)1 : (ushort)0));
+            mState = ConnectionState.Open;
         }
 
         public virtual void Disconnect()
         {
-            if (this.mState != ConnectionState.Open || this.mhInitConnect != IntPtr.Zero)
+            if (mState != ConnectionState.Open || mhInitConnect != IntPtr.Zero)
                 return;
-            this.mState = ConnectionState.Closed;
-            uint num = ACE.AdsDisconnect(this.mhConnect);
-            this.mhConnect = IntPtr.Zero;
+            mState = ConnectionState.Closed;
+            var num = ACE.AdsDisconnect(mhConnect);
+            mhConnect = IntPtr.Zero;
             if (num != 0U)
                 throw new AdsException();
         }
 
         internal void EnlistTransaction(Transaction transaction, AdsConnection conn)
         {
-            if (!(transaction != (Transaction)null))
+            if (!(transaction != null))
                 return;
-            if (this.mCurrentTransaction != null)
+            if (mCurrentTransaction != null)
                 throw new InvalidOperationException("Transaction is already active.");
-            transaction.EnlistVolatile((IEnlistmentNotification)this, EnlistmentOptions.None);
-            this.mCurrentTransaction = conn.BeginTransaction();
+            transaction.EnlistVolatile(this, EnlistmentOptions.None);
+            mCurrentTransaction = conn.BeginTransaction();
         }
 
         private void DisposeOrReturnToPool()
@@ -207,18 +207,18 @@ namespace Advantage.Data.Provider
             if (this is AdsPooledInternalConnection)
                 AdsPooledInternalConnection.ReturnConnectionToPool(this as AdsPooledInternalConnection);
             else
-                this.Dispose();
+                Dispose();
         }
 
         public void Prepare(PreparingEnlistment preparingEnlistment)
         {
             try
             {
-                if (this.mCurrentTransaction != null)
+                if (mCurrentTransaction != null)
                 {
-                    this.mCurrentTransaction.InternalCommit(this.mhConnect);
-                    this.mCurrentTransaction.Dispose();
-                    this.mCurrentTransaction = (AdsTransaction)null;
+                    mCurrentTransaction.InternalCommit(mhConnect);
+                    mCurrentTransaction.Dispose();
+                    mCurrentTransaction = null;
                 }
 
                 preparingEnlistment.Prepared();
@@ -226,37 +226,37 @@ namespace Advantage.Data.Provider
             catch
             {
                 preparingEnlistment.ForceRollback();
-                if (this.mCurrentTransaction != null)
+                if (mCurrentTransaction != null)
                 {
-                    this.mCurrentTransaction.InternalRollback(this.mhConnect);
-                    this.mCurrentTransaction.Dispose();
-                    this.mCurrentTransaction = (AdsTransaction)null;
+                    mCurrentTransaction.InternalRollback(mhConnect);
+                    mCurrentTransaction.Dispose();
+                    mCurrentTransaction = null;
                 }
 
-                if (!this.mbDisposeOnCommit)
+                if (!mbDisposeOnCommit)
                     return;
-                this.DisposeOrReturnToPool();
+                DisposeOrReturnToPool();
             }
         }
 
         public void Commit(Enlistment enlistment)
         {
-            if (this.mbDisposeOnCommit)
-                this.DisposeOrReturnToPool();
+            if (mbDisposeOnCommit)
+                DisposeOrReturnToPool();
             enlistment.Done();
         }
 
         public void Rollback(Enlistment enlistment)
         {
-            if (this.mCurrentTransaction != null)
+            if (mCurrentTransaction != null)
             {
-                this.mCurrentTransaction.InternalRollback(this.mhConnect);
-                this.mCurrentTransaction.Dispose();
-                this.mCurrentTransaction = (AdsTransaction)null;
+                mCurrentTransaction.InternalRollback(mhConnect);
+                mCurrentTransaction.Dispose();
+                mCurrentTransaction = null;
             }
 
-            if (this.mbDisposeOnCommit)
-                this.DisposeOrReturnToPool();
+            if (mbDisposeOnCommit)
+                DisposeOrReturnToPool();
             enlistment.Done();
         }
 
@@ -264,53 +264,53 @@ namespace Advantage.Data.Provider
 
         public virtual void Reset()
         {
-            int num = (int)ACE.AdsResetConnection(this.mhConnect);
+            var num = (int)ACE.AdsResetConnection(mhConnect);
         }
 
         public bool TrimTrailingSpaces
         {
-            get => this.mbTrimTrailingSpaces;
-            set => this.mbTrimTrailingSpaces = value;
+            get => mbTrimTrailingSpaces;
+            set => mbTrimTrailingSpaces = value;
         }
 
-        public IntPtr Handle => this.mhConnect;
+        public IntPtr Handle => mhConnect;
 
-        public uint TableOpenOptions => this.muiOpenOptions;
+        public uint TableOpenOptions => muiOpenOptions;
 
-        public ushort TableType => this.musTableType;
+        public ushort TableType => musTableType;
 
-        public ushort LockType => this.musLockType;
+        public ushort LockType => musLockType;
 
-        public ushort RightsChecking => this.musCheckRights;
+        public ushort RightsChecking => musCheckRights;
 
-        public string CharType => this.mstrCharType;
+        public string CharType => mstrCharType;
 
-        public string UnicodeCollation => this.mstrUnicodeCollation;
+        public string UnicodeCollation => mstrUnicodeCollation;
 
-        public string ConnectionString => this.mstrConnectionString;
+        public string ConnectionString => mstrConnectionString;
 
-        public ConnectionState State => this.mState;
+        public ConnectionState State => mState;
 
-        public ushort HandleType => this.musHandleType;
+        public ushort HandleType => musHandleType;
 
-        public string ConnectionPath => this.mstrConnectPath;
+        public string ConnectionPath => mstrConnectPath;
 
-        public string InitialCatalog => this.mstrInitialCatalog;
+        public string InitialCatalog => mstrInitialCatalog;
 
-        public bool DbfsUseNulls => this.mbDbfsUseNulls;
+        public bool DbfsUseNulls => mbDbfsUseNulls;
 
         public string EncryptionPassword
         {
-            get => this.mstrEncryptionPassword == null ? "" : this.mstrEncryptionPassword;
+            get => mstrEncryptionPassword == null ? "" : mstrEncryptionPassword;
         }
 
-        public AdsTransaction CurrentTransaction => this.mCurrentTransaction;
+        public AdsTransaction CurrentTransaction => mCurrentTransaction;
 
         public bool DisposeOnCommit
         {
-            set => this.mbDisposeOnCommit = value;
+            set => mbDisposeOnCommit = value;
         }
 
-        public bool TransScopeEnlist => this.mbEnlist;
+        public bool TransScopeEnlist => mbEnlist;
     }
 }

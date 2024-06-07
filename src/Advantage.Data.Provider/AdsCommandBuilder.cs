@@ -26,54 +26,54 @@ namespace Advantage.Data.Provider
         {
         }
 
-        ~AdsCommandBuilder() => this.Dispose(false);
+        ~AdsCommandBuilder() => Dispose(false);
 
-        public AdsCommandBuilder(AdsDataAdapter adapter) => this.DataAdapter = adapter;
+        public AdsCommandBuilder(AdsDataAdapter adapter) => DataAdapter = adapter;
 
         protected override void Dispose(bool bExplicitDispose)
         {
-            if (this.mbDisposed)
+            if (mbDisposed)
                 return;
             lock (this)
             {
-                if (this.mbDisposed)
+                if (mbDisposed)
                     return;
                 if (bExplicitDispose)
                 {
-                    if (this.mUpdateCmd != null)
-                        this.mUpdateCmd.Dispose();
-                    if (this.mInsertCmd != null)
-                        this.mInsertCmd.Dispose();
-                    if (this.mDeleteCmd != null)
-                        this.mDeleteCmd.Dispose();
-                    this.mUpdateCmd = this.mInsertCmd = this.mDeleteCmd = (AdsCommand)null;
+                    if (mUpdateCmd != null)
+                        mUpdateCmd.Dispose();
+                    if (mInsertCmd != null)
+                        mInsertCmd.Dispose();
+                    if (mDeleteCmd != null)
+                        mDeleteCmd.Dispose();
+                    mUpdateCmd = mInsertCmd = mDeleteCmd = null;
                 }
 
                 base.Dispose(bExplicitDispose);
-                this.mbDisposed = true;
+                mbDisposed = true;
             }
         }
 
         private void GetSchema()
         {
-            AdsDataReader adsDataReader = this.DataAdapter != null && this.DataAdapter.SelectCommand != null
-                ? this.DataAdapter.SelectCommand.ExecuteReader(CommandBehavior.SchemaOnly | CommandBehavior.KeyInfo)
+            var adsDataReader = DataAdapter != null && DataAdapter.SelectCommand != null
+                ? DataAdapter.SelectCommand.ExecuteReader(CommandBehavior.SchemaOnly | CommandBehavior.KeyInfo)
                 : throw new InvalidOperationException(
                     "The DataAdapter.SelectCommand property needs to be initialized.");
-            DataTable schemaTable = adsDataReader.GetSchemaTable();
+            var schemaTable = adsDataReader.GetSchemaTable();
             adsDataReader.Close();
             if (adsDataReader.IsStatic)
                 throw new InvalidOperationException("Command Builder unable to generate commands for static cursors.");
             if (schemaTable.Rows.Count <= 0)
                 throw new InvalidOperationException("Unable to retrieve valid schema.");
-            this.mstrTableName = schemaTable.Rows[0]["BaseTableName"].ToString();
-            this.mstrCatalogName = schemaTable.Rows[0]["BaseCatalogName"].ToString();
-            if (this.mbRequirePK)
+            mstrTableName = schemaTable.Rows[0]["BaseTableName"].ToString();
+            mstrCatalogName = schemaTable.Rows[0]["BaseCatalogName"].ToString();
+            if (mbRequirePK)
             {
-                bool flag = false;
+                var flag = false;
                 foreach (DataRow row in (InternalDataCollectionBase)schemaTable.Rows)
                 {
-                    if (row["IsKey"].Equals((object)true) || row["IsUnique"].Equals((object)true))
+                    if (row["IsKey"].Equals(true) || row["IsUnique"].Equals(true))
                         flag = true;
                 }
 
@@ -82,12 +82,12 @@ namespace Advantage.Data.Provider
                         "Select command must return a primary key or unique column because the RequirePrimaryKey option was selected.");
             }
 
-            if (this.mbUseOnlyRowversionInWhere)
+            if (mbUseOnlyRowversionInWhere)
             {
-                bool flag = false;
+                var flag = false;
                 foreach (DataRow row in (InternalDataCollectionBase)schemaTable.Rows)
                 {
-                    if (row["IsRowversion"].Equals((object)true))
+                    if (row["IsRowversion"].Equals(true))
                         flag = true;
                 }
 
@@ -96,63 +96,63 @@ namespace Advantage.Data.Provider
                         "Select command must return a RowVersion column because the UseRowversionOnlyInWhereClause option was selected.");
             }
 
-            this.mSchemaTable = schemaTable;
+            mSchemaTable = schemaTable;
         }
 
         private AdsCommand GetNewCommand()
         {
-            AdsCommand newCommand = new AdsCommand();
-            newCommand.Connection = this.DataAdapter.SelectCommand.Connection;
-            newCommand.Transaction = this.DataAdapter.SelectCommand.Transaction;
-            newCommand.CommandTimeout = this.DataAdapter.SelectCommand.CommandTimeout;
+            var newCommand = new AdsCommand();
+            newCommand.Connection = DataAdapter.SelectCommand.Connection;
+            newCommand.Transaction = DataAdapter.SelectCommand.Transaction;
+            newCommand.CommandTimeout = DataAdapter.SelectCommand.CommandTimeout;
             newCommand.UpdatedRowSource = UpdateRowSource.None;
             return newCommand;
         }
 
         private string QualifiedTableName()
         {
-            if (this.mstrCatalogName == null || this.mstrCatalogName.Length == 0)
-                return this.mstrPrefix + this.mstrTableName + this.mstrSuffix;
-            return this.mstrPrefix + this.mstrCatalogName + this.mstrSuffix + "." + this.mstrPrefix +
-                   this.mstrTableName + this.mstrSuffix;
+            if (mstrCatalogName == null || mstrCatalogName.Length == 0)
+                return mstrPrefix + mstrTableName + mstrSuffix;
+            return mstrPrefix + mstrCatalogName + mstrSuffix + "." + mstrPrefix +
+                   mstrTableName + mstrSuffix;
         }
 
         private void GetDelete()
         {
-            this.mDeleteCmd = this.GetNewCommand();
-            string whereClause = this.GetWhereClause(this.mDeleteCmd, 1);
-            this.mDeleteCmd.CommandText = "DELETE FROM " + this.QualifiedTableName() + " WHERE " + whereClause;
+            mDeleteCmd = GetNewCommand();
+            var whereClause = GetWhereClause(mDeleteCmd, 1);
+            mDeleteCmd.CommandText = "DELETE FROM " + QualifiedTableName() + " WHERE " + whereClause;
         }
 
         private void GetInsert()
         {
-            bool flag = false;
-            this.mInsertCmd = this.GetNewCommand();
-            StringBuilder stringBuilder1 = new StringBuilder();
-            StringBuilder stringBuilder2 = new StringBuilder();
-            int num = 1;
-            foreach (DataRow row in (InternalDataCollectionBase)this.mSchemaTable.Rows)
+            var flag = false;
+            mInsertCmd = GetNewCommand();
+            var stringBuilder1 = new StringBuilder();
+            var stringBuilder2 = new StringBuilder();
+            var num = 1;
+            foreach (DataRow row in (InternalDataCollectionBase)mSchemaTable.Rows)
             {
-                if (!row["IsAutoIncrement"].Equals((object)true) && !row["IsRowVersion"].Equals((object)true) &&
-                    !row["IsReadOnly"].Equals((object)true))
+                if (!row["IsAutoIncrement"].Equals(true) && !row["IsRowVersion"].Equals(true) &&
+                    !row["IsReadOnly"].Equals(true))
                 {
                     flag = true;
                     if (stringBuilder1.Length > 0)
                         stringBuilder1.Append(", ");
                     if (stringBuilder2.Length > 0)
                         stringBuilder2.Append(", ");
-                    byte precision = Type.GetTypeCode(row["NumericPrecision"].GetType()) == TypeCode.DBNull
+                    var precision = Type.GetTypeCode(row["NumericPrecision"].GetType()) == TypeCode.DBNull
                         ? (byte)0
                         : (byte)(short)row["NumericPrecision"];
-                    byte scale = Type.GetTypeCode(row["NumericScale"].GetType()) == TypeCode.DBNull
+                    var scale = Type.GetTypeCode(row["NumericScale"].GetType()) == TypeCode.DBNull
                         ? (byte)0
                         : (byte)(short)row["NumericScale"];
-                    AdsParameter adsParameter = new AdsParameter(":p" + num.ToString(),
-                        this.GetDbType((int)row["ProviderType"]), (int)row["ColumnSize"], ParameterDirection.Input,
+                    var adsParameter = new AdsParameter(":p" + num,
+                        GetDbType((int)row["ProviderType"]), (int)row["ColumnSize"], ParameterDirection.Input,
                         (bool)row["AllowDBNull"], precision, scale, row["ColumnName"].ToString(),
-                        DataRowVersion.Current, (object)null);
-                    this.mInsertCmd.Parameters.Add(adsParameter);
-                    stringBuilder1.Append(this.mstrPrefix + row["BaseColumnName"].ToString() + this.mstrSuffix);
+                        DataRowVersion.Current, null);
+                    mInsertCmd.Parameters.Add(adsParameter);
+                    stringBuilder1.Append(mstrPrefix + row["BaseColumnName"] + mstrSuffix);
                     stringBuilder2.Append(":" + adsParameter.ParameterName);
                     ++num;
                 }
@@ -160,36 +160,36 @@ namespace Advantage.Data.Provider
 
             if (!flag)
                 throw new InvalidOperationException("There are no columns that can be updated.");
-            this.mInsertCmd.CommandText = "INSERT INTO " + this.QualifiedTableName() + " (" +
-                                          stringBuilder1.ToString() + ") VALUES (" + (object)stringBuilder2 + ")";
+            mInsertCmd.CommandText = "INSERT INTO " + QualifiedTableName() + " (" +
+                                          stringBuilder1 + ") VALUES (" + stringBuilder2 + ")";
         }
 
         private void GetUpdate()
         {
-            bool flag = false;
-            this.mUpdateCmd = this.GetNewCommand();
-            StringBuilder stringBuilder = new StringBuilder();
-            int iParamIndex = 1;
-            foreach (DataRow row in (InternalDataCollectionBase)this.mSchemaTable.Rows)
+            var flag = false;
+            mUpdateCmd = GetNewCommand();
+            var stringBuilder = new StringBuilder();
+            var iParamIndex = 1;
+            foreach (DataRow row in (InternalDataCollectionBase)mSchemaTable.Rows)
             {
-                if (!row["IsRowVersion"].Equals((object)true) && !row["IsAutoIncrement"].Equals((object)true) &&
-                    !row["IsReadOnly"].Equals((object)true))
+                if (!row["IsRowVersion"].Equals(true) && !row["IsAutoIncrement"].Equals(true) &&
+                    !row["IsReadOnly"].Equals(true))
                 {
                     flag = true;
                     if (stringBuilder.Length > 0)
                         stringBuilder.Append(", ");
-                    byte precision = Type.GetTypeCode(row["NumericPrecision"].GetType()) == TypeCode.DBNull
+                    var precision = Type.GetTypeCode(row["NumericPrecision"].GetType()) == TypeCode.DBNull
                         ? (byte)0
                         : (byte)(short)row["NumericPrecision"];
-                    byte scale = Type.GetTypeCode(row["NumericScale"].GetType()) == TypeCode.DBNull
+                    var scale = Type.GetTypeCode(row["NumericScale"].GetType()) == TypeCode.DBNull
                         ? (byte)0
                         : (byte)(short)row["NumericScale"];
-                    AdsParameter adsParameter = new AdsParameter(":p" + iParamIndex.ToString(),
-                        this.GetDbType((int)row["ProviderType"]), (int)row["ColumnSize"], ParameterDirection.Input,
+                    var adsParameter = new AdsParameter(":p" + iParamIndex,
+                        GetDbType((int)row["ProviderType"]), (int)row["ColumnSize"], ParameterDirection.Input,
                         (bool)row["AllowDBNull"], precision, scale, row["ColumnName"].ToString(),
-                        DataRowVersion.Current, (object)null);
-                    this.mUpdateCmd.Parameters.Add(adsParameter);
-                    stringBuilder.Append(this.mstrPrefix + row["BaseColumnName"].ToString() + this.mstrSuffix + " = :" +
+                        DataRowVersion.Current, null);
+                    mUpdateCmd.Parameters.Add(adsParameter);
+                    stringBuilder.Append(mstrPrefix + row["BaseColumnName"] + mstrSuffix + " = :" +
                                          adsParameter.ParameterName);
                     ++iParamIndex;
                 }
@@ -197,42 +197,42 @@ namespace Advantage.Data.Provider
 
             if (!flag)
                 throw new InvalidOperationException("There are no columns that can be updated.");
-            string whereClause = this.GetWhereClause(this.mUpdateCmd, iParamIndex);
-            this.mUpdateCmd.CommandText = "UPDATE " + this.QualifiedTableName() + " SET " + (object)stringBuilder +
+            var whereClause = GetWhereClause(mUpdateCmd, iParamIndex);
+            mUpdateCmd.CommandText = "UPDATE " + QualifiedTableName() + " SET " + stringBuilder +
                                           " WHERE " + whereClause;
         }
 
         private string GetWhereClause(AdsCommand cmd, int iParamIndex)
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            int num = iParamIndex;
-            foreach (DataRow row in (InternalDataCollectionBase)this.mSchemaTable.Rows)
+            var stringBuilder = new StringBuilder();
+            var num = iParamIndex;
+            foreach (DataRow row in (InternalDataCollectionBase)mSchemaTable.Rows)
             {
-                if (this.mbUseOnlyRowversionInWhere)
+                if (mbUseOnlyRowversionInWhere)
                 {
-                    if (row["IsRowversion"].Equals((object)false) && !row["ProviderType"].Equals((object)15))
+                    if (row["IsRowversion"].Equals(false) && !row["ProviderType"].Equals(15))
                         continue;
                 }
-                else if (this.mbPKOnlyInWhere && row["IsKey"].Equals((object)false) &&
-                         row["IsUnique"].Equals((object)false))
+                else if (mbPKOnlyInWhere && row["IsKey"].Equals(false) &&
+                         row["IsUnique"].Equals(false))
                     continue;
 
-                if (!row["IsLong"].Equals((object)true))
+                if (!row["IsLong"].Equals(true))
                 {
                     if (stringBuilder.Length > 0)
                         stringBuilder.Append(" AND ");
-                    byte precision = Type.GetTypeCode(row["NumericPrecision"].GetType()) == TypeCode.DBNull
+                    var precision = Type.GetTypeCode(row["NumericPrecision"].GetType()) == TypeCode.DBNull
                         ? (byte)0
                         : (byte)(short)row["NumericPrecision"];
-                    byte scale = Type.GetTypeCode(row["NumericScale"].GetType()) == TypeCode.DBNull
+                    var scale = Type.GetTypeCode(row["NumericScale"].GetType()) == TypeCode.DBNull
                         ? (byte)0
                         : (byte)(short)row["NumericScale"];
-                    AdsParameter adsParameter = new AdsParameter(":p" + num.ToString(),
-                        this.GetDbType((int)row["ProviderType"]), (int)row["ColumnSize"], ParameterDirection.Input,
+                    var adsParameter = new AdsParameter(":p" + num,
+                        GetDbType((int)row["ProviderType"]), (int)row["ColumnSize"], ParameterDirection.Input,
                         (bool)row["AllowDBNull"], precision, scale, row["ColumnName"].ToString(),
-                        DataRowVersion.Original, (object)null);
+                        DataRowVersion.Original, null);
                     cmd.Parameters.Add(adsParameter);
-                    stringBuilder.Append("(" + this.mstrPrefix + row["BaseColumnName"].ToString() + this.mstrSuffix +
+                    stringBuilder.Append("(" + mstrPrefix + row["BaseColumnName"] + mstrSuffix +
                                          " = :" + adsParameter.ParameterName + ")");
                     ++num;
                 }
@@ -250,22 +250,22 @@ namespace Advantage.Data.Provider
                 case StatementType.Select:
                     return;
                 case StatementType.Insert:
-                    this.GetInsertCommand();
-                    args.Command = this.mInsertCmd;
+                    GetInsertCommand();
+                    args.Command = mInsertCmd;
                     break;
                 case StatementType.Update:
-                    this.GetUpdateCommand();
-                    args.Command = this.mUpdateCmd;
+                    GetUpdateCommand();
+                    args.Command = mUpdateCmd;
                     break;
                 case StatementType.Delete:
-                    this.GetDeleteCommand();
-                    args.Command = this.mDeleteCmd;
+                    GetDeleteCommand();
+                    args.Command = mDeleteCmd;
                     break;
             }
 
-            DataTableMapping tableMapping = args.TableMapping;
+            var tableMapping = args.TableMapping;
             foreach (AdsParameter parameter in (DbParameterCollection)args.Command.Parameters)
-                parameter.Value = args.Row[this.MapColumnName(tableMapping, parameter.SourceColumn),
+                parameter.Value = args.Row[MapColumnName(tableMapping, parameter.SourceColumn),
                     parameter.SourceVersion];
         }
 
@@ -273,7 +273,7 @@ namespace Advantage.Data.Provider
         {
             if (dtm == null || dtm.ColumnMappings.Count == 0 || !dtm.ColumnMappings.Contains(strName))
                 return strName;
-            DataColumnMapping columnMapping = dtm.ColumnMappings[strName];
+            var columnMapping = dtm.ColumnMappings[strName];
             return columnMapping == null ? strName : columnMapping.DataSetColumn;
         }
 
@@ -331,10 +331,10 @@ namespace Advantage.Data.Provider
 
         public override void RefreshSchema()
         {
-            this.mSchemaTable = (DataTable)null;
-            this.mInsertCmd = (AdsCommand)null;
-            this.mUpdateCmd = (AdsCommand)null;
-            this.mDeleteCmd = (AdsCommand)null;
+            mSchemaTable = null;
+            mInsertCmd = null;
+            mUpdateCmd = null;
+            mDeleteCmd = null;
         }
 
         public static void DeriveParameters(AdsCommand command)
@@ -342,7 +342,7 @@ namespace Advantage.Data.Provider
             if (command.CommandType != CommandType.StoredProcedure)
                 throw new InvalidOperationException(string.Format(
                     "DeriveParameters only supports CommandType.StoredProcedure, not CommandType.{0}",
-                    (object)command.CommandType));
+                    command.CommandType));
             command.DeriveParameters();
         }
 
@@ -352,115 +352,115 @@ namespace Advantage.Data.Provider
             StatementType statementType,
             bool whereClause)
         {
-            AdsParameter adsParameter = (AdsParameter)parameter;
-            object iAceType = datarow[SchemaTableColumn.ProviderType];
-            adsParameter.DbType = this.GetDbType((int)iAceType);
-            object obj1 = datarow[SchemaTableColumn.NumericPrecision];
+            var adsParameter = (AdsParameter)parameter;
+            var iAceType = datarow[SchemaTableColumn.ProviderType];
+            adsParameter.DbType = GetDbType((int)iAceType);
+            var obj1 = datarow[SchemaTableColumn.NumericPrecision];
             if (DBNull.Value != obj1)
             {
-                byte num = (byte)(short)obj1;
+                var num = (byte)(short)obj1;
                 adsParameter.Precision = num != byte.MaxValue ? num : (byte)0;
             }
 
-            object obj2 = datarow[SchemaTableColumn.NumericScale];
+            var obj2 = datarow[SchemaTableColumn.NumericScale];
             if (DBNull.Value == obj2)
                 return;
-            byte num1 = (byte)(short)obj2;
+            var num1 = (byte)(short)obj2;
             if (num1 == byte.MaxValue)
-                adsParameter.Scale = (byte)0;
+                adsParameter.Scale = 0;
             else
                 adsParameter.Scale = num1;
         }
 
         protected override string GetParameterName(int parameterOrdinal)
         {
-            return ":p" + parameterOrdinal.ToString((IFormatProvider)CultureInfo.InvariantCulture);
+            return ":p" + parameterOrdinal.ToString(CultureInfo.InvariantCulture);
         }
 
         protected override string GetParameterName(string parameterName) => ":" + parameterName;
 
         protected override string GetParameterPlaceholder(int parameterOrdinal)
         {
-            return ":p" + parameterOrdinal.ToString((IFormatProvider)CultureInfo.InvariantCulture);
+            return ":p" + parameterOrdinal.ToString(CultureInfo.InvariantCulture);
         }
 
         protected override void SetRowUpdatingHandler(DbDataAdapter adapter)
         {
             if (adapter == base.DataAdapter)
-                ((AdsDataAdapter)adapter).RowUpdating -= new AdsRowUpdatingEventHandler(this.OnRowUpdating);
+                ((AdsDataAdapter)adapter).RowUpdating -= OnRowUpdating;
             else
-                ((AdsDataAdapter)adapter).RowUpdating += new AdsRowUpdatingEventHandler(this.OnRowUpdating);
+                ((AdsDataAdapter)adapter).RowUpdating += OnRowUpdating;
         }
 
         public new AdsCommand GetDeleteCommand()
         {
-            if (this.mSchemaTable == null)
-                this.GetSchema();
-            if (this.mDeleteCmd == null)
-                this.GetDelete();
-            return this.mDeleteCmd;
+            if (mSchemaTable == null)
+                GetSchema();
+            if (mDeleteCmd == null)
+                GetDelete();
+            return mDeleteCmd;
         }
 
         public new AdsCommand GetInsertCommand()
         {
-            if (this.mSchemaTable == null)
-                this.GetSchema();
-            if (this.mInsertCmd == null)
-                this.GetInsert();
-            return this.mInsertCmd;
+            if (mSchemaTable == null)
+                GetSchema();
+            if (mInsertCmd == null)
+                GetInsert();
+            return mInsertCmd;
         }
 
         private string GetRefreshSelect()
         {
-            bool flag = true;
-            StringBuilder stringBuilder = new StringBuilder();
-            if (this.mSchemaTable == null)
-                this.GetSchema();
+            var flag = true;
+            var stringBuilder = new StringBuilder();
+            if (mSchemaTable == null)
+                GetSchema();
             stringBuilder.Append("SELECT ");
-            foreach (DataRow row in (InternalDataCollectionBase)this.mSchemaTable.Rows)
+            foreach (DataRow row in (InternalDataCollectionBase)mSchemaTable.Rows)
             {
                 if (flag)
                     flag = false;
                 else
                     stringBuilder.Append(", ");
                 if (row["BaseColumnName"].ToString().ToUpper().Equals(row["ColumnName"].ToString().ToUpper()))
-                    stringBuilder.Append(this.mstrPrefix + row["BaseColumnName"].ToString() + this.mstrSuffix);
+                    stringBuilder.Append(mstrPrefix + row["BaseColumnName"] + mstrSuffix);
                 else
-                    stringBuilder.Append(this.mstrPrefix + row["BaseColumnName"].ToString() + this.mstrSuffix + " " +
-                                         this.mstrPrefix + row["ColumnName"].ToString() + this.mstrSuffix);
+                    stringBuilder.Append(mstrPrefix + row["BaseColumnName"] + mstrSuffix + " " +
+                                         mstrPrefix + row["ColumnName"] + mstrSuffix);
             }
 
-            stringBuilder.Append(" FROM " + this.QualifiedTableName());
+            stringBuilder.Append(" FROM " + QualifiedTableName());
             return stringBuilder.ToString();
         }
 
         private string GetRefreshWhereClause(AdsCommand cmd)
         {
-            bool flag1 = true;
-            bool flag2 = false;
-            StringBuilder stringBuilder = new StringBuilder();
-            foreach (DataRow row in (InternalDataCollectionBase)this.mSchemaTable.Rows)
+            var flag1 = true;
+            var flag2 = false;
+            var stringBuilder = new StringBuilder();
+            foreach (DataRow row in (InternalDataCollectionBase)mSchemaTable.Rows)
             {
-                if ((row["ProviderType"].Equals((object)21) || row["ProviderType"].Equals((object)22)) &&
-                    row["IsKey"].Equals((object)true))
+                if ((row["ProviderType"].Equals(21) || row["ProviderType"].Equals(22)) &&
+                    row["IsKey"].Equals(true))
                 {
                     flag2 = true;
                     break;
                 }
             }
 
-            foreach (DataRow row in (InternalDataCollectionBase)this.mSchemaTable.Rows)
+            foreach (DataRow row in (InternalDataCollectionBase)mSchemaTable.Rows)
             {
-                if (!row["ProviderType"].Equals((object)21) && !row["ProviderType"].Equals((object)22) &&
-                    !row["IsLong"].Equals((object)true) && (row["IsKey"].Equals((object)true) && !flag2 ||
-                                                            row["IsUnique"].Equals((object)true)))
+                if (!row["ProviderType"].Equals(21) && !row["ProviderType"].Equals(22) &&
+                    !row["IsLong"].Equals(true) && (row["IsKey"].Equals(true) && !flag2 ||
+                                                    row["IsUnique"].Equals(true)))
                 {
-                    AdsParameter adsParameter = (AdsParameter)null;
+                    AdsParameter adsParameter = null;
                     foreach (AdsParameter parameter in (DbParameterCollection)cmd.Parameters)
                     {
                         if (parameter.SourceColumn.Equals(row["ColumnName"]) &&
                             (parameter.SourceVersion == DataRowVersion.Current ||
-                             row["ProviderType"].Equals((object)15)))
+                             row["ProviderType"].Equals(15)))
                         {
                             adsParameter = parameter;
                             break;
@@ -473,21 +473,21 @@ namespace Advantage.Data.Provider
                             flag1 = false;
                         else
                             stringBuilder.Append(" AND ");
-                        stringBuilder.Append("(" + this.mstrPrefix + row["BaseColumnName"].ToString() +
-                                             this.mstrSuffix + " = :" + adsParameter.ParameterName + ")");
+                        stringBuilder.Append("(" + mstrPrefix + row["BaseColumnName"] +
+                                             mstrSuffix + " = :" + adsParameter.ParameterName + ")");
                     }
                 }
             }
 
             if (stringBuilder.Length == 0)
             {
-                bool flag3 = true;
-                foreach (DataRow row in (InternalDataCollectionBase)this.mSchemaTable.Rows)
+                var flag3 = true;
+                foreach (DataRow row in (InternalDataCollectionBase)mSchemaTable.Rows)
                 {
-                    if (!row["ProviderType"].Equals((object)21) && !row["ProviderType"].Equals((object)22) &&
-                        !row["IsLong"].Equals((object)true))
+                    if (!row["ProviderType"].Equals(21) && !row["ProviderType"].Equals(22) &&
+                        !row["IsLong"].Equals(true))
                     {
-                        AdsParameter adsParameter = (AdsParameter)null;
+                        AdsParameter adsParameter = null;
                         foreach (AdsParameter parameter in (DbParameterCollection)cmd.Parameters)
                         {
                             if (parameter.SourceColumn.Equals(row["ColumnName"]) &&
@@ -504,8 +504,8 @@ namespace Advantage.Data.Provider
                                 flag3 = false;
                             else
                                 stringBuilder.Append(" AND ");
-                            stringBuilder.Append("(" + this.mstrPrefix + row["BaseColumnName"].ToString() +
-                                                 this.mstrSuffix + " = :" + adsParameter.ParameterName + ")");
+                            stringBuilder.Append("(" + mstrPrefix + row["BaseColumnName"] +
+                                                 mstrSuffix + " = :" + adsParameter.ParameterName + ")");
                         }
                     }
                 }
@@ -519,41 +519,41 @@ namespace Advantage.Data.Provider
 
         public string GetInsertRefreshStatement()
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            this.GetInsertCommand();
-            stringBuilder.Append(this.GetRefreshSelect());
+            var stringBuilder = new StringBuilder();
+            GetInsertCommand();
+            stringBuilder.Append(GetRefreshSelect());
             stringBuilder.Append(" WHERE ");
-            foreach (DataRow row in (InternalDataCollectionBase)this.mSchemaTable.Rows)
+            foreach (DataRow row in (InternalDataCollectionBase)mSchemaTable.Rows)
             {
-                if (row["ProviderType"].Equals((object)15))
+                if (row["ProviderType"].Equals(15))
                 {
-                    stringBuilder.Append("(" + this.mstrPrefix + row["BaseColumnName"].ToString() + this.mstrSuffix +
+                    stringBuilder.Append("(" + mstrPrefix + row["BaseColumnName"] + mstrSuffix +
                                          " = LASTAUTOINC(statement))");
                     return stringBuilder.ToString();
                 }
             }
 
-            string refreshWhereClause = this.GetRefreshWhereClause(this.mInsertCmd);
+            var refreshWhereClause = GetRefreshWhereClause(mInsertCmd);
             stringBuilder.Append(refreshWhereClause);
             return stringBuilder.ToString();
         }
 
         public new AdsCommand GetUpdateCommand()
         {
-            if (this.mSchemaTable == null)
-                this.GetSchema();
-            if (this.mUpdateCmd == null)
-                this.GetUpdate();
-            return this.mUpdateCmd;
+            if (mSchemaTable == null)
+                GetSchema();
+            if (mUpdateCmd == null)
+                GetUpdate();
+            return mUpdateCmd;
         }
 
         public string GetUpdateRefreshStatement()
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            this.GetUpdateCommand();
-            stringBuilder.Append(this.GetRefreshSelect());
+            var stringBuilder = new StringBuilder();
+            GetUpdateCommand();
+            stringBuilder.Append(GetRefreshSelect());
             stringBuilder.Append(" WHERE ");
-            string refreshWhereClause = this.GetRefreshWhereClause(this.mUpdateCmd);
+            var refreshWhereClause = GetRefreshWhereClause(mUpdateCmd);
             stringBuilder.Append(refreshWhereClause);
             return stringBuilder.ToString();
         }
@@ -564,21 +564,21 @@ namespace Advantage.Data.Provider
             get => (AdsDataAdapter)base.DataAdapter;
             set
             {
-                this.RefreshSchema();
-                this.DataAdapter = value;
+                RefreshSchema();
+                DataAdapter = value;
             }
         }
 
         [Browsable(false)]
         public override string QuotePrefix
         {
-            get => this.mstrPrefix;
+            get => mstrPrefix;
             set
             {
-                if (this.mSchemaTable != null)
+                if (mSchemaTable != null)
                     throw new InvalidOperationException(
                         "QuotePrefix cannot be modified after commands have been generated.");
-                this.mstrPrefix = !(value != "[") || !(value != "\"")
+                mstrPrefix = !(value != "[") || !(value != "\"")
                     ? value
                     : throw new ArgumentException(
                         "The acceptable values for the property 'QuotePrefix' are '[' or '\"'.");
@@ -588,13 +588,13 @@ namespace Advantage.Data.Provider
         [Browsable(false)]
         public override string QuoteSuffix
         {
-            get => this.mstrSuffix;
+            get => mstrSuffix;
             set
             {
-                if (this.mSchemaTable != null)
+                if (mSchemaTable != null)
                     throw new InvalidOperationException(
                         "QuoteSuffix cannot be modified after commands have been generated.");
-                this.mstrSuffix = !(value != "]") || !(value != "\"")
+                mstrSuffix = !(value != "]") || !(value != "\"")
                     ? value
                     : throw new ArgumentException(
                         "The acceptable values for the property 'QuoteSuffix' are ']' or '\"'.");
@@ -604,10 +604,10 @@ namespace Advantage.Data.Provider
         [Browsable(false)]
         public bool UsePKOnlyInWhereClause
         {
-            get => this.mbPKOnlyInWhere;
+            get => mbPKOnlyInWhere;
             set
             {
-                this.mbPKOnlyInWhere = !value || this.mbRequirePK
+                mbPKOnlyInWhere = !value || mbRequirePK
                     ? value
                     : throw new InvalidOperationException(
                         "The UsePKOnlyInWhereClause property cannot be true when RequirePrimaryKey is set to false.");
@@ -617,10 +617,10 @@ namespace Advantage.Data.Provider
         [Browsable(false)]
         public bool RequirePrimaryKey
         {
-            get => this.mbRequirePK;
+            get => mbRequirePK;
             set
             {
-                this.mbRequirePK = value || !this.mbPKOnlyInWhere
+                mbRequirePK = value || !mbPKOnlyInWhere
                     ? value
                     : throw new InvalidOperationException(
                         "The RequirePrimaryKey property cannot be false when UsePKOnlyInWhereClause is set to true.");
@@ -630,10 +630,10 @@ namespace Advantage.Data.Provider
         [Browsable(false)]
         public bool UseRowversionOnlyInWhereClause
         {
-            get => this.mbUseOnlyRowversionInWhere;
+            get => mbUseOnlyRowversionInWhere;
             set
             {
-                this.mbUseOnlyRowversionInWhere = !value || this.mbRequirePK
+                mbUseOnlyRowversionInWhere = !value || mbRequirePK
                     ? value
                     : throw new InvalidOperationException(
                         "The UseOnlyRowversion property cannot be true when RequirePrimaryKey is set to false.");
@@ -642,7 +642,7 @@ namespace Advantage.Data.Provider
 
         protected override DataTable GetSchemaTable(DbCommand srcCommand)
         {
-            AdsDataReader adsDataReader =
+            var adsDataReader =
                 (srcCommand as AdsCommand).ExecuteReader(CommandBehavior.SchemaOnly | CommandBehavior.KeyInfo);
             adsDataReader.GetSchemaTable();
             adsDataReader.Close();
@@ -656,7 +656,7 @@ namespace Advantage.Data.Provider
 
         private void CheckQuoteConsistency()
         {
-            if (this.mstrPrefix == "\"" && this.mstrSuffix != "\"" || this.mstrPrefix == "[" && this.mstrSuffix != "]")
+            if (mstrPrefix == "\"" && mstrSuffix != "\"" || mstrPrefix == "[" && mstrSuffix != "]")
                 throw new ArgumentException("The QuotePrefix and QuoteSuffix properties are not consistent.");
         }
 
@@ -664,19 +664,19 @@ namespace Advantage.Data.Provider
         {
             if (unquotedIdentifier == null)
                 throw new ArgumentException();
-            this.CheckQuoteConsistency();
-            return this.mstrPrefix + unquotedIdentifier + this.mstrSuffix;
+            CheckQuoteConsistency();
+            return mstrPrefix + unquotedIdentifier + mstrSuffix;
         }
 
         public override string UnquoteIdentifier(string quotedIdentifier)
         {
             if (quotedIdentifier == null)
                 throw new ArgumentException();
-            this.CheckQuoteConsistency();
-            return !quotedIdentifier.StartsWith(this.mstrPrefix) || !quotedIdentifier.EndsWith(this.mstrSuffix)
+            CheckQuoteConsistency();
+            return !quotedIdentifier.StartsWith(mstrPrefix) || !quotedIdentifier.EndsWith(mstrSuffix)
                 ? quotedIdentifier
-                : quotedIdentifier.Substring(this.mstrPrefix.Length,
-                    quotedIdentifier.Length - (this.mstrPrefix.Length + this.mstrSuffix.Length));
+                : quotedIdentifier.Substring(mstrPrefix.Length,
+                    quotedIdentifier.Length - (mstrPrefix.Length + mstrSuffix.Length));
         }
     }
 }

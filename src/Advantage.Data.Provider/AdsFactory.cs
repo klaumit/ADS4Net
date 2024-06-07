@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Data.Common;
-using System.Security;
-using System.Security.Permissions;
 
 namespace Advantage.Data.Provider
 {
@@ -9,33 +7,33 @@ namespace Advantage.Data.Provider
     {
         public static readonly AdsFactory Instance = new AdsFactory();
 
-        public override DbCommand CreateCommand() => (DbCommand)new AdsCommand();
+        public override DbCommand CreateCommand() => new AdsCommand();
 
-        public override DbConnection CreateConnection() => (DbConnection)new AdsConnection();
+        public override DbConnection CreateConnection() => new AdsConnection();
 
         public override DbCommandBuilder CreateCommandBuilder()
         {
-            return (DbCommandBuilder)new AdsCommandBuilder();
+            return new AdsCommandBuilder();
         }
 
         public override DbConnectionStringBuilder CreateConnectionStringBuilder()
         {
-            return (DbConnectionStringBuilder)new AdsConnectionStringBuilder();
+            return new AdsConnectionStringBuilder();
         }
 
-        public override DbDataAdapter CreateDataAdapter() => (DbDataAdapter)new AdsDataAdapter();
+        public override DbDataAdapter CreateDataAdapter() => new AdsDataAdapter();
 
         public override DbDataSourceEnumerator CreateDataSourceEnumerator()
         {
             throw new NotImplementedException();
         }
 
-        public override DbParameter CreateParameter() => (DbParameter)new AdsParameter();
+        public override DbParameter CreateParameter() => new AdsParameter();
 
         object IServiceProvider.GetService(Type serviceType)
         {
-            object service = (object)null;
-            if ((object)serviceType == (object)AdsGreenMethods.SystemDataCommonDbProviderServices_Type)
+            object service = null;
+            if (serviceType == (object)AdsGreenMethods.SystemDataCommonDbProviderServices_Type)
                 service = AdsGreenMethods.AdvantageDataProviderAdsProviderServices_Instance();
             return service;
         }

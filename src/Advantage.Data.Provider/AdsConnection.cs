@@ -1,15 +1,15 @@
-﻿using AdvantageClientEngine;
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using System.Drawing;
 using System.Globalization;
-using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Transactions;
+using AdvantageClientEngine;
+using IsolationLevel = System.Data.IsolationLevel;
 
 namespace Advantage.Data.Provider
 {
@@ -47,225 +47,225 @@ namespace Advantage.Data.Provider
         {
         }
 
-        public AdsConnection(string sConnString) => this.mstrConnString = sConnString;
+        public AdsConnection(string sConnString) => mstrConnString = sConnString;
 
         protected override DbProviderFactory DbProviderFactory
         {
-            get => (DbProviderFactory)AdsFactory.Instance;
+            get => AdsFactory.Instance;
         }
 
         protected override void Dispose(bool bDisposing)
         {
-            if (this.mbDisposed)
+            if (mbDisposed)
                 return;
             lock (this)
             {
-                if (this.mbDisposed)
+                if (mbDisposed)
                     return;
-                if (this.State != ConnectionState.Closed && bDisposing)
-                    this.Close();
-                if (bDisposing && this.mInternalConnection != null)
-                    this.mInternalConnection.Dispose(bDisposing);
+                if (State != ConnectionState.Closed && bDisposing)
+                    Close();
+                if (bDisposing && mInternalConnection != null)
+                    mInternalConnection.Dispose(bDisposing);
                 base.Dispose(bDisposing);
-                this.mbDisposed = true;
+                mbDisposed = true;
             }
         }
 
         internal void AddProxyHandle(AdsProxyHandle hProxy)
         {
-            lock (this.mProxyHandleList.SyncRoot)
-                this.mProxyHandleList.Add((object)hProxy);
+            lock (mProxyHandleList.SyncRoot)
+                mProxyHandleList.Add(hProxy);
         }
 
         internal void RemoveProxyHandle(AdsProxyHandle hProxy)
         {
-            lock (this.mProxyHandleList.SyncRoot)
-                this.mProxyHandleList.Remove((object)hProxy);
+            lock (mProxyHandleList.SyncRoot)
+                mProxyHandleList.Remove(hProxy);
         }
 
         private void RemoveAllProxyHandles()
         {
-            lock (this.mProxyHandleList.SyncRoot)
+            lock (mProxyHandleList.SyncRoot)
             {
-                foreach (AdsProxyHandle mProxyHandle in this.mProxyHandleList)
+                foreach (AdsProxyHandle mProxyHandle in mProxyHandleList)
                     mProxyHandle.mhHandle = IntPtr.Zero;
-                this.mProxyHandleList.Clear();
+                mProxyHandleList.Clear();
             }
         }
 
         private void OnInfoMessage(AdsInfoMessageEventArgs eventArgs)
         {
-            AdsInfoMessageEventHandler infoMessage = this.InfoMessage;
+            var infoMessage = InfoMessage;
             if (infoMessage == null)
                 return;
-            infoMessage((object)this, eventArgs);
+            infoMessage(this, eventArgs);
         }
 
         internal void FireStateChangeEvent(ConnectionState origState, ConnectionState currState)
         {
             if (origState == currState)
                 return;
-            this.OnStateChange(new StateChangeEventArgs(origState, currState));
+            OnStateChange(new StateChangeEventArgs(origState, currState));
         }
 
         internal void FireWarning(int iWarning, string strMessage)
         {
-            this.OnInfoMessage(new AdsInfoMessageEventArgs(iWarning, strMessage));
+            OnInfoMessage(new AdsInfoMessageEventArgs(iWarning, strMessage));
         }
 
         public new AdsTransaction BeginTransaction()
         {
-            if (this.mState == ConnectionState.Closed)
+            if (mState == ConnectionState.Closed)
                 throw new InvalidOperationException("Invalid operation. The connection is closed.");
-            if (this.mbDisposed)
-                throw new ObjectDisposedException(this.ToString());
+            if (mbDisposed)
+                throw new ObjectDisposedException(ToString());
             return new AdsTransaction(this);
         }
 
-        IDbTransaction IDbConnection.BeginTransaction() => (IDbTransaction)this.BeginTransaction();
+        IDbTransaction IDbConnection.BeginTransaction() => BeginTransaction();
 
-        protected override DbTransaction BeginDbTransaction(System.Data.IsolationLevel isolationLevel)
+        protected override DbTransaction BeginDbTransaction(IsolationLevel isolationLevel)
         {
-            return (DbTransaction)this.BeginTransaction(isolationLevel);
+            return BeginTransaction(isolationLevel);
         }
 
-        public new AdsTransaction BeginTransaction(System.Data.IsolationLevel level)
+        public new AdsTransaction BeginTransaction(IsolationLevel level)
         {
-            if (this.mState == ConnectionState.Closed)
+            if (mState == ConnectionState.Closed)
                 throw new InvalidOperationException("Invalid operation. The connection is closed.");
-            if (this.mbDisposed)
-                throw new ObjectDisposedException(this.ToString());
-            if (level == System.Data.IsolationLevel.Unspecified)
-                level = System.Data.IsolationLevel.ReadCommitted;
-            if (level != System.Data.IsolationLevel.ReadCommitted)
+            if (mbDisposed)
+                throw new ObjectDisposedException(ToString());
+            if (level == IsolationLevel.Unspecified)
+                level = IsolationLevel.ReadCommitted;
+            if (level != IsolationLevel.ReadCommitted)
                 throw new NotSupportedException("Isolation level must be ReadCommitted.");
             return new AdsTransaction(this);
         }
 
-        IDbTransaction IDbConnection.BeginTransaction(System.Data.IsolationLevel level)
+        IDbTransaction IDbConnection.BeginTransaction(IsolationLevel level)
         {
-            return (IDbTransaction)this.BeginTransaction(level);
+            return BeginTransaction(level);
         }
 
         public override void ChangeDatabase(string dbName)
         {
-            if (this.mbDisposed)
-                throw new ObjectDisposedException(this.ToString());
+            if (mbDisposed)
+                throw new ObjectDisposedException(ToString());
             throw new NotSupportedException("ChangeDatabase is not supported.");
         }
 
         public override void Open()
         {
-            if (this.mbDisposed)
-                throw new ObjectDisposedException(this.ToString());
-            if (this.mstrConnString == "")
+            if (mbDisposed)
+                throw new ObjectDisposedException(ToString());
+            if (mstrConnString == "")
                 throw new InvalidOperationException("The ConnectionString property has not been initialized.");
             if (this.mState != ConnectionState.Closed)
                 throw new InvalidOperationException("The Connection is already opened.");
-            AdsConnection.mPoolMgr.GetConnection(this.mstrConnString, out this.mInternalConnection, out this.mPool);
-            if (this.mInternalConnection == null)
+            mPoolMgr.GetConnection(mstrConnString, out mInternalConnection, out mPool);
+            if (mInternalConnection == null)
                 throw new InvalidOperationException(
                     "Timeout expired.  The timeout period elapsed prior to obtaining a connection from the pool.  This may have occurred because all pooled connections were in use and max pool size was reached.");
-            if (this.mInternalConnection.State != ConnectionState.Open)
-                this.mInternalConnection.Connect();
-            ConnectionState mState = this.mState;
-            this.mState = this.mInternalConnection.State;
-            if (this.mInternalConnection.TransScopeEnlist && Transaction.Current != (Transaction)null)
-                this.mInternalConnection.EnlistTransaction(Transaction.Current, this);
-            this.FireStateChangeEvent(mState, this.mState);
+            if (mInternalConnection.State != ConnectionState.Open)
+                mInternalConnection.Connect();
+            var mState = this.mState;
+            this.mState = mInternalConnection.State;
+            if (mInternalConnection.TransScopeEnlist && Transaction.Current != null)
+                mInternalConnection.EnlistTransaction(Transaction.Current, this);
+            FireStateChangeEvent(mState, this.mState);
         }
 
         public override void Close()
         {
-            if (this.mbDisposed)
-                throw new ObjectDisposedException(this.ToString());
-            ConnectionState mState = this.mState;
+            if (mbDisposed)
+                throw new ObjectDisposedException(ToString());
+            var mState = this.mState;
             this.mState = ConnectionState.Closed;
-            this.RemoveAllProxyHandles();
-            if (this.mInternalConnection != null)
+            RemoveAllProxyHandles();
+            if (mInternalConnection != null)
             {
-                if (this.mInternalConnection.CurrentTransaction != null)
-                    this.mInternalConnection.DisposeOnCommit = true;
-                else if (this.mInternalConnection is AdsPooledInternalConnection)
+                if (mInternalConnection.CurrentTransaction != null)
+                    mInternalConnection.DisposeOnCommit = true;
+                else if (mInternalConnection is AdsPooledInternalConnection)
                     AdsPooledInternalConnection.ReturnConnectionToPool(
-                        this.mInternalConnection as AdsPooledInternalConnection);
+                        mInternalConnection as AdsPooledInternalConnection);
                 else
-                    this.mInternalConnection.Dispose();
+                    mInternalConnection.Dispose();
             }
 
-            this.mInternalConnection = (AdsInternalConnection)null;
-            this.mstrServerDatabase = (string)null;
-            this.FireStateChangeEvent(mState, this.mState);
+            mInternalConnection = null;
+            mstrServerDatabase = null;
+            FireStateChangeEvent(mState, this.mState);
         }
 
-        IDbCommand IDbConnection.CreateCommand() => (IDbCommand)new AdsCommand("", this);
+        IDbCommand IDbConnection.CreateCommand() => new AdsCommand("", this);
 
-        protected override DbCommand CreateDbCommand() => (DbCommand)this.CreateCommand();
+        protected override DbCommand CreateDbCommand() => CreateCommand();
 
         public new AdsCommand CreateCommand() => new AdsCommand("", this);
 
-        public static void FlushConnectionPool() => AdsConnection.mPoolMgr.FlushConnections();
+        public static void FlushConnectionPool() => mPoolMgr.FlushConnections();
 
         public static void FlushConnectionPool(string sConnString)
         {
-            AdsConnection.mPoolMgr.FlushConnections(sConnString);
+            mPoolMgr.FlushConnections(sConnString);
         }
 
-        public object[] GetDDObjects(AdsConnection.AdsObjectType type, string strParent)
+        public object[] GetDDObjects(AdsObjectType type, string strParent)
         {
-            if (this.mState == ConnectionState.Closed)
+            if (mState == ConnectionState.Closed)
                 throw new InvalidOperationException("The connection is not open.");
-            ArrayList arrayList = new ArrayList();
+            var arrayList = new ArrayList();
             ushort usFindObjectType;
             switch (type)
             {
-                case AdsConnection.AdsObjectType.TableObject:
-                    usFindObjectType = (ushort)1;
+                case AdsObjectType.TableObject:
+                    usFindObjectType = 1;
                     break;
-                case AdsConnection.AdsObjectType.ViewObject:
-                    usFindObjectType = (ushort)6;
+                case AdsObjectType.ViewObject:
+                    usFindObjectType = 6;
                     break;
-                case AdsConnection.AdsObjectType.RelationObject:
-                    usFindObjectType = (ushort)2;
+                case AdsObjectType.RelationObject:
+                    usFindObjectType = 2;
                     break;
-                case AdsConnection.AdsObjectType.IndexFileObject:
-                    usFindObjectType = (ushort)3;
+                case AdsObjectType.IndexFileObject:
+                    usFindObjectType = 3;
                     break;
-                case AdsConnection.AdsObjectType.IndexObject:
-                    usFindObjectType = (ushort)5;
+                case AdsObjectType.IndexObject:
+                    usFindObjectType = 5;
                     break;
-                case AdsConnection.AdsObjectType.FieldObject:
-                    usFindObjectType = (ushort)4;
+                case AdsObjectType.FieldObject:
+                    usFindObjectType = 4;
                     break;
-                case AdsConnection.AdsObjectType.UserObject:
-                    usFindObjectType = (ushort)8;
+                case AdsObjectType.UserObject:
+                    usFindObjectType = 8;
                     break;
-                case AdsConnection.AdsObjectType.ProcedureObject:
-                    usFindObjectType = (ushort)10;
+                case AdsObjectType.ProcedureObject:
+                    usFindObjectType = 10;
                     break;
-                case AdsConnection.AdsObjectType.LinkObject:
-                    usFindObjectType = (ushort)12;
+                case AdsObjectType.LinkObject:
+                    usFindObjectType = 12;
                     break;
                 default:
-                    usFindObjectType = (ushort)0;
+                    usFindObjectType = 0;
                     break;
             }
 
             ushort pusObjectNameLen = 201;
-            char[] pucObjectName = new char[201];
+            var pucObjectName = new char[201];
             IntPtr phFindHandle;
             uint ulRet;
-            for (ulRet = ACE.AdsDDFindFirstObject(this.mInternalConnection.Handle, usFindObjectType, strParent,
+            for (ulRet = ACE.AdsDDFindFirstObject(mInternalConnection.Handle, usFindObjectType, strParent,
                      pucObjectName, ref pusObjectNameLen, out phFindHandle);
                  ulRet == 0U;
-                 ulRet = ACE.AdsDDFindNextObject(this.mInternalConnection.Handle, phFindHandle, pucObjectName,
+                 ulRet = ACE.AdsDDFindNextObject(mInternalConnection.Handle, phFindHandle, pucObjectName,
                      ref pusObjectNameLen))
             {
-                arrayList.Add((object)new string(pucObjectName, 0, (int)pusObjectNameLen - 1));
-                pusObjectNameLen = (ushort)201;
+                arrayList.Add(new string(pucObjectName, 0, pusObjectNameLen - 1));
+                pusObjectNameLen = 201;
             }
 
-            int close = (int)ACE.AdsDDFindClose(this.mInternalConnection.Handle, phFindHandle);
+            var close = (int)ACE.AdsDDFindClose(mInternalConnection.Handle, phFindHandle);
             if (ulRet != 5137U)
                 AdsException.CheckACE(ulRet);
             return arrayList.ToArray();
@@ -273,32 +273,32 @@ namespace Advantage.Data.Provider
 
         public object[] GetTableNames()
         {
-            string strMask = "";
-            AdsConnectionStringHandler connectionStringHandler = new AdsConnectionStringHandler();
-            connectionStringHandler.ParseConnectionString(this.mstrConnString);
-            string dataSource = connectionStringHandler.DataSource;
-            bool flag = false;
+            var strMask = "";
+            var connectionStringHandler = new AdsConnectionStringHandler();
+            connectionStringHandler.ParseConnectionString(mstrConnString);
+            var dataSource = connectionStringHandler.DataSource;
+            var flag = false;
             if (dataSource.EndsWith(".add") || dataSource.EndsWith(".ADD"))
                 flag = true;
             if (!flag)
             {
-                string str = dataSource;
+                var str = dataSource;
                 if (!str.EndsWith("\\"))
                     str += "\\";
-                strMask = connectionStringHandler.TableType != (ushort)3 ? str + "*.dbf" : str + "*.adt";
+                strMask = connectionStringHandler.TableType != 3 ? str + "*.dbf" : str + "*.adt";
             }
 
-            return this.InternalGetTableNames(strMask, true, true);
+            return InternalGetTableNames(strMask, true, true);
         }
 
         public object[] GetTableNames(string strMask)
         {
-            return this.InternalGetTableNames(strMask, false, false);
+            return InternalGetTableNames(strMask, false, false);
         }
 
         public object[] GetTableNames(bool bIncludeLinkNames)
         {
-            return this.InternalGetTableNames((string)null, bIncludeLinkNames, false);
+            return InternalGetTableNames(null, bIncludeLinkNames, false);
         }
 
         private object[] InternalGetTableNames(
@@ -306,40 +306,40 @@ namespace Advantage.Data.Provider
             bool bGetLinkNames,
             bool bStripExtensions)
         {
-            if (this.mState == ConnectionState.Closed)
+            if (mState == ConnectionState.Closed)
                 throw new InvalidOperationException("The connection is not open.");
-            ArrayList arrayList = new ArrayList();
-            if (this.mInternalConnection != null)
+            var arrayList = new ArrayList();
+            if (mInternalConnection != null)
             {
                 ushort pusFileLen = 256;
-                char[] chArray1 = new char[(int)pusFileLen];
-                ushort pusDDLen = pusFileLen;
-                char[] chArray2 = new char[(int)pusDDLen];
+                var chArray1 = new char[pusFileLen];
+                var pusDDLen = pusFileLen;
+                var chArray2 = new char[pusDDLen];
                 IntPtr plHandle;
-                uint ulRet = ACE.AdsFindFirstTable62(this.mInternalConnection.Handle, strMask, chArray2, ref pusDDLen,
+                var ulRet = ACE.AdsFindFirstTable62(mInternalConnection.Handle, strMask, chArray2, ref pusDDLen,
                     chArray1, ref pusFileLen, out plHandle);
-                bool isDictionaryConn = this.IsDictionaryConn;
+                var isDictionaryConn = IsDictionaryConn;
                 for (;
                      ulRet == 0U;
-                     ulRet = ACE.AdsFindNextTable62(this.mInternalConnection.Handle, plHandle, chArray2, ref pusDDLen,
+                     ulRet = ACE.AdsFindNextTable62(mInternalConnection.Handle, plHandle, chArray2, ref pusDDLen,
                          chArray1, ref pusFileLen))
                 {
                     if (!isDictionaryConn && bStripExtensions)
-                        pusFileLen -= (ushort)4;
-                    if (bGetLinkNames && pusDDLen > (ushort)0)
+                        pusFileLen -= 4;
+                    if (bGetLinkNames && pusDDLen > 0)
                     {
-                        string str = new string(chArray2, 0, (int)pusDDLen) + "::" +
-                                     new string(chArray1, 0, (int)pusFileLen);
-                        arrayList.Add((object)str);
+                        var str = new string(chArray2, 0, pusDDLen) + "::" +
+                                  new string(chArray1, 0, pusFileLen);
+                        arrayList.Add(str);
                     }
                     else
-                        arrayList.Add((object)new string(chArray1, 0, (int)pusFileLen));
+                        arrayList.Add(new string(chArray1, 0, pusFileLen));
 
-                    pusFileLen = (ushort)256;
+                    pusFileLen = 256;
                     pusDDLen = pusFileLen;
                 }
 
-                int close = (int)ACE.AdsFindClose(this.mInternalConnection.Handle, plHandle);
+                var close = (int)ACE.AdsFindClose(mInternalConnection.Handle, plHandle);
                 if (ulRet != 5059U)
                     AdsException.CheckACE(ulRet);
             }
@@ -349,7 +349,7 @@ namespace Advantage.Data.Provider
 
         public void CloseCachedTables()
         {
-            AdsException.CheckACE(ACE.AdsCloseCachedTables(this.mInternalConnection.Handle));
+            AdsException.CheckACE(ACE.AdsCloseCachedTables(mInternalConnection.Handle));
         }
 
         public static void SetTableCache(int iNumTables)
@@ -368,27 +368,27 @@ namespace Advantage.Data.Provider
 
         public override DataTable GetSchema()
         {
-            return this.GetSchema(DbMetaDataCollectionNames.MetaDataCollections, (string[])null);
+            return GetSchema(DbMetaDataCollectionNames.MetaDataCollections, null);
         }
 
         public override DataTable GetSchema(string collectionName)
         {
-            return this.GetSchema(collectionName, (string[])null);
+            return GetSchema(collectionName, null);
         }
 
         private string ArrayToString(object[] array)
         {
             if (array == null)
                 return "[]";
-            StringBuilder stringBuilder = new StringBuilder("[");
-            for (int index = 0; index < array.Length; ++index)
+            var stringBuilder = new StringBuilder("[");
+            for (var index = 0; index < array.Length; ++index)
             {
                 if (index > 0)
                     stringBuilder.Append(", ");
                 if (array[index] == null)
                     stringBuilder.Append("null");
                 else
-                    stringBuilder.Append(array[index].ToString());
+                    stringBuilder.Append(array[index]);
             }
 
             stringBuilder.Append("]");
@@ -398,81 +398,81 @@ namespace Advantage.Data.Provider
         public override DataTable GetSchema(string collectionName, string[] restrictions)
         {
             if (collectionName.Equals("DataSourceInformation", StringComparison.InvariantCultureIgnoreCase))
-                return this.GetDataSourceInformation();
+                return GetDataSourceInformation();
             if (collectionName.Equals("Tables", StringComparison.InvariantCultureIgnoreCase))
-                return this.GetSchemaTables(restrictions);
+                return GetSchemaTables(restrictions);
             if (collectionName.Equals("Indexes", StringComparison.InvariantCultureIgnoreCase))
-                return this.GetSchemaIndexes(restrictions);
+                return GetSchemaIndexes(restrictions);
             if (collectionName.Equals("IndexColumns", StringComparison.InvariantCultureIgnoreCase))
-                return this.GetSchemaIndexColumns(restrictions);
+                return GetSchemaIndexColumns(restrictions);
             if (collectionName.Equals("Views", StringComparison.InvariantCultureIgnoreCase))
-                return this.GetSchemaViews(restrictions);
+                return GetSchemaViews(restrictions);
             if (collectionName.Equals("Columns", StringComparison.InvariantCultureIgnoreCase))
-                return this.GetSchemaColumnsOrig(restrictions);
+                return GetSchemaColumnsOrig(restrictions);
             if (collectionName.Equals("ReservedWords", StringComparison.InvariantCultureIgnoreCase))
-                return this.GetSchemaReservedWords(restrictions);
+                return GetSchemaReservedWords(restrictions);
             if (collectionName.Equals("DataTypes", StringComparison.InvariantCultureIgnoreCase))
-                return this.GetSchemaDataTypes(restrictions);
+                return GetSchemaDataTypes(restrictions);
             if (collectionName.Equals("StoredProcedures", StringComparison.InvariantCultureIgnoreCase))
-                return this.GetSchemaProcedures(restrictions);
+                return GetSchemaProcedures(restrictions);
             if (collectionName.Equals("StoredProcedureParameters", StringComparison.InvariantCultureIgnoreCase))
-                return this.GetSchemaProcedureParameters((short)1, restrictions);
+                return GetSchemaProcedureParameters(1, restrictions);
             if (collectionName.Equals("StoredProcedureColumns", StringComparison.InvariantCultureIgnoreCase))
-                return this.GetSchemaProcedureParameters((short)3, restrictions);
+                return GetSchemaProcedureParameters(3, restrictions);
             if (collectionName.Equals("ForeignKeys", StringComparison.InvariantCultureIgnoreCase))
-                return this.GetSchemaForeignKeys(false, restrictions);
+                return GetSchemaForeignKeys(false, restrictions);
             if (collectionName.Equals("ForeignKeyColumns", StringComparison.InvariantCultureIgnoreCase))
-                return this.GetSchemaForeignKeys(true, restrictions);
-            throw new NotImplementedException(string.Format("GetSchema( {0} )", (object)collectionName));
+                return GetSchemaForeignKeys(true, restrictions);
+            throw new NotImplementedException(string.Format("GetSchema( {0} )", collectionName));
         }
 
         private DataTable GetSchemaIndexes(string[] restrictions)
         {
             if (restrictions == null || restrictions.Length != 4 || restrictions[2] == null)
                 throw new NotImplementedException("Cannot enumerate all indexes in all tables.");
-            DataTable schemaIndexes = new DataTable("Indexes");
-            using (Stream manifestResourceStream = Assembly.GetExecutingAssembly()
+            var schemaIndexes = new DataTable("Indexes");
+            using (var manifestResourceStream = Assembly.GetExecutingAssembly()
                        .GetManifestResourceStream("Advantage.Data.Provider.IndexSchema.xml"))
                 schemaIndexes.ReadXmlSchema(manifestResourceStream);
             DataTable dataTable1;
             try
             {
-                if (this.RestrictionsHasLink(restrictions))
-                    dataTable1 = this.ExecuteDataTable("execute procedure sp_GetPrimaryKeys( ?, null, ? )",
-                        (object)restrictions[1], (object)restrictions[2]);
+                if (RestrictionsHasLink(restrictions))
+                    dataTable1 = ExecuteDataTable("execute procedure sp_GetPrimaryKeys( ?, null, ? )",
+                        restrictions[1], restrictions[2]);
                 else
-                    dataTable1 = this.ExecuteDataTable("execute procedure sp_GetPrimaryKeys( null, null, ? )",
-                        (object)restrictions[2]);
+                    dataTable1 = ExecuteDataTable("execute procedure sp_GetPrimaryKeys( null, null, ? )",
+                        restrictions[2]);
             }
             catch
             {
                 return schemaIndexes;
             }
 
-            string str1 = "";
+            var str1 = "";
             if (dataTable1.Rows.Count > 0)
                 str1 = (string)dataTable1.Rows[0]["PK_NAME"];
             DataTable dataTable2;
-            if (this.RestrictionsHasLink(restrictions))
-                dataTable2 = this.ExecuteDataTable("execute procedure sp_GetIndexInfo( ?, null, ?, false, false )",
-                    (object)restrictions[1], (object)restrictions[2]);
+            if (RestrictionsHasLink(restrictions))
+                dataTable2 = ExecuteDataTable("execute procedure sp_GetIndexInfo( ?, null, ?, false, false )",
+                    restrictions[1], restrictions[2]);
             else
-                dataTable2 = this.ExecuteDataTable("execute procedure sp_GetIndexInfo( null, null, ?, false, false )",
-                    (object)restrictions[2]);
-            string str2 = "";
+                dataTable2 = ExecuteDataTable("execute procedure sp_GetIndexInfo( null, null, ?, false, false )",
+                    restrictions[2]);
+            var str2 = "";
             foreach (DataRow row1 in (InternalDataCollectionBase)dataTable2.Rows)
             {
                 if (row1["COLUMN_NAME"] != DBNull.Value && !((string)row1["COLUMN_NAME"] == "") &&
                     str2 != (string)row1["INDEX_NAME"])
                 {
                     str2 = (string)row1["INDEX_NAME"];
-                    DataRow row2 = schemaIndexes.NewRow();
-                    row2["catalog"] = (object)restrictions[0];
-                    row2["schema"] = (object)restrictions[1];
+                    var row2 = schemaIndexes.NewRow();
+                    row2["catalog"] = restrictions[0];
+                    row2["schema"] = restrictions[1];
                     row2["table"] = row1["TABLE_NAME"];
                     row2["name"] = row1["INDEX_NAME"];
-                    row2["isunique"] = (bool)row1["NON_UNIQUE"] ? (object)false : (object)true;
-                    row2["isprimary"] = !(str1 == (string)row1["INDEX_NAME"]) ? (object)false : (object)true;
+                    row2["isunique"] = (bool)row1["NON_UNIQUE"] ? false : (object)true;
+                    row2["isprimary"] = !(str1 == (string)row1["INDEX_NAME"]) ? false : (object)true;
                     schemaIndexes.Rows.Add(row2);
                 }
             }
@@ -485,25 +485,25 @@ namespace Advantage.Data.Provider
         {
             if (restrictions == null || restrictions.Length < 4 || restrictions[2] == null || restrictions[3] == null)
                 throw new NotImplementedException("Cannot enumerate index columns in multiple tables or indexes.");
-            DataTable schemaIndexColumns = new DataTable("IndexColumns");
-            using (Stream manifestResourceStream = Assembly.GetExecutingAssembly()
+            var schemaIndexColumns = new DataTable("IndexColumns");
+            using (var manifestResourceStream = Assembly.GetExecutingAssembly()
                        .GetManifestResourceStream("Advantage.Data.Provider.IndexColumnsSchema.xml"))
                 schemaIndexColumns.ReadXmlSchema(manifestResourceStream);
             DataTable dataTable;
-            if (this.RestrictionsHasLink(restrictions))
-                dataTable = this.ExecuteDataTable("execute procedure sp_GetIndexInfo( ?, null, ?, false, false )",
-                    (object)restrictions[1], (object)restrictions[2]);
+            if (RestrictionsHasLink(restrictions))
+                dataTable = ExecuteDataTable("execute procedure sp_GetIndexInfo( ?, null, ?, false, false )",
+                    restrictions[1], restrictions[2]);
             else
-                dataTable = this.ExecuteDataTable("execute procedure sp_GetIndexInfo( null, null, ?, false, false )",
-                    (object)restrictions[2]);
+                dataTable = ExecuteDataTable("execute procedure sp_GetIndexInfo( null, null, ?, false, false )",
+                    restrictions[2]);
             foreach (DataRow row1 in (InternalDataCollectionBase)dataTable.Rows)
             {
                 if (restrictions[3].Equals((string)row1["INDEX_NAME"], StringComparison.InvariantCultureIgnoreCase))
                 {
-                    DataRow row2 = schemaIndexColumns.NewRow();
-                    row2["catalog"] = (object)restrictions[0];
-                    row2["schema"] = (object)restrictions[1];
-                    row2["table"] = (object)restrictions[2];
+                    var row2 = schemaIndexColumns.NewRow();
+                    row2["catalog"] = restrictions[0];
+                    row2["schema"] = restrictions[1];
+                    row2["table"] = restrictions[2];
                     row2["name"] = row1["COLUMN_NAME"];
                     row2["ordinal"] = row1["ORDINAL_POSITION"];
                     row2["index"] = row1["INDEX_NAME"];
@@ -534,11 +534,11 @@ namespace Advantage.Data.Provider
 
         private DataTable GetSchemaDataTypes(string[] restrictions)
         {
-            DataTable schemaDataTypes = new DataTable("DataTypes");
-            using (Stream manifestResourceStream = Assembly.GetExecutingAssembly()
+            var schemaDataTypes = new DataTable("DataTypes");
+            using (var manifestResourceStream = Assembly.GetExecutingAssembly()
                        .GetManifestResourceStream("Advantage.Data.Provider.DataTypes.xml"))
             {
-                int num = (int)schemaDataTypes.ReadXml(manifestResourceStream);
+                var num = (int)schemaDataTypes.ReadXml(manifestResourceStream);
             }
 
             return schemaDataTypes;
@@ -546,7 +546,7 @@ namespace Advantage.Data.Provider
 
         private DataTable GetSchemaReservedWords(string[] restrictions)
         {
-            DataTable schemaReservedWords = this.ExecuteDataTable("execute procedure sp_getSQLKeywords()");
+            var schemaReservedWords = ExecuteDataTable("execute procedure sp_getSQLKeywords()");
             schemaReservedWords.Columns[0].ColumnName = "ReservedWord";
             return schemaReservedWords;
         }
@@ -559,9 +559,9 @@ namespace Advantage.Data.Provider
 
         private DataTable GetSchemaProcedures(string[] restrictions)
         {
-            string str1 = (string)null;
-            string str2 = (string)null;
-            string str3 = (string)null;
+            string str1 = null;
+            string str2 = null;
+            string str3 = null;
             if (restrictions != null)
             {
                 if (restrictions.Length >= 1)
@@ -573,22 +573,22 @@ namespace Advantage.Data.Provider
             }
 
             if (str2 != null && str2.Equals("::this", StringComparison.InvariantCultureIgnoreCase))
-                str2 = (string)null;
-            DataTable schemaProcedures = this.ExecuteDataTable("execute procedure sp_GetProcedures(?, ?, ?)",
-                (object)str1, (object)str2, (object)str3);
+                str2 = null;
+            var schemaProcedures = ExecuteDataTable("execute procedure sp_GetProcedures(?, ?, ?)",
+                str1, str2, str3);
             schemaProcedures.Columns["PROCEDURE_SCHEM"].ReadOnly = false;
             foreach (DataRow row in (InternalDataCollectionBase)schemaProcedures.Rows)
-                row["PROCEDURE_SCHEM"] = (object)"::this";
+                row["PROCEDURE_SCHEM"] = "::this";
             schemaProcedures.AcceptChanges();
             return schemaProcedures;
         }
 
         private DataTable GetSchemaProcedureParameters(short iColType, string[] restrictions)
         {
-            string str1 = (string)null;
-            string str2 = (string)null;
-            string str3 = (string)null;
-            string str4 = (string)null;
+            string str1 = null;
+            string str2 = null;
+            string str3 = null;
+            string str4 = null;
             if (restrictions != null)
             {
                 if (restrictions.Length >= 1)
@@ -602,38 +602,38 @@ namespace Advantage.Data.Provider
             }
 
             if (str2 != null && str2.Equals("::this", StringComparison.InvariantCultureIgnoreCase))
-                str2 = (string)null;
-            DataTable procedureParameters = this.ExecuteDataTable(
-                "execute procedure sp_GetProcedureColumns(?, ?, ?, ?)", (object)str1, (object)str2, (object)str3,
-                (object)str4);
+                str2 = null;
+            var procedureParameters = ExecuteDataTable(
+                "execute procedure sp_GetProcedureColumns(?, ?, ?, ?)", str1, str2, str3,
+                str4);
             procedureParameters.Columns.Add("Column_Ordinal", Type.GetType("System.Int32"));
-            int num = 0;
+            var num = 0;
             procedureParameters.Columns.Add("IsOutputParameter", Type.GetType("System.Boolean"));
             procedureParameters.Columns.Add("Direction", Type.GetType("System.String"));
             procedureParameters.Columns["PROCEDURE_SCHEM"].ReadOnly = false;
             procedureParameters.Columns["TYPE_NAME"].ReadOnly = false;
             foreach (DataRow row in (InternalDataCollectionBase)procedureParameters.Rows)
             {
-                if ((int)(short)row["Column_Type"] != (int)iColType)
+                if ((short)row["Column_Type"] != iColType)
                 {
                     row.Delete();
                 }
                 else
                 {
                     if (restrictions.Length > 1)
-                        row["Procedure_Schem"] = (object)restrictions[1];
-                    row["Column_Ordinal"] = (object)num++;
-                    ushort type = AdsDataReader.ConvertACETypeNameToType((string)row["Type_Name"]);
-                    row["Type_Name"] = (object)AdsDataReader.ConvertACETypeToName(type);
-                    if (iColType == (short)1)
+                        row["Procedure_Schem"] = restrictions[1];
+                    row["Column_Ordinal"] = num++;
+                    var type = AdsDataReader.ConvertACETypeNameToType((string)row["Type_Name"]);
+                    row["Type_Name"] = AdsDataReader.ConvertACETypeToName(type);
+                    if (iColType == 1)
                     {
-                        row["IsOutputParameter"] = (object)false;
-                        row["Direction"] = (object)"IN";
+                        row["IsOutputParameter"] = false;
+                        row["Direction"] = "IN";
                     }
                     else
                     {
-                        row["IsOutputParameter"] = (object)true;
-                        row["Direction"] = (object)"OUT";
+                        row["IsOutputParameter"] = true;
+                        row["Direction"] = "OUT";
                     }
                 }
             }
@@ -644,11 +644,11 @@ namespace Advantage.Data.Provider
 
         private DataTable GetSchemaForeignKeys(bool bIncludeAllColumns, string[] restrictions)
         {
-            string str1 = (string)null;
-            string str2 = (string)null;
-            string str3 = (string)null;
-            string str4 = (string)null;
-            string str5 = (string)null;
+            string str1 = null;
+            string str2 = null;
+            string str3 = null;
+            string str4 = null;
+            string str5 = null;
             if (restrictions != null)
             {
                 if (restrictions.Length >= 1)
@@ -664,16 +664,16 @@ namespace Advantage.Data.Provider
             }
 
             if (str2 != null && str2.Equals("::this", StringComparison.InvariantCultureIgnoreCase))
-                str2 = (string)null;
-            DataTable schemaForeignKeys = this.ExecuteDataTable(
-                "EXECUTE PROCEDURE sp_GetForeignKeyColumns( ?, ?, ?, ? )", (object)str1, (object)str2, (object)str3,
-                (object)str4);
+                str2 = null;
+            var schemaForeignKeys = ExecuteDataTable(
+                "EXECUTE PROCEDURE sp_GetForeignKeyColumns( ?, ?, ?, ? )", str1, str2, str3,
+                str4);
             schemaForeignKeys.Columns["PKTABLE_SCHEM"].ReadOnly = false;
             schemaForeignKeys.Columns["FKTABLE_SCHEM"].ReadOnly = false;
             foreach (DataRow row in (InternalDataCollectionBase)schemaForeignKeys.Rows)
             {
-                short num = (short)row["KEY_SEQ"];
-                if (!bIncludeAllColumns && num != (short)0)
+                var num = (short)row["KEY_SEQ"];
+                if (!bIncludeAllColumns && num != 0)
                     row.Delete();
                 else if (str5 != null && !restrictions[4].Equals((string)row["FKCOLUMN_NAME"],
                              StringComparison.InvariantCultureIgnoreCase))
@@ -682,8 +682,8 @@ namespace Advantage.Data.Provider
                 }
                 else
                 {
-                    row["PKTABLE_SCHEM"] = (object)"::this";
-                    row["FKTABLE_SCHEM"] = (object)"::this";
+                    row["PKTABLE_SCHEM"] = "::this";
+                    row["FKTABLE_SCHEM"] = "::this";
                 }
             }
 
@@ -710,21 +710,21 @@ namespace Advantage.Data.Provider
 
         private DataTable GetSchemaColumnsOrig(string[] restrictions)
         {
-            string str = (string)null;
+            string str = null;
             if (restrictions == null || restrictions.Length < 3 || restrictions[2] == null)
                 throw new NotImplementedException("Cannot enumerate all columns in all tables.");
             if (restrictions.Length >= 4)
                 str = restrictions[3];
-            AdsCommand adsCommand = new AdsCommand();
+            var adsCommand = new AdsCommand();
             adsCommand.Connection = this;
-            if (this.RestrictionsHasLink(restrictions))
+            if (RestrictionsHasLink(restrictions))
                 adsCommand.CommandText = ":" + restrictions[1] + "::" + restrictions[2];
             else
                 adsCommand.CommandText = restrictions[2];
             adsCommand.CommandType = CommandType.TableDirect;
-            AdsDataReader adsDataReader =
+            var adsDataReader =
                 adsCommand.ExecuteReader(CommandBehavior.SchemaOnly | CommandBehavior.KeyInfo);
-            DataTable schemaTable = adsDataReader.GetSchemaTable();
+            var schemaTable = adsDataReader.GetSchemaTable();
             adsDataReader.Close();
             adsCommand.Dispose();
             if (restrictions.Length > 0)
@@ -738,9 +738,9 @@ namespace Advantage.Data.Provider
                     }
                     else
                     {
-                        row["BaseCatalogName"] = (object)restrictions[0];
-                        row["BaseSchemaName"] = (object)restrictions[1];
-                        row["BaseTableName"] = (object)restrictions[2];
+                        row["BaseCatalogName"] = restrictions[0];
+                        row["BaseSchemaName"] = restrictions[1];
+                        row["BaseTableName"] = restrictions[2];
                     }
                 }
             }
@@ -754,15 +754,15 @@ namespace Advantage.Data.Provider
             DataTable dataTable;
             try
             {
-                AdsCommand adsCommand = new AdsCommand(strQuery, this);
-                for (int index = 0; index < varargs.Length; ++index)
+                var adsCommand = new AdsCommand(strQuery, this);
+                for (var index = 0; index < varargs.Length; ++index)
                     adsCommand.Parameters.Add(index + 1, varargs[index]);
-                AdsDataReader reader = adsCommand.ExecuteReader();
+                var reader = adsCommand.ExecuteReader();
                 dataTable = new DataTable();
-                bool trimTrailingSpaces = this.TrimTrailingSpaces;
-                this.mInternalConnection.TrimTrailingSpaces = true;
-                dataTable.Load((IDataReader)reader);
-                this.mInternalConnection.TrimTrailingSpaces = trimTrailingSpaces;
+                var trimTrailingSpaces = TrimTrailingSpaces;
+                mInternalConnection.TrimTrailingSpaces = true;
+                dataTable.Load(reader);
+                mInternalConnection.TrimTrailingSpaces = trimTrailingSpaces;
                 reader.Close();
                 adsCommand.Dispose();
             }
@@ -778,9 +778,9 @@ namespace Advantage.Data.Provider
         {
             if (Table == null)
                 return "[]";
-            StringBuilder stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder();
             stringBuilder.Append("[");
-            foreach (DataColumn column in (InternalDataCollectionBase)Table.Columns)
+            foreach (DataColumn column in Table.Columns)
             {
                 stringBuilder.Append(column.ColumnName);
                 stringBuilder.Append(", ");
@@ -790,14 +790,14 @@ namespace Advantage.Data.Provider
             foreach (DataRow row in (InternalDataCollectionBase)Table.Rows)
             {
                 stringBuilder.Append("[");
-                for (int index = 0; index < row.ItemArray.Length; ++index)
+                for (var index = 0; index < row.ItemArray.Length; ++index)
                 {
                     if (index > 0)
                         stringBuilder.Append(", ");
                     if (row.ItemArray[index] == null)
                         stringBuilder.Append("null");
                     else
-                        stringBuilder.Append(row.ItemArray[index].ToString());
+                        stringBuilder.Append(row.ItemArray[index]);
                 }
 
                 stringBuilder.Append("]\n");
@@ -808,11 +808,11 @@ namespace Advantage.Data.Provider
 
         private DataTable GetSchemaTablesOrViews(string[] restrictions, string strType)
         {
-            string str1 = (string)null;
-            string str2 = (string)null;
-            string str3 = (string)null;
-            string strQuery = "execute procedure sp_gettables( ?, ?, ?, ? )";
-            string database = this.Database;
+            string str1 = null;
+            string str2 = null;
+            string str3 = null;
+            var strQuery = "execute procedure sp_gettables( ?, ?, ?, ? )";
+            var database = Database;
             if (restrictions != null)
             {
                 if (restrictions.Length >= 1)
@@ -823,47 +823,47 @@ namespace Advantage.Data.Provider
                     str3 = restrictions[2];
             }
 
-            if (str1 != null && !str1.Equals(this.Database, StringComparison.InvariantCultureIgnoreCase))
+            if (str1 != null && !str1.Equals(Database, StringComparison.InvariantCultureIgnoreCase))
             {
                 str1 = "empty;,result";
             }
             else
             {
-                if (str1 != null && str1.Equals(this.Database, StringComparison.InvariantCultureIgnoreCase))
-                    str1 = (string)null;
+                if (str1 != null && str1.Equals(Database, StringComparison.InvariantCultureIgnoreCase))
+                    str1 = null;
                 if (str2 == "::this")
-                    str2 = (string)null;
+                    str2 = null;
                 if (str2 != null)
                 {
                     str1 = str2;
-                    str2 = (string)null;
+                    str2 = null;
                 }
             }
 
-            DataTable schemaTablesOrViews =
-                this.ExecuteDataTable(strQuery, (object)str1, (object)str2, (object)str3, (object)strType);
+            var schemaTablesOrViews =
+                ExecuteDataTable(strQuery, str1, str2, str3, strType);
             schemaTablesOrViews.Columns["TABLE_CAT"].ReadOnly = false;
             schemaTablesOrViews.Columns["TABLE_NAME"].ReadOnly = false;
             schemaTablesOrViews.Columns["TABLE_SCHEM"].ReadOnly = false;
             foreach (DataRow row in (InternalDataCollectionBase)schemaTablesOrViews.Rows)
             {
-                if (!this.IsDictionaryConn ||
+                if (!IsDictionaryConn ||
                     database.Equals((string)row["TABLE_CAT"], StringComparison.InvariantCultureIgnoreCase))
                 {
-                    row["TABLE_SCHEM"] = (object)"::this";
+                    row["TABLE_SCHEM"] = "::this";
                 }
                 else
                 {
                     row["TABLE_SCHEM"] = row["TABLE_CAT"];
-                    row["TABLE_CAT"] = (object)database;
+                    row["TABLE_CAT"] = database;
                 }
 
-                string str4 = (string)row["TABLE_NAME"];
+                var str4 = (string)row["TABLE_NAME"];
                 if (str4.EndsWith(".adt", true, CultureInfo.InvariantCulture) ||
                     str4.EndsWith(".dbf", true, CultureInfo.InvariantCulture))
                 {
-                    string str5 = str4.Substring(0, str4.Length - 4);
-                    row["TABLE_NAME"] = (object)str5;
+                    var str5 = str4.Substring(0, str4.Length - 4);
+                    row["TABLE_NAME"] = str5;
                 }
             }
 
@@ -873,55 +873,54 @@ namespace Advantage.Data.Provider
 
         private DataTable GetSchemaTables(string[] restrictions)
         {
-            return this.GetSchemaTablesOrViews(restrictions, "TABLE");
+            return GetSchemaTablesOrViews(restrictions, "TABLE");
         }
 
         private DataTable GetSchemaViews(string[] restrictions)
         {
-            return this.GetSchemaTablesOrViews(restrictions, "VIEW");
+            return GetSchemaTablesOrViews(restrictions, "VIEW");
         }
 
         private DataTable GetDataSourceInformation()
         {
-            DataTable sourceInformation = new DataTable("DataSourceInformation");
-            using (Stream manifestResourceStream = Assembly.GetExecutingAssembly()
+            var sourceInformation = new DataTable("DataSourceInformation");
+            using (var manifestResourceStream = Assembly.GetExecutingAssembly()
                        .GetManifestResourceStream("Advantage.Data.Provider.DataSourceInformation.xml"))
             {
-                int num = (int)sourceInformation.ReadXml(manifestResourceStream);
+                var num = (int)sourceInformation.ReadXml(manifestResourceStream);
             }
 
-            if (this.mState == ConnectionState.Open)
+            if (mState == ConnectionState.Open)
             {
-                sourceInformation.Rows[0][DbMetaDataColumnNames.DataSourceProductVersion] = (object)this.ServerVersion;
+                sourceInformation.Rows[0][DbMetaDataColumnNames.DataSourceProductVersion] = ServerVersion;
                 sourceInformation.Rows[0][DbMetaDataColumnNames.DataSourceProductVersionNormalized] =
-                    (object)this.ServerVersion;
+                    ServerVersion;
             }
 
-            if (this.TableType != (ushort)3)
+            if (TableType != 3)
                 sourceInformation.Rows[0][DbMetaDataColumnNames.IdentifierPattern] =
-                    (object)
                     "(^[a-zA-Z_][a-zA-Z0-9_]*$)|(^\\[[a-zA-Z_][a-zA-Z0-9_]*\\]$)|(^\\\"[a-zA-Z_][a-zA-Z0-9_]*\\\"$)";
             sourceInformation.Rows[0][DbMetaDataColumnNames.CompositeIdentifierSeparatorPattern] =
-                (object)"(?<!\\[[^\\]]+)\\.";
+                "(?<!\\[[^\\]]+)\\.";
             sourceInformation.AcceptChanges();
             return sourceInformation;
         }
 
-        object ICloneable.Clone() => (object)new AdsConnection(this.ConnectionString);
+        object ICloneable.Clone() => new AdsConnection(ConnectionString);
 
         public string ServerName
         {
             get
             {
-                if (this.mState == ConnectionState.Closed)
+                if (mState == ConnectionState.Closed)
                     throw new InvalidOperationException("The connection is not open.");
-                string serverName = "";
-                if (this.mInternalConnection != null)
+                var serverName = "";
+                if (mInternalConnection != null)
                 {
                     ushort pusLen = 260;
-                    char[] pucName = new char[(int)pusLen];
-                    AdsException.CheckACE(ACE.AdsGetServerName(this.mInternalConnection.Handle, pucName, ref pusLen));
-                    serverName = new string(pucName, 0, (int)pusLen);
+                    var pucName = new char[pusLen];
+                    AdsException.CheckACE(ACE.AdsGetServerName(mInternalConnection.Handle, pucName, ref pusLen));
+                    serverName = new string(pucName, 0, pusLen);
                 }
 
                 return serverName;
@@ -934,22 +933,22 @@ namespace Advantage.Data.Provider
             {
                 ushort pusDateBufLen = 12;
                 ushort pusTimeBufLen = 12;
-                char[] chArray = new char[(int)pusDateBufLen];
-                char[] pucTimeBuf = new char[(int)pusTimeBufLen];
+                var chArray = new char[pusDateBufLen];
+                var pucTimeBuf = new char[pusTimeBufLen];
                 int plTime;
-                AdsException.CheckACE(ACE.AdsGetServerTime(this.mInternalConnection.Handle, chArray, ref pusDateBufLen,
+                AdsException.CheckACE(ACE.AdsGetServerTime(mInternalConnection.Handle, chArray, ref pusDateBufLen,
                     out plTime, pucTimeBuf, ref pusTimeBufLen));
                 double pdJulian;
-                AdsException.CheckACE(ACEUNPUB.AdsConvertDateToJulian(this.mInternalConnection.Handle,
-                    new string(chArray, 0, (int)pusDateBufLen), pusDateBufLen, out pdJulian));
+                AdsException.CheckACE(ACEUNPUB.AdsConvertDateToJulian(mInternalConnection.Handle,
+                    new string(chArray, 0, pusDateBufLen), pusDateBufLen, out pdJulian));
                 ushort pusLen = 12;
                 AdsException.CheckACE(ACEUNPUB.AdsConvertJulianToString(pdJulian, chArray, ref pusLen));
-                string str1 = new string(chArray, 0, 4);
-                string str2 = new string(chArray, 4, 2);
-                string str3 = new string(chArray, 6, 2);
-                DateTime serverTime = new DateTime(Convert.ToInt32(str1, 10), Convert.ToInt32(str2, 10),
+                var str1 = new string(chArray, 0, 4);
+                var str2 = new string(chArray, 4, 2);
+                var str3 = new string(chArray, 6, 2);
+                var serverTime = new DateTime(Convert.ToInt32(str1, 10), Convert.ToInt32(str2, 10),
                     Convert.ToInt32(str3, 10));
-                serverTime = serverTime.AddMilliseconds((double)plTime);
+                serverTime = serverTime.AddMilliseconds(plTime);
                 return serverTime;
             }
         }
@@ -960,18 +959,18 @@ namespace Advantage.Data.Provider
         {
             get
             {
-                if (this.mState == ConnectionState.Closed)
+                if (mState == ConnectionState.Closed)
                     throw new InvalidOperationException("The connection is not open.");
                 ushort pusLen = 12;
-                char[] pucFormat = new char[(int)pusLen];
-                AdsException.CheckACE(ACE.AdsGetDateFormat60(this.mInternalConnection.Handle, pucFormat, ref pusLen));
-                return new string(pucFormat, 0, (int)pusLen);
+                var pucFormat = new char[pusLen];
+                AdsException.CheckACE(ACE.AdsGetDateFormat60(mInternalConnection.Handle, pucFormat, ref pusLen));
+                return new string(pucFormat, 0, pusLen);
             }
             set
             {
-                if (this.mState == ConnectionState.Closed)
+                if (mState == ConnectionState.Closed)
                     throw new InvalidOperationException("The connection is not open.");
-                AdsException.CheckACE(ACE.AdsSetDateFormat60(this.mInternalConnection.Handle, value));
+                AdsException.CheckACE(ACE.AdsSetDateFormat60(mInternalConnection.Handle, value));
             }
         }
 
@@ -990,15 +989,15 @@ namespace Advantage.Data.Provider
         {
             get
             {
-                if (this.mState == ConnectionState.Closed)
+                if (mState == ConnectionState.Closed)
                 {
-                    AdsConnectionStringHandler connectionStringHandler = new AdsConnectionStringHandler();
-                    connectionStringHandler.ParseConnectionString(this.mstrConnString);
+                    var connectionStringHandler = new AdsConnectionStringHandler();
+                    connectionStringHandler.ParseConnectionString(mstrConnString);
                     return connectionStringHandler.ServerType == null ? "REMOTE" : connectionStringHandler.ServerType;
                 }
 
                 ushort pusConnectType;
-                AdsException.CheckACE(ACE.AdsGetConnectionType(this.mInternalConnection.Handle, out pusConnectType));
+                AdsException.CheckACE(ACE.AdsGetConnectionType(mInternalConnection.Handle, out pusConnectType));
                 switch (pusConnectType)
                 {
                     case 1:
@@ -1017,12 +1016,12 @@ namespace Advantage.Data.Provider
         [ReadOnly(true)]
         public int DDVersionMajor
         {
-            get => this.DDGetDatabaseVersion((ushort)111);
+            get => DDGetDatabaseVersion(111);
             set
             {
                 if (value < 0)
                     throw new ArgumentException("DDVersionMajor value cannot be negative.");
-                this.DDSetDatabaseVersion((ushort)111, (uint)value);
+                DDSetDatabaseVersion(111, (uint)value);
             }
         }
 
@@ -1030,43 +1029,43 @@ namespace Advantage.Data.Provider
         [ReadOnly(true)]
         public int DDVersionMinor
         {
-            get => this.DDGetDatabaseVersion((ushort)112);
+            get => DDGetDatabaseVersion(112);
             set
             {
                 if (value < 0)
                     throw new ArgumentException("DDVersionMinor value cannot be negative.");
-                this.DDSetDatabaseVersion((ushort)112, (uint)value);
+                DDSetDatabaseVersion(112, (uint)value);
             }
         }
 
         private int DDGetDatabaseVersion(ushort usProperty)
         {
-            if (!this.IsDictionaryConn)
+            if (!IsDictionaryConn)
                 throw new InvalidOperationException(
                     "Invalid access to DDMajorVersion. Connection is not a Data Dictionary.");
             ushort pusPropertyLen = 2;
             ushort pusProperty = 0;
-            AdsException.CheckACE(ACE.AdsDDGetDatabaseProperty(this.mInternalConnection.Handle, usProperty,
+            AdsException.CheckACE(ACE.AdsDDGetDatabaseProperty(mInternalConnection.Handle, usProperty,
                 ref pusProperty, ref pusPropertyLen));
-            return (int)pusProperty;
+            return pusProperty;
         }
 
         private void DDSetDatabaseVersion(ushort usProperty, uint uiVer)
         {
-            if (this.mState == ConnectionState.Closed)
+            if (mState == ConnectionState.Closed)
                 throw new InvalidOperationException("The connection is not open.");
-            ushort pusProperty = (ushort)uiVer;
-            AdsException.CheckACE(ACE.AdsDDSetDatabaseProperty(this.mInternalConnection.Handle, usProperty,
-                ref pusProperty, (ushort)2));
+            var pusProperty = (ushort)uiVer;
+            AdsException.CheckACE(ACE.AdsDDSetDatabaseProperty(mInternalConnection.Handle, usProperty,
+                ref pusProperty, 2));
         }
 
         public bool IsDictionaryConn
         {
             get
             {
-                if (this.mState == ConnectionState.Closed)
+                if (mState == ConnectionState.Closed)
                     throw new InvalidOperationException("The connection is not open.");
-                return this.mInternalConnection.HandleType == (ushort)6;
+                return mInternalConnection.HandleType == 6;
             }
         }
 
@@ -1074,11 +1073,11 @@ namespace Advantage.Data.Provider
         {
             get
             {
-                if (this.mState == ConnectionState.Closed)
+                if (mState == ConnectionState.Closed)
                     throw new InvalidOperationException("The connection is not open.");
                 ushort pbConnectionIsAlive;
-                return ACE.AdsIsConnectionAlive(this.mInternalConnection.Handle, out pbConnectionIsAlive) == 0U &&
-                       pbConnectionIsAlive != (ushort)0;
+                return ACE.AdsIsConnectionAlive(mInternalConnection.Handle, out pbConnectionIsAlive) == 0U &&
+                       pbConnectionIsAlive != 0;
             }
         }
 
@@ -1087,19 +1086,19 @@ namespace Advantage.Data.Provider
         [DefaultValue("")]
         public override string ConnectionString
         {
-            get => this.mstrConnString;
+            get => mstrConnString;
             set
             {
-                if (this.mstrConnString == value)
+                if (mstrConnString == value)
                     return;
-                if (this.mInternalConnection != null)
+                if (mInternalConnection != null)
                 {
-                    if (this.mInternalConnection.State != ConnectionState.Closed)
+                    if (mInternalConnection.State != ConnectionState.Closed)
                         throw new NotSupportedException();
-                    this.Close();
+                    Close();
                 }
 
-                this.mstrConnString = value;
+                mstrConnString = value;
             }
         }
 
@@ -1111,15 +1110,15 @@ namespace Advantage.Data.Provider
         {
             get
             {
-                if (this.mstrServerDatabase == null && this.State == ConnectionState.Open)
-                    this.mstrServerDatabase = this.GetServerConnectionPath();
-                if (this.mstrServerDatabase != null)
-                    return this.mstrServerDatabase;
-                if (this.mInternalConnection == null)
+                if (mstrServerDatabase == null && State == ConnectionState.Open)
+                    mstrServerDatabase = GetServerConnectionPath();
+                if (mstrServerDatabase != null)
+                    return mstrServerDatabase;
+                if (mInternalConnection == null)
                     return "";
-                return this.mInternalConnection.InitialCatalog != null
-                    ? this.mInternalConnection.InitialCatalog
-                    : this.mInternalConnection.ConnectionPath;
+                return mInternalConnection.InitialCatalog != null
+                    ? mInternalConnection.InitialCatalog
+                    : mInternalConnection.ConnectionPath;
             }
         }
 
@@ -1127,9 +1126,9 @@ namespace Advantage.Data.Provider
         {
             try
             {
-                AdsCommand adsCommand = new AdsCommand("execute procedure sp_GetCatalogs()", this);
-                AdsDataReader adsDataReader = adsCommand.ExecuteReader();
-                string serverConnectionPath = (string)null;
+                var adsCommand = new AdsCommand("execute procedure sp_GetCatalogs()", this);
+                var adsDataReader = adsCommand.ExecuteReader();
+                string serverConnectionPath = null;
                 if (adsDataReader.Read())
                     serverConnectionPath = ((string)adsDataReader["TABLE_CAT"]).TrimEnd();
                 adsDataReader.Close();
@@ -1138,26 +1137,26 @@ namespace Advantage.Data.Provider
             }
             catch
             {
-                return (string)null;
+                return null;
             }
         }
 
         [Browsable(false)]
         public override ConnectionState State
         {
-            get => this.mInternalConnection != null ? this.mInternalConnection.State : this.mState;
+            get => mInternalConnection != null ? mInternalConnection.State : mState;
         }
 
         public override string DataSource
         {
             get
             {
-                if (this.mInternalConnection != null)
-                    return this.mInternalConnection.ConnectionPath;
-                if (this.mstrConnString == null)
+                if (mInternalConnection != null)
+                    return mInternalConnection.ConnectionPath;
+                if (mstrConnString == null)
                     return "";
-                AdsConnectionStringHandler connectionStringHandler = new AdsConnectionStringHandler();
-                connectionStringHandler.ParseConnectionString(this.mstrConnString);
+                var connectionStringHandler = new AdsConnectionStringHandler();
+                connectionStringHandler.ParseConnectionString(mstrConnString);
                 return connectionStringHandler.DataSource;
             }
         }
@@ -1166,18 +1165,18 @@ namespace Advantage.Data.Provider
         {
             get
             {
-                if (this.mState == ConnectionState.Closed)
+                if (mState == ConnectionState.Closed)
                     throw new InvalidOperationException("Invalid operation. The connection is closed.");
-                if (this.mstrServerVersion != null)
-                    return this.mstrServerVersion;
-                AdsCommand adsCommand = new AdsCommand("execute procedure sp_mgGetInstallInfo()", this);
-                AdsDataReader adsDataReader = adsCommand.ExecuteReader();
+                if (mstrServerVersion != null)
+                    return mstrServerVersion;
+                var adsCommand = new AdsCommand("execute procedure sp_mgGetInstallInfo()", this);
+                var adsDataReader = adsCommand.ExecuteReader();
                 adsDataReader.Read();
-                string serverVersion = adsDataReader.GetString(adsDataReader.GetOrdinal("Version"), true);
+                var serverVersion = adsDataReader.GetString(adsDataReader.GetOrdinal("Version"), true);
                 adsDataReader.Close();
                 adsDataReader.Dispose();
                 adsCommand.Dispose();
-                this.mstrServerVersion = serverVersion;
+                mstrServerVersion = serverVersion;
                 return serverVersion;
             }
         }
@@ -1187,29 +1186,29 @@ namespace Advantage.Data.Provider
         {
             get
             {
-                if (this.mState == ConnectionState.Closed)
+                if (mState == ConnectionState.Closed)
                     throw new InvalidOperationException("The connection is not open.");
-                return this.mInternalConnection.Handle;
+                return mInternalConnection.Handle;
             }
         }
 
-        internal bool TrimTrailingSpaces => this.mInternalConnection.TrimTrailingSpaces;
+        internal bool TrimTrailingSpaces => mInternalConnection.TrimTrailingSpaces;
 
-        internal AdsInternalConnection InternalConnection => this.mInternalConnection;
+        internal AdsInternalConnection InternalConnection => mInternalConnection;
 
         internal ushort TableType
         {
-            get { return this.mbOverrideTableType ? this.musTableTypeOverride : this.mInternalConnection.TableType; }
+            get { return mbOverrideTableType ? musTableTypeOverride : mInternalConnection.TableType; }
             set
             {
-                this.mbOverrideTableType = true;
-                this.musTableTypeOverride = value;
+                mbOverrideTableType = true;
+                musTableTypeOverride = value;
             }
         }
 
-        internal ushort LockType => this.mInternalConnection.LockType;
+        internal ushort LockType => mInternalConnection.LockType;
 
-        internal ushort RightsChecking => this.mInternalConnection.RightsChecking;
+        internal ushort RightsChecking => mInternalConnection.RightsChecking;
 
         internal ushort CharType
         {
@@ -1218,56 +1217,56 @@ namespace Advantage.Data.Provider
                 ushort charType;
                 try
                 {
-                    charType = !(this.mInternalConnection.CharType.ToUpper(CultureInfo.InvariantCulture) == "ANSI")
-                        ? (!(this.mInternalConnection.CharType.ToUpper(CultureInfo.InvariantCulture) == "OEM")
+                    charType = !(mInternalConnection.CharType.ToUpper(CultureInfo.InvariantCulture) == "ANSI")
+                        ? (!(mInternalConnection.CharType.ToUpper(CultureInfo.InvariantCulture) == "OEM")
                             ? (ushort)Enum.Parse(typeof(ACE.AdsCharTypes),
-                                this.mInternalConnection.CharType.ToUpper(CultureInfo.InvariantCulture))
+                                mInternalConnection.CharType.ToUpper(CultureInfo.InvariantCulture))
                             : (ushort)2)
                         : (ushort)1;
                 }
                 catch
                 {
-                    charType = (ushort)1;
+                    charType = 1;
                 }
 
                 return charType;
             }
         }
 
-        internal string UnicodeCollation => this.mInternalConnection.UnicodeCollation;
+        internal string UnicodeCollation => mInternalConnection.UnicodeCollation;
 
         internal string Collation
         {
             get
             {
-                return this.mInternalConnection.UnicodeCollation.Length > 0
-                    ? this.mInternalConnection.CharType + ":" + this.mInternalConnection.UnicodeCollation
-                    : this.mInternalConnection.CharType;
+                return mInternalConnection.UnicodeCollation.Length > 0
+                    ? mInternalConnection.CharType + ":" + mInternalConnection.UnicodeCollation
+                    : mInternalConnection.CharType;
             }
         }
 
-        internal uint TableOpenOptions => this.mInternalConnection.TableOpenOptions;
+        internal uint TableOpenOptions => mInternalConnection.TableOpenOptions;
 
-        internal IntPtr Handle => this.mInternalConnection.Handle;
+        internal IntPtr Handle => mInternalConnection.Handle;
 
         internal bool Busy
         {
-            get => this.mbBusy;
-            set => this.mbBusy = value;
+            get => mbBusy;
+            set => mbBusy = value;
         }
 
-        internal ushort HandleType => this.mInternalConnection.HandleType;
+        internal ushort HandleType => mInternalConnection.HandleType;
 
-        internal string ConnectionPath => this.mInternalConnection.ConnectionPath;
+        internal string ConnectionPath => mInternalConnection.ConnectionPath;
 
-        internal bool DbfsUseNulls => this.mInternalConnection.DbfsUseNulls;
+        internal bool DbfsUseNulls => mInternalConnection.DbfsUseNulls;
 
-        internal string EncryptionPassword => this.mInternalConnection.EncryptionPassword;
+        internal string EncryptionPassword => mInternalConnection.EncryptionPassword;
 
         public override void EnlistTransaction(Transaction transaction)
         {
-            this.mInternalConnection.EnlistTransaction(transaction, this);
-            GC.KeepAlive((object)this);
+            mInternalConnection.EnlistTransaction(transaction, this);
+            GC.KeepAlive(this);
         }
 
         public enum AdsObjectType

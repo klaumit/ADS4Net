@@ -1,6 +1,6 @@
-﻿using AdvantageClientEngine;
-using System;
+﻿using System;
 using System.Collections;
+using AdvantageClientEngine;
 
 namespace Advantage.Data.Provider
 {
@@ -19,13 +19,13 @@ namespace Advantage.Data.Provider
 
         public AdsConnectionPool(string strConnectionString, AdsConnectionStringHandler handler)
         {
-            this.mAvailableConnections = new ArrayList();
-            this.mstrConnectionString = strConnectionString;
-            this.miLifeTime = handler.LifeTime;
-            this.miMin = handler.MinPoolSize;
-            this.miMax = handler.MaxPoolSize;
-            this.mbReset = handler.ConnectionReset;
-            if (this.miMin > this.miMax)
+            mAvailableConnections = new ArrayList();
+            mstrConnectionString = strConnectionString;
+            miLifeTime = handler.LifeTime;
+            miMin = handler.MinPoolSize;
+            miMax = handler.MaxPoolSize;
+            mbReset = handler.ConnectionReset;
+            if (miMin > miMax)
                 throw new ArgumentException(
                     "Invalid min or max pool size values, min pool size cannot be greater than the max pool size.");
         }
@@ -34,28 +34,28 @@ namespace Advantage.Data.Provider
             AdsConnectionStringHandler handler,
             int iConnectTimeout)
         {
-            AdsPooledInternalConnection openPoolConnection = (AdsPooledInternalConnection)null;
+            AdsPooledInternalConnection openPoolConnection = null;
             lock (this)
             {
-                if (this.miOpen >= this.miMax)
+                if (miOpen >= miMax)
                 {
-                    openPoolConnection = (AdsPooledInternalConnection)null;
+                    openPoolConnection = null;
                     return openPoolConnection;
                 }
 
-                if (this.mAvailableConnections.Count != 0)
+                if (mAvailableConnections.Count != 0)
                 {
-                    while (this.mAvailableConnections.Count != 0)
+                    while (mAvailableConnections.Count != 0)
                     {
-                        openPoolConnection = (AdsPooledInternalConnection)this.mAvailableConnections[0];
-                        this.mAvailableConnections.RemoveAt(0);
+                        openPoolConnection = (AdsPooledInternalConnection)mAvailableConnections[0];
+                        mAvailableConnections.RemoveAt(0);
                         ushort pbConnectionIsAlive;
                         if (ACE.AdsIsConnectionAlive(openPoolConnection.Handle, out pbConnectionIsAlive) != 0U ||
-                            pbConnectionIsAlive == (ushort)0)
+                            pbConnectionIsAlive == 0)
                         {
-                            --this.miOpen;
+                            --miOpen;
                             openPoolConnection.Dispose();
-                            openPoolConnection = (AdsPooledInternalConnection)null;
+                            openPoolConnection = null;
                         }
                         else
                             break;
@@ -64,7 +64,7 @@ namespace Advantage.Data.Provider
 
                 if (openPoolConnection == null)
                 {
-                    openPoolConnection = new AdsPooledInternalConnection(this.mstrConnectionString, handler, this);
+                    openPoolConnection = new AdsPooledInternalConnection(mstrConnectionString, handler, this);
                     try
                     {
                         openPoolConnection.Connect();
@@ -74,15 +74,15 @@ namespace Advantage.Data.Provider
                         throw ex;
                     }
 
-                    ++this.miOpen;
+                    ++miOpen;
                 }
 
-                if (this.miOpen >= this.miMin)
+                if (miOpen >= miMin)
                     ;
-                for (; this.miOpen < this.miMin; ++this.miOpen)
+                for (; miOpen < miMin; ++miOpen)
                 {
-                    AdsPooledInternalConnection internalConnection =
-                        new AdsPooledInternalConnection(this.mstrConnectionString, handler, this);
+                    var internalConnection =
+                        new AdsPooledInternalConnection(mstrConnectionString, handler, this);
                     try
                     {
                         internalConnection.Connect();
@@ -92,7 +92,7 @@ namespace Advantage.Data.Provider
                         break;
                     }
 
-                    this.mAvailableConnections.Add((object)internalConnection);
+                    mAvailableConnections.Add(internalConnection);
                 }
             }
 
@@ -101,22 +101,22 @@ namespace Advantage.Data.Provider
 
         public void Dispose()
         {
-            this.Dispose(true);
-            GC.SuppressFinalize((object)this);
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         public void Dispose(bool bDisposing)
         {
-            if (this.mbDisposed)
+            if (mbDisposed)
                 return;
             lock (this)
             {
-                if (this.mbDisposed)
+                if (mbDisposed)
                     return;
-                foreach (AdsInternalConnection availableConnection in this.mAvailableConnections)
+                foreach (AdsInternalConnection availableConnection in mAvailableConnections)
                     availableConnection.Dispose(bDisposing);
-                this.mAvailableConnections.Clear();
-                this.mbDisposed = true;
+                mAvailableConnections.Clear();
+                mbDisposed = true;
             }
         }
 
@@ -124,17 +124,17 @@ namespace Advantage.Data.Provider
         {
             lock (this)
             {
-                if (this.miLifeTime > 0 &&
-                    DateTime.Now > pooledConnection.CreationTime.AddSeconds((double)this.miLifeTime))
+                if (miLifeTime > 0 &&
+                    DateTime.Now > pooledConnection.CreationTime.AddSeconds(miLifeTime))
                 {
                     pooledConnection.Dispose();
-                    --this.miOpen;
+                    --miOpen;
                 }
                 else
                 {
-                    if (this.mbReset)
+                    if (mbReset)
                         pooledConnection.Reset();
-                    this.mAvailableConnections.Add((object)pooledConnection);
+                    mAvailableConnections.Add(pooledConnection);
                 }
             }
         }
@@ -143,13 +143,13 @@ namespace Advantage.Data.Provider
         {
             lock (this)
             {
-                foreach (AdsInternalConnection availableConnection in this.mAvailableConnections)
+                foreach (AdsInternalConnection availableConnection in mAvailableConnections)
                 {
                     availableConnection.Dispose();
-                    --this.miOpen;
+                    --miOpen;
                 }
 
-                this.mAvailableConnections.Clear();
+                mAvailableConnections.Clear();
             }
         }
 
@@ -157,18 +157,18 @@ namespace Advantage.Data.Provider
         {
             lock (this)
             {
-                if (this.miOpen <= 0)
+                if (miOpen <= 0)
                     return;
-                --this.miOpen;
+                --miOpen;
             }
         }
 
-        public string ConnectionString => this.mstrConnectionString;
+        public string ConnectionString => mstrConnectionString;
 
-        public int LifeTime => this.miLifeTime;
+        public int LifeTime => miLifeTime;
 
-        public int Min => this.miMin;
+        public int Min => miMin;
 
-        public int Max => this.miMax;
+        public int Max => miMax;
     }
 }

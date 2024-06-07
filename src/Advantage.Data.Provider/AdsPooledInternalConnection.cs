@@ -15,8 +15,8 @@ namespace Advantage.Data.Provider
             AdsConnectionPool pool)
             : base(strConnectionString, handler)
         {
-            this.mPool = pool;
-            this.mCreateTime = DateTime.Now;
+            mPool = pool;
+            mCreateTime = DateTime.Now;
         }
 
         public static void ReturnConnectionToPool(AdsPooledInternalConnection pooledConnection)
@@ -26,13 +26,13 @@ namespace Advantage.Data.Provider
 
         public void DecrementPoolOpenCount()
         {
-            if (this.mbDisposed || this.mPool == null)
+            if (mbDisposed || mPool == null)
                 return;
-            this.mPool.DecrementOpenCount();
+            mPool.DecrementOpenCount();
         }
 
-        public AdsConnectionPool ConnectionPool => this.mPool;
+        public AdsConnectionPool ConnectionPool => mPool;
 
-        public DateTime CreationTime => this.mCreateTime;
+        public DateTime CreationTime => mCreateTime;
     }
 }

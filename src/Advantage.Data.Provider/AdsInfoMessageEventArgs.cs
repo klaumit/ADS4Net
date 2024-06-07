@@ -9,12 +9,12 @@ namespace Advantage.Data.Provider
 
         internal AdsInfoMessageEventArgs(int iNumber, string strMessage)
         {
-            this.miNumber = iNumber;
-            this.mstrMessage = strMessage;
+            miNumber = iNumber;
+            mstrMessage = strMessage;
         }
 
-        public int Number => this.miNumber;
+        public int Number => miNumber;
 
-        public string Message => this.mstrMessage;
+        public string Message => mstrMessage;
     }
 }

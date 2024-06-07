@@ -1,9 +1,37 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net481</TargetFramework>
     <LangVersion>latest</LangVersion>
     <NoWarn>CS0168;CS0642</NoWarn>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <RootNamespace>Advantage.Data</RootNamespace>
+    <Version>12.0.2.0</Version>
+    <Product>Advantage .NET Data Provider</Product>
+    <Company>SAP SE</Company>
+    <Copyright>Copyright © 2015 SAP SE or an SAP affiliate company.</Copyright>
+    <Title>Advantage .NET Component Designer</Title>
+    <Description>Advantage .NET Component Designer</Description>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <UseWindowsForms>true</UseWindowsForms>
+    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Data" Version="17.10.40170" />
+    <PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Advantage.Data.Provider\Advantage.Data.Provider.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="DDEX\*.xml" />
+  </ItemGroup>
 
 </Project>

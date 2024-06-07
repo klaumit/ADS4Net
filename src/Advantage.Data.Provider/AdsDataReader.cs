@@ -1,5 +1,4 @@
-﻿using AdvantageClientEngine;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Data;
@@ -7,6 +6,7 @@ using System.Data.Common;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
+using AdvantageClientEngine;
 
 namespace Advantage.Data.Provider
 {
@@ -48,40 +48,40 @@ namespace Advantage.Data.Provider
 
         protected static byte[] mabDblNull = new byte[8]
         {
-            (byte)32,
-            (byte)0,
-            (byte)0,
-            (byte)0,
-            (byte)0,
-            (byte)0,
-            (byte)0,
-            (byte)128
+            32,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            128
         };
 
         protected static byte[] mabInt32Null = new byte[4]
         {
-            (byte)0,
-            (byte)0,
-            (byte)0,
-            (byte)128
+            0,
+            0,
+            0,
+            128
         };
 
         protected static byte[] mabInt16Null = new byte[2]
         {
-            (byte)0,
-            (byte)128
+            0,
+            128
         };
 
         protected static byte[] mabInt64Null = new byte[8]
         {
-            (byte)0,
-            (byte)0,
-            (byte)0,
-            (byte)0,
-            (byte)0,
-            (byte)0,
-            (byte)0,
-            (byte)128
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            128
         };
 
         protected static byte[] mabTimeNull = new byte[4]
@@ -99,201 +99,201 @@ namespace Advantage.Data.Provider
             AdsConnection adsConn,
             CommandBehavior eBehavior)
         {
-            this.mbOpen = true;
-            this.mhCursor = hCursor;
-            this.mConnection = adsConn;
-            this.mCommand = adsCmd;
-            this.meBehavior = eBehavior;
-            this.miRecordsAffected = iRecsAffected;
-            if (!(this.mhCursor != IntPtr.Zero))
+            mbOpen = true;
+            mhCursor = hCursor;
+            mConnection = adsConn;
+            mCommand = adsCmd;
+            meBehavior = eBehavior;
+            miRecordsAffected = iRecsAffected;
+            if (!(mhCursor != IntPtr.Zero))
                 return;
             ushort pusCount;
-            AdsException.CheckACE(ACE.AdsGetNumFields(this.mhCursor, out pusCount));
-            this.miFieldCount = (int)pusCount;
-            if ((this.meBehavior & CommandBehavior.SingleRow) != CommandBehavior.SingleRow)
-                this.RecordCache = (short)100;
+            AdsException.CheckACE(ACE.AdsGetNumFields(mhCursor, out pusCount));
+            miFieldCount = pusCount;
+            if ((meBehavior & CommandBehavior.SingleRow) != CommandBehavior.SingleRow)
+                RecordCache = 100;
             ushort pusType1;
-            AdsException.CheckACE(ACE.AdsGetHandleType(this.mhCursor, out pusType1));
-            this.mbIsCursor = pusType1 == (ushort)5;
-            if (!this.mbIsCursor)
+            AdsException.CheckACE(ACE.AdsGetHandleType(mhCursor, out pusType1));
+            mbIsCursor = pusType1 == 5;
+            if (!mbIsCursor)
             {
-                this.mbIsStatic = false;
+                mbIsStatic = false;
             }
             else
             {
                 byte IsLive;
-                AdsException.CheckACE(ACEUNPUB.AdsSqlPeekStatement(this.mhCursor, out IsLive));
-                this.mbIsStatic = IsLive == (byte)0;
+                AdsException.CheckACE(ACEUNPUB.AdsSqlPeekStatement(mhCursor, out IsLive));
+                mbIsStatic = IsLive == 0;
             }
 
             uint pulOptions;
-            AdsException.CheckACE(ACE.AdsGetTableOpenOptions(this.mhCursor, out pulOptions));
-            this.miOptions = (int)pulOptions;
+            AdsException.CheckACE(ACE.AdsGetTableOpenOptions(mhCursor, out pulOptions));
+            miOptions = (int)pulOptions;
             ushort pusType2;
-            AdsException.CheckACE(ACE.AdsGetTableType(this.mhCursor, out pusType2));
-            this.msTableType = (short)pusType2;
-            if (this.msTableType != (short)3)
+            AdsException.CheckACE(ACE.AdsGetTableType(mhCursor, out pusType2));
+            msTableType = (short)pusType2;
+            if (msTableType != 3)
             {
                 ushort pusCharType;
-                AdsException.CheckACE(ACE.AdsGetTableCharType(this.mhCursor, out pusCharType));
-                if (pusCharType == (ushort)2)
-                    this.mbIsOEM = true;
+                AdsException.CheckACE(ACE.AdsGetTableCharType(mhCursor, out pusCharType));
+                if (pusCharType == 2)
+                    mbIsOEM = true;
             }
 
             ushort pbEof;
-            if (ACE.AdsAtEOF(this.mhCursor, out pbEof) != 0U || pbEof != (ushort)0)
+            if (ACE.AdsAtEOF(mhCursor, out pbEof) != 0U || pbEof != 0)
                 return;
-            this.mbHasRows = true;
+            mbHasRows = true;
         }
 
-        ~AdsDataReader() => this.Dispose(false);
+        ~AdsDataReader() => Dispose(false);
 
         protected override void Dispose(bool bDisposing)
         {
-            if (this.mbDisposed)
+            if (mbDisposed)
                 return;
             lock (this)
             {
-                if (this.mbDisposed)
+                if (mbDisposed)
                     return;
                 if (!bDisposing)
-                    this.mConnection = (AdsConnection)null;
-                this.Close();
-                this.mbDisposed = true;
+                    mConnection = null;
+                Close();
+                mbDisposed = true;
             }
         }
 
         internal void SetBOF()
         {
-            this.mbBOF = true;
-            this.mbEOF = false;
+            mbBOF = true;
+            mbEOF = false;
         }
 
         public override void Close()
         {
-            if (this.mhCursor != IntPtr.Zero)
+            if (mhCursor != IntPtr.Zero)
             {
-                if (this.mConnection != null && this.mConnection.State == ConnectionState.Open)
+                if (mConnection != null && mConnection.State == ConnectionState.Open)
                 {
-                    int num = (int)ACE.AdsCloseTable(this.mhCursor);
+                    var num = (int)ACE.AdsCloseTable(mhCursor);
                 }
 
-                this.mhCursor = IntPtr.Zero;
-                this.mbOpen = false;
-                this.mbBOF = this.mbEOF = true;
-                this.miFieldCount = 0;
+                mhCursor = IntPtr.Zero;
+                mbOpen = false;
+                mbBOF = mbEOF = true;
+                miFieldCount = 0;
             }
 
-            if (this.mConnection == null)
+            if (mConnection == null)
                 return;
-            this.mConnection.Busy = false;
-            if ((this.meBehavior & CommandBehavior.CloseConnection) == CommandBehavior.CloseConnection)
-                this.mConnection.Close();
-            this.mConnection = (AdsConnection)null;
+            mConnection.Busy = false;
+            if ((meBehavior & CommandBehavior.CloseConnection) == CommandBehavior.CloseConnection)
+                mConnection.Close();
+            mConnection = null;
         }
 
         public override int Depth => 0;
 
-        public override bool IsClosed => !this.mbOpen;
+        public override bool IsClosed => !mbOpen;
 
-        public override int RecordsAffected => this.miRecordsAffected;
+        public override int RecordsAffected => miRecordsAffected;
 
         public override bool NextResult() => false;
 
-        public override bool Read() => this.Read(this.mhCursor);
+        public override bool Read() => Read(mhCursor);
 
         protected bool Read(IntPtr hCursor)
         {
             if (hCursor == IntPtr.Zero)
                 return false;
-            this.InvalidateRecord();
-            if ((this.meBehavior & CommandBehavior.SchemaOnly) == CommandBehavior.SchemaOnly || !this.mbOpen ||
-                this.mbEOF)
+            InvalidateRecord();
+            if ((meBehavior & CommandBehavior.SchemaOnly) == CommandBehavior.SchemaOnly || !mbOpen ||
+                mbEOF)
                 return false;
-            if (this.mbBOF)
+            if (mbBOF)
             {
                 AdsException.CheckACE(ACE.AdsGotoTop(hCursor));
             }
             else
             {
-                if ((this.meBehavior & CommandBehavior.SingleRow) == CommandBehavior.SingleRow)
+                if ((meBehavior & CommandBehavior.SingleRow) == CommandBehavior.SingleRow)
                     return false;
                 AdsException.CheckACE(ACE.AdsSkip(hCursor, 1));
             }
 
             ushort pbEof;
-            AdsException.CheckACE(ACE.AdsAtEOF(this.mhCursor, out pbEof));
-            if (pbEof != (ushort)0)
-                this.mbEOF = true;
+            AdsException.CheckACE(ACE.AdsAtEOF(mhCursor, out pbEof));
+            if (pbEof != 0)
+                mbEOF = true;
             else
-                this.mbBOF = false;
-            return !this.mbEOF;
+                mbBOF = false;
+            return !mbEOF;
         }
 
         private void ReadRecord()
         {
-            if (this.mbRecordValid)
+            if (mbRecordValid)
                 return;
-            if (this.mabRecord == null)
+            if (mabRecord == null)
             {
                 uint pulLength = 0;
-                AdsException.CheckACE(ACE.AdsGetRecordLength(this.mhCursor, out pulLength));
-                this.mabRecord = new byte[pulLength];
+                AdsException.CheckACE(ACE.AdsGetRecordLength(mhCursor, out pulLength));
+                mabRecord = new byte[pulLength];
             }
 
-            if (this.maiFieldOffset == null)
+            if (maiFieldOffset == null)
             {
-                this.maiFieldOffset = new int[this.miFieldCount];
-                this.maiFieldLength = new int[this.miFieldCount];
-                if (this.msTableType == (short)4)
+                maiFieldOffset = new int[miFieldCount];
+                maiFieldLength = new int[miFieldCount];
+                if (msTableType == 4)
                 {
-                    this.masVFPNullable = new short[this.miFieldCount];
-                    this.masVFPNoCPTrans = new short[this.miFieldCount];
+                    masVFPNullable = new short[miFieldCount];
+                    masVFPNoCPTrans = new short[miFieldCount];
                 }
 
-                for (int iCol = 0; iCol < this.miFieldCount; ++iCol)
+                for (var iCol = 0; iCol < miFieldCount; ++iCol)
                 {
                     uint pulOffset;
-                    AdsException.CheckACE(ACE.AdsGetFieldOffset(this.mhCursor, (uint)(iCol + 1), out pulOffset));
-                    int aceFieldType = (int)this.GetACEFieldType(iCol);
+                    AdsException.CheckACE(ACE.AdsGetFieldOffset(mhCursor, (uint)(iCol + 1), out pulOffset));
+                    int aceFieldType = GetACEFieldType(iCol);
                     uint pulLength;
-                    AdsException.CheckACE(ACE.AdsGetFieldLength(this.mhCursor, (uint)(iCol + 1), out pulLength));
-                    this.maiFieldOffset[iCol] = (int)pulOffset;
-                    this.maiFieldLength[iCol] = (int)pulLength;
-                    if (this.msTableType == (short)4)
+                    AdsException.CheckACE(ACE.AdsGetFieldLength(mhCursor, (uint)(iCol + 1), out pulLength));
+                    maiFieldOffset[iCol] = (int)pulOffset;
+                    maiFieldLength[iCol] = (int)pulLength;
+                    if (msTableType == 4)
                     {
                         ushort num;
-                        AdsException.CheckACE(ACE.AdsIsNullable(this.mhCursor, (uint)(iCol + 1), out num));
-                        this.masVFPNullable[iCol] = (short)num;
-                        AdsException.CheckACE(ACE.AdsIsFieldBinary(this.mhCursor, (uint)(iCol + 1), out num));
-                        this.masVFPNoCPTrans[iCol] = (short)num;
+                        AdsException.CheckACE(ACE.AdsIsNullable(mhCursor, (uint)(iCol + 1), out num));
+                        masVFPNullable[iCol] = (short)num;
+                        AdsException.CheckACE(ACE.AdsIsFieldBinary(mhCursor, (uint)(iCol + 1), out num));
+                        masVFPNoCPTrans[iCol] = (short)num;
                     }
                 }
             }
 
-            uint length = (uint)this.mabRecord.Length;
-            AdsException.CheckACE(ACE.AdsGetRecord(this.mhCursor, this.mabRecord, ref length));
-            this.mbRecordValid = true;
+            var length = (uint)mabRecord.Length;
+            AdsException.CheckACE(ACE.AdsGetRecord(mhCursor, mabRecord, ref length));
+            mbRecordValid = true;
         }
 
-        protected void InvalidateRecord() => this.mbRecordValid = false;
+        protected void InvalidateRecord() => mbRecordValid = false;
 
         protected ArrayList GetKeyColumns()
         {
-            char[] pucKeyColumn = new char[1024];
-            ushort length = (ushort)pucKeyColumn.Length;
-            uint keyColumn = ACE.AdsGetKeyColumn(this.mhCursor, pucKeyColumn, ref length);
+            var pucKeyColumn = new char[1024];
+            var length = (ushort)pucKeyColumn.Length;
+            var keyColumn = ACE.AdsGetKeyColumn(mhCursor, pucKeyColumn, ref length);
             if (keyColumn == 5005U)
             {
-                pucKeyColumn = new char[(int)length];
-                keyColumn = ACE.AdsGetKeyColumn(this.mhCursor, pucKeyColumn, ref length);
+                pucKeyColumn = new char[length];
+                keyColumn = ACE.AdsGetKeyColumn(mhCursor, pucKeyColumn, ref length);
             }
 
             if (keyColumn == 5041U)
-                return (ArrayList)null;
+                return null;
             AdsException.CheckACE(keyColumn);
-            ArrayList keyColumns =
-                new ArrayList((ICollection)new string(pucKeyColumn, 0, (int)length).ToUpper().Split(';'));
+            var keyColumns =
+                new ArrayList(new string(pucKeyColumn, 0, length).ToUpper().Split(';'));
             if (keyColumns.Count > 0 && string.Compare((string)keyColumns[keyColumns.Count - 1], string.Empty) == 0)
                 keyColumns.RemoveAt(keyColumns.Count - 1);
             return keyColumns;
@@ -301,130 +301,130 @@ namespace Advantage.Data.Provider
 
         public override DataTable GetSchemaTable()
         {
-            char[] pucName1 = new char[129];
-            char[] pucName2 = new char[2 * (int)Math.Max((ushort)260, (ushort)65534) + 1];
-            DataTable schemaTable = new DataTable("SchemaTable");
-            this.CheckOpen();
-            if (this.mhCursor == IntPtr.Zero)
-                return (DataTable)null;
-            DataColumn dataColumn1 = schemaTable.Columns.Add("ColumnName", Type.GetType("System.String"));
-            DataColumn dataColumn2 = schemaTable.Columns.Add("ColumnOrdinal", Type.GetType("System.Int32"));
-            DataColumn dataColumn3 = schemaTable.Columns.Add("ColumnSize", Type.GetType("System.Int32"));
-            DataColumn dataColumn4 = schemaTable.Columns.Add("NumericPrecision", Type.GetType("System.Int16"));
-            DataColumn dataColumn5 = schemaTable.Columns.Add("NumericScale", Type.GetType("System.Int16"));
-            DataColumn dataColumn6 = schemaTable.Columns.Add("DataType", Type.GetType("System.Type"));
-            DataColumn dataColumn7 = schemaTable.Columns.Add("ProviderType", Type.GetType("System.Int32"));
-            DataColumn dataColumn8 = schemaTable.Columns.Add("IsLong", Type.GetType("System.Boolean"));
-            DataColumn dataColumn9 = schemaTable.Columns.Add("AllowDBNull", Type.GetType("System.Boolean"));
-            DataColumn dataColumn10 = schemaTable.Columns.Add("IsReadOnly", Type.GetType("System.Boolean"));
-            DataColumn dataColumn11 = schemaTable.Columns.Add("IsRowVersion", Type.GetType("System.Boolean"));
-            DataColumn dataColumn12 = schemaTable.Columns.Add("IsUnique", Type.GetType("System.Boolean"));
-            DataColumn dataColumn13 = schemaTable.Columns.Add("IsKey", Type.GetType("System.Boolean"));
-            DataColumn dataColumn14 = schemaTable.Columns.Add("IsAutoIncrement", Type.GetType("System.Boolean"));
-            DataColumn dataColumn15 = schemaTable.Columns.Add("BaseSchemaName", Type.GetType("System.String"));
-            DataColumn dataColumn16 = schemaTable.Columns.Add("BaseCatalogName", Type.GetType("System.String"));
-            DataColumn dataColumn17 = schemaTable.Columns.Add("BaseTableName", Type.GetType("System.String"));
-            DataColumn dataColumn18 = schemaTable.Columns.Add("BaseColumnName", Type.GetType("System.String"));
-            DataColumn dataColumn19 = schemaTable.Columns.Add("IsAliased", Type.GetType("System.Boolean"));
-            DataColumn dataColumn20 = schemaTable.Columns.Add("IsKeyColumn", Type.GetType("System.Boolean"));
-            DataColumn dataColumn21 = schemaTable.Columns.Add("CaseSensitive", Type.GetType("System.Boolean"));
-            DataColumn dataColumn22 = schemaTable.Columns.Add("ProviderTypeName", Type.GetType("System.String"));
-            ArrayList keyColumns = this.GetKeyColumns();
+            var pucName1 = new char[129];
+            var pucName2 = new char[2 * Math.Max((ushort)260, (ushort)65534) + 1];
+            var schemaTable = new DataTable("SchemaTable");
+            CheckOpen();
+            if (mhCursor == IntPtr.Zero)
+                return null;
+            var dataColumn1 = schemaTable.Columns.Add("ColumnName", Type.GetType("System.String"));
+            var dataColumn2 = schemaTable.Columns.Add("ColumnOrdinal", Type.GetType("System.Int32"));
+            var dataColumn3 = schemaTable.Columns.Add("ColumnSize", Type.GetType("System.Int32"));
+            var dataColumn4 = schemaTable.Columns.Add("NumericPrecision", Type.GetType("System.Int16"));
+            var dataColumn5 = schemaTable.Columns.Add("NumericScale", Type.GetType("System.Int16"));
+            var dataColumn6 = schemaTable.Columns.Add("DataType", Type.GetType("System.Type"));
+            var dataColumn7 = schemaTable.Columns.Add("ProviderType", Type.GetType("System.Int32"));
+            var dataColumn8 = schemaTable.Columns.Add("IsLong", Type.GetType("System.Boolean"));
+            var dataColumn9 = schemaTable.Columns.Add("AllowDBNull", Type.GetType("System.Boolean"));
+            var dataColumn10 = schemaTable.Columns.Add("IsReadOnly", Type.GetType("System.Boolean"));
+            var dataColumn11 = schemaTable.Columns.Add("IsRowVersion", Type.GetType("System.Boolean"));
+            var dataColumn12 = schemaTable.Columns.Add("IsUnique", Type.GetType("System.Boolean"));
+            var dataColumn13 = schemaTable.Columns.Add("IsKey", Type.GetType("System.Boolean"));
+            var dataColumn14 = schemaTable.Columns.Add("IsAutoIncrement", Type.GetType("System.Boolean"));
+            var dataColumn15 = schemaTable.Columns.Add("BaseSchemaName", Type.GetType("System.String"));
+            var dataColumn16 = schemaTable.Columns.Add("BaseCatalogName", Type.GetType("System.String"));
+            var dataColumn17 = schemaTable.Columns.Add("BaseTableName", Type.GetType("System.String"));
+            var dataColumn18 = schemaTable.Columns.Add("BaseColumnName", Type.GetType("System.String"));
+            var dataColumn19 = schemaTable.Columns.Add("IsAliased", Type.GetType("System.Boolean"));
+            var dataColumn20 = schemaTable.Columns.Add("IsKeyColumn", Type.GetType("System.Boolean"));
+            var dataColumn21 = schemaTable.Columns.Add("CaseSensitive", Type.GetType("System.Boolean"));
+            var dataColumn22 = schemaTable.Columns.Add("ProviderTypeName", Type.GetType("System.String"));
+            var keyColumns = GetKeyColumns();
             string pucTableName;
-            if (this.mbIsCursor && this.mbIsStatic)
+            if (mbIsCursor && mbIsStatic)
             {
-                pucTableName = (string)null;
+                pucTableName = null;
             }
             else
             {
-                ushort length = (ushort)pucName2.Length;
-                AdsException.CheckACE(ACE.AdsGetTableFilename(this.mhCursor, (ushort)1, pucName2, ref length));
-                pucTableName = new string(pucName2, 0, (int)length);
+                var length = (ushort)pucName2.Length;
+                AdsException.CheckACE(ACE.AdsGetTableFilename(mhCursor, 1, pucName2, ref length));
+                pucTableName = new string(pucName2, 0, length);
             }
 
             string str1;
-            if (this.mbIsCursor && this.mbIsStatic)
+            if (mbIsCursor && mbIsStatic)
             {
-                str1 = (string)null;
+                str1 = null;
             }
             else
             {
-                ushort length = (ushort)pucName2.Length;
-                if (ACE.AdsGetTableFilename(this.mhCursor, (ushort)4, pucName2, ref length) != 0U)
+                var length = (ushort)pucName2.Length;
+                if (ACE.AdsGetTableFilename(mhCursor, 4, pucName2, ref length) != 0U)
                 {
-                    str1 = (string)null;
+                    str1 = null;
                 }
                 else
                 {
-                    Match match = new Regex("^:.+::").Match(new string(pucName2, 0, (int)length));
-                    str1 = !match.Success ? (string)null : match.Value.Substring(1, match.Length - 3);
+                    var match = new Regex("^:.+::").Match(new string(pucName2, 0, length));
+                    str1 = !match.Success ? null : match.Value.Substring(1, match.Length - 3);
                 }
             }
 
-            for (int iCol = 0; iCol < this.miFieldCount; ++iCol)
+            for (var iCol = 0; iCol < miFieldCount; ++iCol)
             {
-                DataRow row = schemaTable.NewRow();
-                ushort aceFieldType = (ushort)this.GetACEFieldType(iCol);
-                ushort length = (ushort)pucName1.Length;
-                AdsException.CheckACE(ACE.AdsGetFieldName(this.mhCursor, (ushort)(iCol + 1), pucName1, ref length));
-                string str2 = new string(pucName1, 0, (int)length);
-                string strB = str2;
+                var row = schemaTable.NewRow();
+                var aceFieldType = (ushort)GetACEFieldType(iCol);
+                var length = (ushort)pucName1.Length;
+                AdsException.CheckACE(ACE.AdsGetFieldName(mhCursor, (ushort)(iCol + 1), pucName1, ref length));
+                var str2 = new string(pucName1, 0, length);
+                var strB = str2;
                 ushort pusBaseFieldNum;
-                if (ACEUNPUB.AdsGetBaseFieldNum(this.mhCursor, str2, out pusBaseFieldNum) == 0U)
+                if (ACEUNPUB.AdsGetBaseFieldNum(mhCursor, str2, out pusBaseFieldNum) == 0U)
                 {
-                    AdsException.CheckACE(ACEUNPUB.AdsSetBaseTableAccess(this.mhCursor, (ushort)1));
+                    AdsException.CheckACE(ACEUNPUB.AdsSetBaseTableAccess(mhCursor, 1));
                     length = (ushort)pucName1.Length;
-                    uint fieldName = ACE.AdsGetFieldName(this.mhCursor, pusBaseFieldNum, pucName1, ref length);
+                    var fieldName = ACE.AdsGetFieldName(mhCursor, pusBaseFieldNum, pucName1, ref length);
                     if (fieldName != 0U)
                     {
-                        AdsException adsException = new AdsException(fieldName);
-                        ACEUNPUB.AdsSetBaseTableAccess(this.mhCursor, (ushort)0);
+                        var adsException = new AdsException(fieldName);
+                        ACEUNPUB.AdsSetBaseTableAccess(mhCursor, 0);
                         throw adsException;
                     }
 
-                    strB = new string(pucName1, 0, (int)length);
-                    AdsException.CheckACE(ACEUNPUB.AdsSetBaseTableAccess(this.mhCursor, (ushort)0));
+                    strB = new string(pucName1, 0, length);
+                    AdsException.CheckACE(ACEUNPUB.AdsSetBaseTableAccess(mhCursor, 0));
                 }
 
-                row[dataColumn1.Ordinal] = (object)str2;
-                row[dataColumn2.Ordinal] = (object)iCol;
-                int aceFieldLength = this.GetACEFieldLength(iCol);
-                row[dataColumn3.Ordinal] = (object)aceFieldLength;
-                row[dataColumn4.Ordinal] = (object)DBNull.Value;
-                row[dataColumn5.Ordinal] = (object)DBNull.Value;
-                row[dataColumn6.Ordinal] = (object)AdsDataReader.ConvertAceToSystemType(aceFieldType);
-                row[dataColumn7.Ordinal] = (object)(int)aceFieldType;
-                row[dataColumn22.Ordinal] = (object)AdsDataReader.ConvertACETypeToName(aceFieldType);
-                row[dataColumn8.Ordinal] = (object)false;
-                row[dataColumn9.Ordinal] = (object)true;
-                if (this.mConnection.IsDictionaryConn)
+                row[dataColumn1.Ordinal] = str2;
+                row[dataColumn2.Ordinal] = iCol;
+                var aceFieldLength = GetACEFieldLength(iCol);
+                row[dataColumn3.Ordinal] = aceFieldLength;
+                row[dataColumn4.Ordinal] = DBNull.Value;
+                row[dataColumn5.Ordinal] = DBNull.Value;
+                row[dataColumn6.Ordinal] = ConvertAceToSystemType(aceFieldType);
+                row[dataColumn7.Ordinal] = (int)aceFieldType;
+                row[dataColumn22.Ordinal] = ConvertACETypeToName(aceFieldType);
+                row[dataColumn8.Ordinal] = false;
+                row[dataColumn9.Ordinal] = true;
+                if (mConnection.IsDictionaryConn)
                 {
                     ushort pusPropertyLen = 2;
                     ushort pusProperty = 0;
-                    if (ACE.AdsDDGetFieldProperty(this.mConnection.Handle, pucTableName, str2, (ushort)301,
+                    if (ACE.AdsDDGetFieldProperty(mConnection.Handle, pucTableName, str2, 301,
                             ref pusProperty,
-                            ref pusPropertyLen) == 0U && pusProperty == (ushort)0)
-                        row[dataColumn9.Ordinal] = (object)false;
+                            ref pusPropertyLen) == 0U && pusProperty == 0)
+                        row[dataColumn9.Ordinal] = false;
                 }
 
-                row[dataColumn10.Ordinal] = (object)false;
-                row[dataColumn11.Ordinal] = (object)false;
+                row[dataColumn10.Ordinal] = false;
+                row[dataColumn11.Ordinal] = false;
                 row[dataColumn12.Ordinal] =
                     keyColumns == null || keyColumns.Count != 1 ||
                     string.Compare((string)keyColumns[0], str2, true) != 0
-                        ? (object)false
+                        ? false
                         : (object)true;
-                row[dataColumn13.Ordinal] = keyColumns == null || !keyColumns.Contains((object)str2.ToUpper())
-                    ? (object)false
+                row[dataColumn13.Ordinal] = keyColumns == null || !keyColumns.Contains(str2.ToUpper())
+                    ? false
                     : (object)true;
                 row[dataColumn20.Ordinal] = row[dataColumn13.Ordinal];
-                row[dataColumn14.Ordinal] = (object)false;
-                row[dataColumn15.Ordinal] = (object)DBNull.Value;
-                row[dataColumn16.Ordinal] = (object)str1;
-                row[dataColumn17.Ordinal] = (object)pucTableName;
-                row[dataColumn18.Ordinal] = !this.mbIsCursor || !this.mbIsStatic ? (object)strB : (object)DBNull.Value;
-                row[dataColumn19.Ordinal] = string.Compare(str2, strB, true) == 0 ? (object)false : (object)true;
-                row[dataColumn21.Ordinal] = (object)false;
+                row[dataColumn14.Ordinal] = false;
+                row[dataColumn15.Ordinal] = DBNull.Value;
+                row[dataColumn16.Ordinal] = str1;
+                row[dataColumn17.Ordinal] = pucTableName;
+                row[dataColumn18.Ordinal] = !mbIsCursor || !mbIsStatic ? strB : DBNull.Value;
+                row[dataColumn19.Ordinal] = string.Compare(str2, strB, true) == 0 ? false : (object)true;
+                row[dataColumn21.Ordinal] = false;
                 switch (aceFieldType)
                 {
                     case 1:
@@ -436,96 +436,96 @@ namespace Advantage.Data.Provider
                         continue;
                     case 2:
                         ushort pusDecimals;
-                        AdsException.CheckACE(ACE.AdsGetFieldDecimals(this.mhCursor, (uint)(ushort)(iCol + 1),
+                        AdsException.CheckACE(ACE.AdsGetFieldDecimals(mhCursor, (ushort)(iCol + 1),
                             out pusDecimals));
-                        row[dataColumn4.Ordinal] = (object)(short)aceFieldLength;
-                        row[dataColumn5.Ordinal] = (object)(short)pusDecimals;
+                        row[dataColumn4.Ordinal] = (short)aceFieldLength;
+                        row[dataColumn5.Ordinal] = (short)pusDecimals;
                         goto case 1;
                     case 3:
                     case 9:
-                        row[dataColumn4.Ordinal] = (object)(short)10;
-                        row[dataColumn5.Ordinal] = (object)(short)0;
+                        row[dataColumn4.Ordinal] = (short)10;
+                        row[dataColumn5.Ordinal] = (short)0;
                         goto case 1;
                     case 4:
                     case 23:
                     case 26:
                     case 27:
-                        row[dataColumn21.Ordinal] = (object)true;
+                        row[dataColumn21.Ordinal] = true;
                         goto case 1;
                     case 5:
-                        row[dataColumn3.Ordinal] = (object)2147483640;
-                        row[dataColumn8.Ordinal] = (object)true;
-                        row[dataColumn21.Ordinal] = (object)true;
+                        row[dataColumn3.Ordinal] = 2147483640;
+                        row[dataColumn8.Ordinal] = true;
+                        row[dataColumn21.Ordinal] = true;
                         goto case 1;
                     case 6:
                     case 7:
-                        row[dataColumn3.Ordinal] = (object)int.MaxValue;
-                        row[dataColumn8.Ordinal] = (object)true;
+                        row[dataColumn3.Ordinal] = int.MaxValue;
+                        row[dataColumn8.Ordinal] = true;
                         goto case 1;
                     case 8:
-                        row[dataColumn3.Ordinal] = (object)64000;
-                        row[dataColumn21.Ordinal] = (object)true;
+                        row[dataColumn3.Ordinal] = 64000;
+                        row[dataColumn21.Ordinal] = true;
                         goto case 1;
                     case 10:
                     case 17:
-                        row[dataColumn4.Ordinal] = (object)(short)15;
-                        row[dataColumn5.Ordinal] = (object)(short)0;
+                        row[dataColumn4.Ordinal] = (short)15;
+                        row[dataColumn5.Ordinal] = (short)0;
                         goto case 1;
                     case 11:
-                        row[dataColumn4.Ordinal] = (object)(short)10;
-                        row[dataColumn5.Ordinal] = (object)(short)0;
+                        row[dataColumn4.Ordinal] = (short)10;
+                        row[dataColumn5.Ordinal] = (short)0;
                         goto case 1;
                     case 12:
-                        row[dataColumn4.Ordinal] = (object)(short)5;
-                        row[dataColumn5.Ordinal] = (object)(short)0;
+                        row[dataColumn4.Ordinal] = (short)5;
+                        row[dataColumn5.Ordinal] = (short)0;
                         goto case 1;
                     case 13:
-                        row[dataColumn4.Ordinal] = (object)(short)12;
-                        row[dataColumn5.Ordinal] = (object)(short)3;
+                        row[dataColumn4.Ordinal] = (short)12;
+                        row[dataColumn5.Ordinal] = (short)3;
                         goto case 1;
                     case 14:
-                        row[dataColumn4.Ordinal] = (object)(short)23;
-                        row[dataColumn5.Ordinal] = (object)(short)3;
+                        row[dataColumn4.Ordinal] = (short)23;
+                        row[dataColumn5.Ordinal] = (short)3;
                         goto case 1;
                     case 15:
-                        row[dataColumn4.Ordinal] = (object)(short)10;
-                        row[dataColumn5.Ordinal] = (object)(short)0;
-                        row[dataColumn12.Ordinal] = (object)true;
-                        row[dataColumn14.Ordinal] = (object)true;
-                        row[dataColumn9.Ordinal] = (object)false;
-                        row[dataColumn10.Ordinal] = (object)true;
+                        row[dataColumn4.Ordinal] = (short)10;
+                        row[dataColumn5.Ordinal] = (short)0;
+                        row[dataColumn12.Ordinal] = true;
+                        row[dataColumn14.Ordinal] = true;
+                        row[dataColumn9.Ordinal] = false;
+                        row[dataColumn10.Ordinal] = true;
                         goto case 1;
                     case 18:
-                        row[dataColumn4.Ordinal] = (object)(short)19;
-                        row[dataColumn5.Ordinal] = (object)(short)4;
+                        row[dataColumn4.Ordinal] = (short)19;
+                        row[dataColumn5.Ordinal] = (short)4;
                         goto case 1;
                     case 19:
-                        row[dataColumn4.Ordinal] = (object)(short)19;
-                        row[dataColumn5.Ordinal] = (object)(short)0;
+                        row[dataColumn4.Ordinal] = (short)19;
+                        row[dataColumn5.Ordinal] = (short)0;
                         goto case 1;
                     case 21:
-                        row[dataColumn12.Ordinal] = (object)true;
-                        row[dataColumn11.Ordinal] = (object)true;
-                        row[dataColumn4.Ordinal] = (object)(short)19;
-                        row[dataColumn5.Ordinal] = (object)(short)0;
-                        row[dataColumn14.Ordinal] = (object)true;
-                        row[dataColumn9.Ordinal] = (object)false;
-                        row[dataColumn10.Ordinal] = (object)true;
+                        row[dataColumn12.Ordinal] = true;
+                        row[dataColumn11.Ordinal] = true;
+                        row[dataColumn4.Ordinal] = (short)19;
+                        row[dataColumn5.Ordinal] = (short)0;
+                        row[dataColumn14.Ordinal] = true;
+                        row[dataColumn9.Ordinal] = false;
+                        row[dataColumn10.Ordinal] = true;
                         goto case 1;
                     case 22:
-                        row[dataColumn14.Ordinal] = (object)true;
-                        row[dataColumn4.Ordinal] = (object)(short)23;
-                        row[dataColumn5.Ordinal] = (object)(short)3;
-                        row[dataColumn9.Ordinal] = (object)false;
-                        row[dataColumn10.Ordinal] = (object)true;
+                        row[dataColumn14.Ordinal] = true;
+                        row[dataColumn4.Ordinal] = (short)23;
+                        row[dataColumn5.Ordinal] = (short)3;
+                        row[dataColumn9.Ordinal] = false;
+                        row[dataColumn10.Ordinal] = true;
                         goto case 1;
                     case 28:
-                        row[dataColumn3.Ordinal] = (object)1073741820;
-                        row[dataColumn8.Ordinal] = (object)true;
-                        row[dataColumn21.Ordinal] = (object)true;
+                        row[dataColumn3.Ordinal] = 1073741820;
+                        row[dataColumn8.Ordinal] = true;
+                        row[dataColumn21.Ordinal] = true;
                         goto case 1;
                     default:
-                        throw new NotSupportedException("Unexpected type " + (object)aceFieldType + ".");
+                        throw new NotSupportedException("Unexpected type " + aceFieldType + ".");
                 }
             }
 
@@ -533,80 +533,80 @@ namespace Advantage.Data.Provider
             return schemaTable;
         }
 
-        public override int FieldCount => this.miFieldCount;
+        public override int FieldCount => miFieldCount;
 
         public override string GetName(int iCol)
         {
-            char[] pucName = new char[129];
-            this.CheckOpen();
-            this.CheckColumnIndex(iCol);
-            ushort length = (ushort)pucName.Length;
-            AdsException.CheckACE(ACE.AdsGetFieldName(this.mhCursor, (ushort)(iCol + 1), pucName, ref length));
-            return new string(pucName, 0, (int)length);
+            var pucName = new char[129];
+            CheckOpen();
+            CheckColumnIndex(iCol);
+            var length = (ushort)pucName.Length;
+            AdsException.CheckACE(ACE.AdsGetFieldName(mhCursor, (ushort)(iCol + 1), pucName, ref length));
+            return new string(pucName, 0, length);
         }
 
         public override string GetDataTypeName(int iCol)
         {
-            this.CheckOpen();
-            this.CheckColumnIndex(iCol);
-            return AdsDataReader.ConvertACETypeToName((ushort)this.GetACEFieldType(iCol));
+            CheckOpen();
+            CheckColumnIndex(iCol);
+            return ConvertACETypeToName((ushort)GetACEFieldType(iCol));
         }
 
         protected short GetACEFieldType(int iCol)
         {
-            if (this.masACETypes == null)
+            if (masACETypes == null)
             {
-                this.masACETypes = new short[this.miFieldCount];
-                for (int index = 0; index < this.miFieldCount; ++index)
-                    this.masACETypes[index] = (short)0;
+                masACETypes = new short[miFieldCount];
+                for (var index = 0; index < miFieldCount; ++index)
+                    masACETypes[index] = 0;
             }
 
-            if (this.masACETypes[iCol] != (short)0)
-                return this.masACETypes[iCol];
+            if (masACETypes[iCol] != 0)
+                return masACETypes[iCol];
             ushort pusType;
-            AdsException.CheckACE(ACE.AdsGetFieldType(this.mhCursor, (uint)(iCol + 1), out pusType));
-            this.masACETypes[iCol] = (short)pusType;
+            AdsException.CheckACE(ACE.AdsGetFieldType(mhCursor, (uint)(iCol + 1), out pusType));
+            masACETypes[iCol] = (short)pusType;
             return (short)pusType;
         }
 
         public override Type GetFieldType(int iCol)
         {
-            this.CheckOpen();
-            this.CheckColumnIndex(iCol);
-            return AdsDataReader.ConvertAceToSystemType((ushort)this.GetACEFieldType(iCol));
+            CheckOpen();
+            CheckColumnIndex(iCol);
+            return ConvertAceToSystemType((ushort)GetACEFieldType(iCol));
         }
 
         protected void CheckColumnIndex(int iCol)
         {
-            if (iCol < 0 || iCol >= this.miFieldCount)
+            if (iCol < 0 || iCol >= miFieldCount)
                 throw new IndexOutOfRangeException("The column index is not valid.");
         }
 
         protected void CheckForNull(int iCol)
         {
-            if (this.FieldIsEmpty(iCol))
+            if (FieldIsEmpty(iCol))
                 throw new AdsException("The value is Null.  This method or property cannot be called for Null values.");
         }
 
         protected virtual void CheckOpen()
         {
-            if (!this.mbOpen)
+            if (!mbOpen)
                 throw new InvalidOperationException("The reader must be open for this operation.");
         }
 
         protected virtual void CheckPositioned()
         {
-            if (this.mbBOF || this.mbEOF)
+            if (mbBOF || mbEOF)
                 throw new InvalidOperationException("There is no current record.");
         }
 
         protected void CheckForGet(int iCol)
         {
-            this.CheckOpen();
-            this.CheckPositioned();
-            this.CheckColumnIndex(iCol);
-            this.ReadRecord();
-            this.CheckForNull(iCol);
+            CheckOpen();
+            CheckPositioned();
+            CheckColumnIndex(iCol);
+            ReadRecord();
+            CheckForNull(iCol);
         }
 
         internal static string ConvertACETypeToName(ushort usAceType)
@@ -790,23 +790,23 @@ namespace Advantage.Data.Provider
 
         public override object GetValue(int iCol)
         {
-            this.CheckOpen();
-            this.CheckPositioned();
-            this.ReadRecord();
-            this.CheckColumnIndex(iCol);
-            if (this.FieldIsEmpty(iCol))
-                return (object)DBNull.Value;
-            switch ((ushort)this.GetACEFieldType(iCol))
+            CheckOpen();
+            CheckPositioned();
+            ReadRecord();
+            CheckColumnIndex(iCol);
+            if (FieldIsEmpty(iCol))
+                return DBNull.Value;
+            switch ((ushort)GetACEFieldType(iCol))
             {
                 case 1:
-                    return (object)this.GetBoolean(iCol);
+                    return GetBoolean(iCol);
                 case 2:
-                    return (object)this.GetDecimal(iCol);
+                    return GetDecimal(iCol);
                 case 3:
                 case 9:
                 case 14:
                 case 22:
-                    return (object)this.GetDateTime(iCol);
+                    return GetDateTime(iCol);
                 case 4:
                 case 5:
                 case 8:
@@ -815,31 +815,31 @@ namespace Advantage.Data.Provider
                 case 26:
                 case 27:
                 case 28:
-                    return (object)this.GetString(iCol);
+                    return GetString(iCol);
                 case 6:
                 case 7:
                 case 16:
                 case 24:
-                    return (object)this.GetBytes(iCol);
+                    return GetBytes(iCol);
                 case 10:
-                    return (object)this.GetDouble(iCol);
+                    return GetDouble(iCol);
                 case 11:
-                    return (object)this.GetInt32(iCol);
+                    return GetInt32(iCol);
                 case 12:
-                    return (object)this.GetInt16(iCol);
+                    return GetInt16(iCol);
                 case 13:
-                    return (object)this.GetTimeSpan(iCol);
+                    return GetTimeSpan(iCol);
                 case 15:
-                    return (object)this.GetInt32(iCol);
+                    return GetInt32(iCol);
                 case 17:
-                    return (object)this.GetDouble(iCol);
+                    return GetDouble(iCol);
                 case 18:
-                    return (object)this.GetDecimal(iCol);
+                    return GetDecimal(iCol);
                 case 19:
                 case 21:
-                    return (object)this.GetInt64(iCol);
+                    return GetInt64(iCol);
                 case 29:
-                    return (object)this.GetGuid(iCol);
+                    return GetGuid(iCol);
                 default:
                     throw new Exception("AdsDataReader.GetValue : Unsupported type.");
             }
@@ -848,8 +848,8 @@ namespace Advantage.Data.Provider
         public override int GetValues(object[] values)
         {
             int ordinal;
-            for (ordinal = 0; ordinal < values.Length && ordinal < this.miFieldCount; ++ordinal)
-                values[ordinal] = this.GetValue(ordinal);
+            for (ordinal = 0; ordinal < values.Length && ordinal < miFieldCount; ++ordinal)
+                values[ordinal] = GetValue(ordinal);
             return ordinal;
         }
 
@@ -857,23 +857,23 @@ namespace Advantage.Data.Provider
         {
             if (strName == null)
                 throw new ArgumentNullException("Value cannot be null.");
-            this.CheckOpen();
-            if (this.mFieldNames == null)
+            CheckOpen();
+            if (mFieldNames == null)
             {
-                char[] pucName = new char[129];
-                this.mFieldNames = CollectionsUtil.CreateCaseInsensitiveSortedList();
-                this.mFieldNames.Capacity = this.miFieldCount;
-                for (int index = 0; index < this.miFieldCount; ++index)
+                var pucName = new char[129];
+                mFieldNames = CollectionsUtil.CreateCaseInsensitiveSortedList();
+                mFieldNames.Capacity = miFieldCount;
+                for (var index = 0; index < miFieldCount; ++index)
                 {
-                    ushort length = (ushort)pucName.Length;
-                    AdsException.CheckACE(ACE.AdsGetFieldName(this.mhCursor, (ushort)(index + 1), pucName, ref length));
-                    this.mFieldNames.Add((object)new string(pucName, 0, (int)length), (object)index);
+                    var length = (ushort)pucName.Length;
+                    AdsException.CheckACE(ACE.AdsGetFieldName(mhCursor, (ushort)(index + 1), pucName, ref length));
+                    mFieldNames.Add(new string(pucName, 0, length), index);
                 }
             }
 
             try
             {
-                return (int)this.mFieldNames[(object)strName];
+                return (int)mFieldNames[strName];
             }
             catch (Exception ex)
             {
@@ -881,17 +881,17 @@ namespace Advantage.Data.Provider
             }
         }
 
-        public override object this[int i] => this.GetValue(i);
+        public override object this[int i] => GetValue(i);
 
-        public override object this[string strName] => this[this.GetOrdinal(strName)];
+        public override object this[string strName] => this[GetOrdinal(strName)];
 
         public override bool GetBoolean(int iCol)
         {
-            this.CheckForGet(iCol);
-            if (this.GetACEFieldType(iCol) != (short)1)
+            CheckForGet(iCol);
+            if (GetACEFieldType(iCol) != 1)
                 throw new InvalidCastException("Cannot convert field to Boolean.");
             bool boolean;
-            switch (this.mabRecord[this.maiFieldOffset[iCol]])
+            switch (mabRecord[maiFieldOffset[iCol]])
             {
                 case 1:
                 case 84:
@@ -913,14 +913,14 @@ namespace Advantage.Data.Provider
             int int32;
             try
             {
-                int32 = this.GetInt32(iCol);
+                int32 = GetInt32(iCol);
             }
             catch (InvalidCastException ex)
             {
                 throw new InvalidCastException("Cannot convert field to Byte.");
             }
 
-            return int32 >= 0 && int32 <= (int)byte.MaxValue
+            return int32 >= 0 && int32 <= byte.MaxValue
                 ? (byte)int32
                 : throw new InvalidCastException("Cannot convert field to Byte.");
         }
@@ -932,66 +932,66 @@ namespace Advantage.Data.Provider
             int iBufferOffset,
             int iLength)
         {
-            this.CheckForGet(iCol);
+            CheckForGet(iCol);
             if (lFieldOffset < 0L)
                 return 0;
             if (iBufferOffset < 0)
-                throw new ArgumentOutOfRangeException("The buffer offset (" + (object)iBufferOffset +
+                throw new ArgumentOutOfRangeException("The buffer offset (" + iBufferOffset +
                                                       ") cannot be negative.");
             if (iLength < 0)
-                throw new IndexOutOfRangeException("The number of bytes to read (" + (object)iLength +
+                throw new IndexOutOfRangeException("The number of bytes to read (" + iLength +
                                                    ") cannot be negative.");
-            switch ((ushort)this.GetACEFieldType(iCol))
+            switch ((ushort)GetACEFieldType(iCol))
             {
                 case 6:
                 case 7:
-                    uint aceDataLength = (uint)this.GetACEDataLength(iCol);
+                    var aceDataLength = (uint)GetACEDataLength(iCol);
                     if (buffer == null)
-                        return (long)aceDataLength;
+                        return aceDataLength;
                     if (iBufferOffset >= buffer.Length)
                         throw new ArgumentOutOfRangeException("The buffer offset is not valid.");
-                    if (lFieldOffset >= (long)(int)aceDataLength)
+                    if (lFieldOffset >= (int)aceDataLength)
                         return 0;
-                    int length1 = (int)aceDataLength - (int)lFieldOffset;
+                    var length1 = (int)aceDataLength - (int)lFieldOffset;
                     if (length1 > iLength)
                         length1 = iLength;
                     if (length1 + iBufferOffset > buffer.Length)
                         throw new IndexOutOfRangeException(
                             "The buffer offset plus the amount to read does not fit in the output buffer.");
-                    uint pulLen = (uint)length1;
+                    var pulLen = (uint)length1;
                     if (iBufferOffset == 0)
                     {
-                        AdsException.CheckACE(ACE.AdsGetBinary(this.mhCursor, (uint)(iCol + 1), (uint)lFieldOffset,
+                        AdsException.CheckACE(ACE.AdsGetBinary(mhCursor, (uint)(iCol + 1), (uint)lFieldOffset,
                             buffer,
                             ref pulLen));
                     }
                     else
                     {
-                        byte[] numArray = new byte[length1];
-                        AdsException.CheckACE(ACE.AdsGetBinary(this.mhCursor, (uint)(iCol + 1), (uint)lFieldOffset,
+                        var numArray = new byte[length1];
+                        AdsException.CheckACE(ACE.AdsGetBinary(mhCursor, (uint)(iCol + 1), (uint)lFieldOffset,
                             numArray,
                             ref pulLen));
-                        Array.Copy((Array)numArray, 0, (Array)buffer, iBufferOffset, length1);
+                        Array.Copy(numArray, 0, buffer, iBufferOffset, length1);
                     }
 
-                    return (long)pulLen;
+                    return pulLen;
                 case 16:
                 case 24:
                     if (buffer == null)
-                        return (long)this.GetACEDataLength(iCol);
+                        return GetACEDataLength(iCol);
                     if (iBufferOffset >= buffer.Length)
                         throw new ArgumentOutOfRangeException("The buffer offset is not valid.");
-                    byte[] bytes = this.GetBytes(iCol);
-                    if (lFieldOffset >= (long)bytes.Length)
+                    var bytes = GetBytes(iCol);
+                    if (lFieldOffset >= bytes.Length)
                         return 0;
-                    int length2 = bytes.Length - (int)lFieldOffset;
+                    var length2 = bytes.Length - (int)lFieldOffset;
                     if (length2 > iLength)
                         length2 = iLength;
                     if (length2 + iBufferOffset > buffer.Length)
                         throw new IndexOutOfRangeException(
                             "The buffer offset plus the amount to read does not fit in the output buffer.");
-                    Array.Copy((Array)bytes, (int)lFieldOffset, (Array)buffer, iBufferOffset, length2);
-                    return (long)length2;
+                    Array.Copy(bytes, (int)lFieldOffset, buffer, iBufferOffset, length2);
+                    return length2;
                 default:
                     throw new InvalidCastException("Cannot convert field to byte[] array.");
             }
@@ -1009,16 +1009,16 @@ namespace Advantage.Data.Provider
             int iBufferOffset,
             int iLength)
         {
-            this.CheckForGet(iCol);
+            CheckForGet(iCol);
             if (lFieldOffset < 0L)
                 return 0;
             if (iBufferOffset < 0)
-                throw new ArgumentOutOfRangeException("The buffer offset (" + (object)iBufferOffset +
+                throw new ArgumentOutOfRangeException("The buffer offset (" + iBufferOffset +
                                                       ") cannot be negative.");
             if (iLength < 0)
-                throw new IndexOutOfRangeException("The number of chars to read (" + (object)iLength +
+                throw new IndexOutOfRangeException("The number of chars to read (" + iLength +
                                                    ") cannot be negative.");
-            ushort aceFieldType = (ushort)this.GetACEFieldType(iCol);
+            var aceFieldType = (ushort)GetACEFieldType(iCol);
             switch (aceFieldType)
             {
                 case 4:
@@ -1029,14 +1029,14 @@ namespace Advantage.Data.Provider
                 case 26:
                 case 27:
                 case 28:
-                    uint aceDataLength = (uint)this.GetACEDataLength(iCol);
+                    var aceDataLength = (uint)GetACEDataLength(iCol);
                     if (acBuffer == null)
-                        return (long)aceDataLength;
+                        return aceDataLength;
                     if (iBufferOffset >= acBuffer.Length)
                         throw new ArgumentOutOfRangeException("The buffer offset is not valid.");
-                    if (lFieldOffset >= (long)(int)aceDataLength)
+                    if (lFieldOffset >= (int)aceDataLength)
                         return 0;
-                    int chars = (int)aceDataLength - (int)lFieldOffset;
+                    var chars = (int)aceDataLength - (int)lFieldOffset;
                     if (chars > iLength)
                         chars = iLength;
                     if (chars + iBufferOffset > acBuffer.Length)
@@ -1047,22 +1047,22 @@ namespace Advantage.Data.Provider
                         case 4:
                         case 20:
                         case 23:
-                            this.AdsEncoding.GetChars(this.mabRecord, (int)lFieldOffset + this.maiFieldOffset[iCol],
+                            AdsEncoding.GetChars(mabRecord, (int)lFieldOffset + maiFieldOffset[iCol],
                                 chars, acBuffer,
                                 iBufferOffset);
                             break;
                         case 26:
                         case 27:
-                            Encoding.Unicode.GetChars(this.mabRecord, (int)lFieldOffset * 2 + this.maiFieldOffset[iCol],
+                            Encoding.Unicode.GetChars(mabRecord, (int)lFieldOffset * 2 + maiFieldOffset[iCol],
                                 chars * 2,
                                 acBuffer, iBufferOffset);
                             break;
                         case 28:
                             if (lFieldOffset == 0L && iBufferOffset == 0)
                             {
-                                uint pulLen = (uint)chars;
-                                uint stringW = ACE.AdsGetStringW(this.mhCursor, (uint)(iCol + 1), acBuffer, ref pulLen,
-                                    (ushort)0);
+                                var pulLen = (uint)chars;
+                                var stringW = ACE.AdsGetStringW(mhCursor, (uint)(iCol + 1), acBuffer, ref pulLen,
+                                    0);
                                 switch (stringW)
                                 {
                                     case 0:
@@ -1078,15 +1078,15 @@ namespace Advantage.Data.Provider
 
                             break;
                         default:
-                            uint pulLen1 = aceDataLength + 1U;
-                            char[] chArray = new char[pulLen1];
-                            AdsException.CheckACE(ACE.AdsGetFieldW(this.mhCursor, (uint)(iCol + 1), chArray,
-                                ref pulLen1, (ushort)0));
-                            Array.Copy((Array)chArray, lFieldOffset, (Array)acBuffer, (long)iBufferOffset, (long)chars);
+                            var pulLen1 = aceDataLength + 1U;
+                            var chArray = new char[pulLen1];
+                            AdsException.CheckACE(ACE.AdsGetFieldW(mhCursor, (uint)(iCol + 1), chArray,
+                                ref pulLen1, 0));
+                            Array.Copy(chArray, lFieldOffset, acBuffer, iBufferOffset, chars);
                             break;
                     }
 
-                    return (long)chars;
+                    return chars;
                 default:
                     throw new InvalidCastException("Cannot convert field to char[] array.");
             }
@@ -1097,7 +1097,7 @@ namespace Advantage.Data.Provider
             byte[] bytes;
             try
             {
-                bytes = this.GetBytes(i);
+                bytes = GetBytes(i);
             }
             catch (InvalidCastException ex)
             {
@@ -1114,33 +1114,33 @@ namespace Advantage.Data.Provider
             int int32;
             try
             {
-                int32 = this.GetInt32(iCol);
+                int32 = GetInt32(iCol);
             }
             catch (InvalidCastException ex)
             {
                 throw new InvalidCastException("Cannot convert field to Int16.");
             }
 
-            return int32 >= (int)short.MinValue && int32 <= (int)short.MaxValue
+            return int32 >= short.MinValue && int32 <= short.MaxValue
                 ? (short)int32
                 : throw new InvalidCastException("Cannot convert field to Int16.");
         }
 
         public override int GetInt32(int iCol)
         {
-            this.CheckForGet(iCol);
+            CheckForGet(iCol);
             int plValue;
-            switch ((ushort)this.GetACEFieldType(iCol))
+            switch ((ushort)GetACEFieldType(iCol))
             {
                 case 11:
                 case 15:
-                    plValue = BitConverter.ToInt32(this.mabRecord, this.maiFieldOffset[iCol]);
+                    plValue = BitConverter.ToInt32(mabRecord, maiFieldOffset[iCol]);
                     break;
                 case 12:
-                    plValue = (int)BitConverter.ToInt16(this.mabRecord, this.maiFieldOffset[iCol]);
+                    plValue = BitConverter.ToInt16(mabRecord, maiFieldOffset[iCol]);
                     break;
                 default:
-                    uint ulRet = ACE.AdsGetLong(this.mhCursor, (uint)(iCol + 1), out plValue);
+                    var ulRet = ACE.AdsGetLong(mhCursor, (uint)(iCol + 1), out plValue);
                     switch (ulRet)
                     {
                         case 5003:
@@ -1161,23 +1161,23 @@ namespace Advantage.Data.Provider
         public override long GetInt64(int iCol)
         {
             long pqValue;
-            switch ((ushort)this.GetACEFieldType(iCol))
+            switch ((ushort)GetACEFieldType(iCol))
             {
                 case 11:
                 case 12:
-                    pqValue = (long)this.GetInt32(iCol);
+                    pqValue = GetInt32(iCol);
                     break;
                 case 15:
-                    pqValue = (long)(uint)this.GetInt32(iCol);
+                    pqValue = (uint)GetInt32(iCol);
                     break;
                 case 19:
                 case 21:
-                    this.CheckForGet(iCol);
-                    pqValue = BitConverter.ToInt64(this.mabRecord, this.maiFieldOffset[iCol]);
+                    CheckForGet(iCol);
+                    pqValue = BitConverter.ToInt64(mabRecord, maiFieldOffset[iCol]);
                     break;
                 default:
-                    this.CheckForGet(iCol);
-                    uint longLong = ACE.AdsGetLongLong(this.mhCursor, (uint)(iCol + 1), out pqValue);
+                    CheckForGet(iCol);
+                    var longLong = ACE.AdsGetLongLong(mhCursor, (uint)(iCol + 1), out pqValue);
                     if (longLong == 5066U)
                         throw new InvalidCastException("Cannot convert field to Int64.");
                     AdsException.CheckACE(longLong);
@@ -1192,7 +1192,7 @@ namespace Advantage.Data.Provider
             double num;
             try
             {
-                num = this.GetDouble(iCol);
+                num = GetDouble(iCol);
             }
             catch (InvalidCastException ex)
             {
@@ -1206,16 +1206,16 @@ namespace Advantage.Data.Provider
 
         public override double GetDouble(int iCol)
         {
-            this.CheckForGet(iCol);
+            CheckForGet(iCol);
             double pdValue;
-            switch ((ushort)this.GetACEFieldType(iCol))
+            switch ((ushort)GetACEFieldType(iCol))
             {
                 case 10:
                 case 17:
-                    pdValue = BitConverter.ToDouble(this.mabRecord, this.maiFieldOffset[iCol]);
+                    pdValue = BitConverter.ToDouble(mabRecord, maiFieldOffset[iCol]);
                     break;
                 default:
-                    uint ulRet = ACE.AdsGetDouble(this.mhCursor, (uint)(iCol + 1), out pdValue);
+                    var ulRet = ACE.AdsGetDouble(mhCursor, (uint)(iCol + 1), out pdValue);
                     switch (ulRet)
                     {
                         case 5066:
@@ -1234,66 +1234,66 @@ namespace Advantage.Data.Provider
 
         public override string GetString(int iCol)
         {
-            bool trimTrailingSpaces = this.mConnection.TrimTrailingSpaces;
-            return this.GetString(iCol, trimTrailingSpaces);
+            var trimTrailingSpaces = mConnection.TrimTrailingSpaces;
+            return GetString(iCol, trimTrailingSpaces);
         }
 
         private Encoding AdsEncoding
         {
             get
             {
-                if (this.mEncoding == null)
+                if (mEncoding == null)
                 {
                     uint pulProperty;
-                    AdsException.CheckACE(ACE.AdsGetIntProperty(this.mhCursor, 1U, out pulProperty));
-                    this.mEncoding = Encoding.GetEncoding((int)pulProperty);
+                    AdsException.CheckACE(ACE.AdsGetIntProperty(mhCursor, 1U, out pulProperty));
+                    mEncoding = Encoding.GetEncoding((int)pulProperty);
                 }
 
-                return this.mEncoding;
+                return mEncoding;
             }
         }
 
         public string GetString(int iCol, bool bTrim)
         {
-            switch ((ushort)this.GetACEFieldType(iCol))
+            switch ((ushort)GetACEFieldType(iCol))
             {
                 case 4:
                 case 20:
                 case 23:
-                    this.CheckForGet(iCol);
-                    int aceDataLength1 = this.GetACEDataLength(iCol);
+                    CheckForGet(iCol);
+                    var aceDataLength1 = GetACEDataLength(iCol);
                     if (bTrim)
                     {
                         while (aceDataLength1 > 0 &&
-                               this.mabRecord[aceDataLength1 - 1 + this.maiFieldOffset[iCol]] == (byte)32)
+                               mabRecord[aceDataLength1 - 1 + maiFieldOffset[iCol]] == 32)
                             --aceDataLength1;
                     }
 
-                    return this.AdsEncoding.GetString(this.mabRecord, this.maiFieldOffset[iCol], aceDataLength1);
+                    return AdsEncoding.GetString(mabRecord, maiFieldOffset[iCol], aceDataLength1);
                 case 26:
                 case 27:
-                    this.CheckForGet(iCol);
-                    int aceDataLength2 = this.GetACEDataLength(iCol);
-                    string str =
-                        Encoding.Unicode.GetString(this.mabRecord, this.maiFieldOffset[iCol], aceDataLength2 * 2);
-                    return bTrim ? str.TrimEnd((char[])null) : str;
+                    CheckForGet(iCol);
+                    var aceDataLength2 = GetACEDataLength(iCol);
+                    var str =
+                        Encoding.Unicode.GetString(mabRecord, maiFieldOffset[iCol], aceDataLength2 * 2);
+                    return bTrim ? str.TrimEnd(null) : str;
                 default:
                     ushort usOption = 0;
                     long chars;
                     try
                     {
-                        chars = this.GetChars(iCol, 0L, (char[])null, 0, 0);
+                        chars = GetChars(iCol, 0L, null, 0, 0);
                     }
                     catch (InvalidCastException ex)
                     {
                         throw new InvalidCastException("Cannot convert field to String.");
                     }
 
-                    uint pulLen = (uint)chars + 1U;
-                    char[] pwcBuf = new char[pulLen];
+                    var pulLen = (uint)chars + 1U;
+                    var pwcBuf = new char[pulLen];
                     if (bTrim)
-                        usOption = (ushort)2;
-                    uint fieldW = ACE.AdsGetFieldW(this.mhCursor, (uint)(iCol + 1), pwcBuf, ref pulLen, usOption);
+                        usOption = 2;
+                    var fieldW = ACE.AdsGetFieldW(mhCursor, (uint)(iCol + 1), pwcBuf, ref pulLen, usOption);
                     if (fieldW == 5066U)
                         throw new InvalidCastException("Cannot convert field to String.");
                     AdsException.CheckACE(fieldW);
@@ -1303,20 +1303,20 @@ namespace Advantage.Data.Provider
 
         public override Decimal GetDecimal(int iCol)
         {
-            char[] chArray1 = new char[33];
-            this.CheckForGet(iCol);
-            switch ((ushort)this.GetACEFieldType(iCol))
+            var chArray1 = new char[33];
+            CheckForGet(iCol);
+            switch ((ushort)GetACEFieldType(iCol))
             {
                 case 2:
-                    char[] chArray2 = new char[this.maiFieldLength[iCol]];
-                    for (int index = 0; index < this.maiFieldLength[iCol]; ++index)
-                        chArray2[index] = (char)this.mabRecord[index + this.maiFieldOffset[iCol]];
-                    string str = new string(chArray2);
+                    var chArray2 = new char[maiFieldLength[iCol]];
+                    for (var index = 0; index < maiFieldLength[iCol]; ++index)
+                        chArray2[index] = (char)mabRecord[index + maiFieldOffset[iCol]];
+                    var str = new string(chArray2);
                     if (str.Trim() == "")
                         return 0M;
                     try
                     {
-                        return Convert.ToDecimal(str, (IFormatProvider)CultureInfo.InvariantCulture.NumberFormat);
+                        return Convert.ToDecimal(str, CultureInfo.InvariantCulture.NumberFormat);
                     }
                     catch (FormatException ex)
                     {
@@ -1329,7 +1329,7 @@ namespace Advantage.Data.Provider
                     int int32;
                     try
                     {
-                        int32 = this.GetInt32(iCol);
+                        int32 = GetInt32(iCol);
                     }
                     catch (InvalidCastException ex)
                     {
@@ -1338,13 +1338,13 @@ namespace Advantage.Data.Provider
 
                     return Convert.ToDecimal(int32);
                 case 18:
-                    return Decimal.FromOACurrency(BitConverter.ToInt64(this.mabRecord, this.maiFieldOffset[iCol]));
+                    return Decimal.FromOACurrency(BitConverter.ToInt64(mabRecord, maiFieldOffset[iCol]));
                 case 19:
                 case 21:
                     long int64;
                     try
                     {
-                        int64 = this.GetInt64(iCol);
+                        int64 = GetInt64(iCol);
                     }
                     catch (InvalidCastException ex)
                     {
@@ -1365,33 +1365,33 @@ namespace Advantage.Data.Provider
 
         protected void AxMonthDay(int iYear, int iDays, out int iMonth, out int iDay)
         {
-            short[] numArray = new short[13]
+            var numArray = new short[13]
             {
-                (short)0,
-                (short)31,
-                (short)59,
-                (short)90,
-                (short)120,
-                (short)151,
-                (short)181,
-                (short)212,
-                (short)243,
-                (short)273,
-                (short)304,
-                (short)334,
-                (short)365
+                0,
+                31,
+                59,
+                90,
+                120,
+                151,
+                181,
+                212,
+                243,
+                273,
+                304,
+                334,
+                365
             };
-            short num = iYear % 4 == 0 && iYear % 100 != 0 || iYear % 400 == 0 ? (short)1 : (short)0;
+            var num = iYear % 4 == 0 && iYear % 100 != 0 || iYear % 400 == 0 ? (short)1 : (short)0;
             if (iDays <= 59)
-                num = (short)0;
-            for (short index = 1; index <= (short)12; ++index)
+                num = 0;
+            for (short index = 1; index <= 12; ++index)
             {
-                if (iDays <= (int)numArray[(int)index] + (int)num)
+                if (iDays <= numArray[index] + num)
                 {
-                    iMonth = (int)index;
-                    if (index <= (short)2)
-                        num = (short)0;
-                    iDay = iDays - (int)numArray[(int)index - 1] - (int)num;
+                    iMonth = index;
+                    if (index <= 2)
+                        num = 0;
+                    iDay = iDays - numArray[index - 1] - num;
                     return;
                 }
             }
@@ -1405,49 +1405,49 @@ namespace Advantage.Data.Provider
             iYear = iMonth = iDay = 0;
             if (iJulian == 0)
                 return;
-            int num1 = iJulian - 1721425;
-            iYear = (int)((double)num1 / 365.2425 + 1.0);
-            int iDays = num1 - this.AxYearToDays(iYear);
+            var num1 = iJulian - 1721425;
+            iYear = (int)(num1 / 365.2425 + 1.0);
+            var iDays = num1 - AxYearToDays(iYear);
             if (iDays <= 0)
             {
                 --iYear;
-                iDays = num1 - this.AxYearToDays(iYear);
+                iDays = num1 - AxYearToDays(iYear);
             }
 
-            int num2 = iYear % 4 == 0 && iYear % 100 != 0 || iYear % 400 == 0 ? 366 : 365;
+            var num2 = iYear % 4 == 0 && iYear % 100 != 0 || iYear % 400 == 0 ? 366 : 365;
             if (iDays > num2)
             {
                 ++iYear;
                 iDays -= num2;
             }
 
-            this.AxMonthDay(iYear, iDays, out iMonth, out iDay);
+            AxMonthDay(iYear, iDays, out iMonth, out iDay);
         }
 
         public override DateTime GetDateTime(int iCol)
         {
-            int iYear = 0;
-            int iMonth = 0;
-            int iDay = 0;
-            this.CheckForGet(iCol);
-            ushort aceFieldType = (ushort)this.GetACEFieldType(iCol);
+            var iYear = 0;
+            var iMonth = 0;
+            var iDay = 0;
+            CheckForGet(iCol);
+            var aceFieldType = (ushort)GetACEFieldType(iCol);
             switch (aceFieldType)
             {
                 case 3:
                 case 14:
                 case 22:
-                    if (this.msTableType == (short)3 || aceFieldType == (ushort)14)
+                    if (msTableType == 3 || aceFieldType == 14)
                     {
-                        this.ConvertJulianDay(BitConverter.ToInt32(this.mabRecord, this.maiFieldOffset[iCol]),
+                        ConvertJulianDay(BitConverter.ToInt32(mabRecord, maiFieldOffset[iCol]),
                             out iYear,
                             out iMonth, out iDay);
                     }
                     else
                     {
-                        char[] chArray = new char[this.maiFieldLength[iCol]];
-                        for (int index = 0; index < this.maiFieldLength[iCol]; ++index)
-                            chArray[index] = (char)this.mabRecord[index + this.maiFieldOffset[iCol]];
-                        string str = new string(chArray, 0, this.maiFieldLength[iCol]);
+                        var chArray = new char[maiFieldLength[iCol]];
+                        for (var index = 0; index < maiFieldLength[iCol]; ++index)
+                            chArray[index] = (char)mabRecord[index + maiFieldOffset[iCol]];
+                        var str = new string(chArray, 0, maiFieldLength[iCol]);
                         try
                         {
                             iYear = Convert.ToInt32(str.Substring(0, 4));
@@ -1473,12 +1473,12 @@ namespace Advantage.Data.Provider
                             ex);
                     }
 
-                    if (aceFieldType == (ushort)14 || aceFieldType == (ushort)22)
+                    if (aceFieldType == 14 || aceFieldType == 22)
                     {
-                        int num = BitConverter.ToInt32(this.mabRecord, this.maiFieldOffset[iCol] + 4);
-                        if (this.msTableType == (short)4)
+                        var num = BitConverter.ToInt32(mabRecord, maiFieldOffset[iCol] + 4);
+                        if (msTableType == 4)
                             num = 1000 * ((num + 500) / 1000);
-                        dateTime = dateTime.AddMilliseconds((double)num);
+                        dateTime = dateTime.AddMilliseconds(num);
                     }
 
                     return dateTime;
@@ -1489,17 +1489,17 @@ namespace Advantage.Data.Provider
 
         protected bool FieldIsEmpty(int iCol)
         {
-            ushort aceFieldType = (ushort)this.GetACEFieldType(iCol);
-            if (!this.mConnection.DbfsUseNulls && this.msTableType != (short)3 && this.msTableType != (short)4 &&
-                aceFieldType != (ushort)3)
+            var aceFieldType = (ushort)GetACEFieldType(iCol);
+            if (!mConnection.DbfsUseNulls && msTableType != 3 && msTableType != 4 &&
+                aceFieldType != 3)
                 return false;
             ushort pbNull;
-            if (this.msTableType == (short)3)
+            if (msTableType == 3)
             {
                 switch (aceFieldType)
                 {
                     case 1:
-                        return this.mabRecord[this.maiFieldOffset[iCol]] == (byte)32;
+                        return mabRecord[maiFieldOffset[iCol]] == 32;
                     case 2:
                     case 3:
                     case 4:
@@ -1508,12 +1508,12 @@ namespace Advantage.Data.Provider
                     case 20:
                     case 26:
                     case 29:
-                        int num1 = 1;
-                        if (aceFieldType == (ushort)26)
+                        var num1 = 1;
+                        if (aceFieldType == 26)
                             num1 = 2;
-                        for (int index = 0; index < this.maiFieldLength[iCol] * num1; ++index)
+                        for (var index = 0; index < maiFieldLength[iCol] * num1; ++index)
                         {
-                            if (this.mabRecord[index + this.maiFieldOffset[iCol]] != (byte)0)
+                            if (mabRecord[index + maiFieldOffset[iCol]] != 0)
                                 return false;
                         }
 
@@ -1529,46 +1529,46 @@ namespace Advantage.Data.Provider
                         break;
                     case 10:
                     case 17:
-                        for (int index = 0; index < AdsDataReader.mabDblNull.Length; ++index)
+                        for (var index = 0; index < mabDblNull.Length; ++index)
                         {
-                            if ((int)AdsDataReader.mabDblNull[index] !=
-                                (int)this.mabRecord[index + this.maiFieldOffset[iCol]])
+                            if (mabDblNull[index] !=
+                                mabRecord[index + maiFieldOffset[iCol]])
                                 return false;
                         }
 
                         return true;
                     case 11:
-                        for (int index = 0; index < AdsDataReader.mabInt32Null.Length; ++index)
+                        for (var index = 0; index < mabInt32Null.Length; ++index)
                         {
-                            if ((int)AdsDataReader.mabInt32Null[index] !=
-                                (int)this.mabRecord[index + this.maiFieldOffset[iCol]])
+                            if (mabInt32Null[index] !=
+                                mabRecord[index + maiFieldOffset[iCol]])
                                 return false;
                         }
 
                         return true;
                     case 12:
-                        for (int index = 0; index < AdsDataReader.mabInt16Null.Length; ++index)
+                        for (var index = 0; index < mabInt16Null.Length; ++index)
                         {
-                            if ((int)AdsDataReader.mabInt16Null[index] !=
-                                (int)this.mabRecord[index + this.maiFieldOffset[iCol]])
+                            if (mabInt16Null[index] !=
+                                mabRecord[index + maiFieldOffset[iCol]])
                                 return false;
                         }
 
                         return true;
                     case 13:
-                        for (int index = 0; index < AdsDataReader.mabTimeNull.Length; ++index)
+                        for (var index = 0; index < mabTimeNull.Length; ++index)
                         {
-                            if ((int)AdsDataReader.mabTimeNull[index] !=
-                                (int)this.mabRecord[index + this.maiFieldOffset[iCol]])
+                            if (mabTimeNull[index] !=
+                                mabRecord[index + maiFieldOffset[iCol]])
                                 return false;
                         }
 
                         return true;
                     case 14:
                     case 22:
-                        for (int index = 0; index < 4; ++index)
+                        for (var index = 0; index < 4; ++index)
                         {
-                            if (this.mabRecord[index + this.maiFieldOffset[iCol]] != (byte)0)
+                            if (mabRecord[index + maiFieldOffset[iCol]] != 0)
                                 return false;
                         }
 
@@ -1578,10 +1578,10 @@ namespace Advantage.Data.Provider
                     case 18:
                     case 19:
                     case 21:
-                        for (int index = 0; index < AdsDataReader.mabInt64Null.Length; ++index)
+                        for (var index = 0; index < mabInt64Null.Length; ++index)
                         {
-                            if ((int)AdsDataReader.mabInt64Null[index] !=
-                                (int)this.mabRecord[index + this.maiFieldOffset[iCol]])
+                            if (mabInt64Null[index] !=
+                                mabRecord[index + maiFieldOffset[iCol]])
                                 return false;
                         }
 
@@ -1590,26 +1590,26 @@ namespace Advantage.Data.Provider
                         throw new Exception("AdsDataReader.FieldIsEmpty : Unsupported ADT type.");
                 }
             }
-            else if (this.msTableType == (short)4)
+            else if (msTableType == 4)
             {
-                if (aceFieldType == (ushort)3 || aceFieldType == (ushort)14)
+                if (aceFieldType == 3 || aceFieldType == 14)
                 {
-                    byte num2 = aceFieldType != (ushort)3 ? (byte)0 : (byte)32;
-                    pbNull = (ushort)1;
-                    for (int index = 0; index < this.maiFieldLength[iCol]; ++index)
+                    var num2 = aceFieldType != 3 ? (byte)0 : (byte)32;
+                    pbNull = 1;
+                    for (var index = 0; index < maiFieldLength[iCol]; ++index)
                     {
-                        if ((int)this.mabRecord[index + this.maiFieldOffset[iCol]] != (int)num2)
+                        if (mabRecord[index + maiFieldOffset[iCol]] != num2)
                         {
-                            pbNull = (ushort)0;
+                            pbNull = 0;
                             break;
                         }
                     }
 
-                    if (pbNull == (ushort)1)
+                    if (pbNull == 1)
                         return true;
                 }
 
-                if (this.masVFPNullable[iCol] == (short)0)
+                if (masVFPNullable[iCol] == 0)
                     return false;
             }
             else
@@ -1620,9 +1620,9 @@ namespace Advantage.Data.Provider
                     case 2:
                     case 3:
                     case 4:
-                        for (int index = 0; index < this.maiFieldLength[iCol]; ++index)
+                        for (var index = 0; index < maiFieldLength[iCol]; ++index)
                         {
-                            if (this.mabRecord[index + this.maiFieldOffset[iCol]] != (byte)32)
+                            if (mabRecord[index + maiFieldOffset[iCol]] != 32)
                                 return false;
                         }
 
@@ -1637,8 +1637,8 @@ namespace Advantage.Data.Provider
                     case 51:
                     case 52:
                         ushort pbEmpty;
-                        AdsException.CheckACE(ACE.AdsIsEmpty(this.mhCursor, (uint)(iCol + 1), out pbEmpty));
-                        return pbEmpty == (ushort)1;
+                        AdsException.CheckACE(ACE.AdsIsEmpty(mhCursor, (uint)(iCol + 1), out pbEmpty));
+                        return pbEmpty == 1;
                     case 9:
                     case 10:
                     case 11:
@@ -1648,9 +1648,9 @@ namespace Advantage.Data.Provider
                     case 16:
                     case 17:
                     case 29:
-                        for (int index = 0; index < this.maiFieldLength[iCol]; ++index)
+                        for (var index = 0; index < maiFieldLength[iCol]; ++index)
                         {
-                            if (this.mabRecord[index + this.maiFieldOffset[iCol]] != (byte)0)
+                            if (mabRecord[index + maiFieldOffset[iCol]] != 0)
                                 return false;
                         }
 
@@ -1660,38 +1660,38 @@ namespace Advantage.Data.Provider
                 }
             }
 
-            AdsException.CheckACE(ACE.AdsIsNull(this.mhCursor, (uint)(iCol + 1), out pbNull));
-            return pbNull == (ushort)1;
+            AdsException.CheckACE(ACE.AdsIsNull(mhCursor, (uint)(iCol + 1), out pbNull));
+            return pbNull == 1;
         }
 
         public override bool IsDBNull(int iCol)
         {
-            this.CheckOpen();
-            this.CheckPositioned();
-            this.CheckColumnIndex(iCol);
-            this.ReadRecord();
-            return this.FieldIsEmpty(iCol);
+            CheckOpen();
+            CheckPositioned();
+            CheckColumnIndex(iCol);
+            ReadRecord();
+            return FieldIsEmpty(iCol);
         }
 
         public byte[] GetBytes(int iCol)
         {
-            this.CheckForGet(iCol);
-            switch ((ushort)this.GetACEFieldType(iCol))
+            CheckForGet(iCol);
+            switch ((ushort)GetACEFieldType(iCol))
             {
                 case 6:
                 case 7:
                     uint pulLength;
-                    AdsException.CheckACE(ACE.AdsGetBinaryLength(this.mhCursor, (uint)(iCol + 1), out pulLength));
-                    byte[] pucBuf = new byte[pulLength];
-                    uint pulLen = pulLength;
-                    AdsException.CheckACE(ACE.AdsGetBinary(this.mhCursor, (uint)(iCol + 1), 0U, pucBuf, ref pulLen));
+                    AdsException.CheckACE(ACE.AdsGetBinaryLength(mhCursor, (uint)(iCol + 1), out pulLength));
+                    var pucBuf = new byte[pulLength];
+                    var pulLen = pulLength;
+                    AdsException.CheckACE(ACE.AdsGetBinary(mhCursor, (uint)(iCol + 1), 0U, pucBuf, ref pulLen));
                     return pucBuf;
                 case 16:
                 case 24:
                 case 29:
-                    byte[] bytes = new byte[this.GetACEDataLength(iCol)];
-                    for (int index = 0; index < bytes.Length; ++index)
-                        bytes[index] = this.mabRecord[index + this.maiFieldOffset[iCol]];
+                    var bytes = new byte[GetACEDataLength(iCol)];
+                    for (var index = 0; index < bytes.Length; ++index)
+                        bytes[index] = mabRecord[index + maiFieldOffset[iCol]];
                     return bytes;
                 default:
                     throw new InvalidCastException("Cannot convert field to byte[] array.");
@@ -1700,59 +1700,59 @@ namespace Advantage.Data.Provider
 
         public TimeSpan GetTimeSpan(int iCol)
         {
-            this.CheckForGet(iCol);
-            if (this.GetACEFieldType(iCol) != (short)13)
+            CheckForGet(iCol);
+            if (GetACEFieldType(iCol) != 13)
                 throw new InvalidCastException("Cannot convert field to TimeSpan.");
-            return new TimeSpan(0, 0, 0, 0, BitConverter.ToInt32(this.mabRecord, this.maiFieldOffset[iCol]));
+            return new TimeSpan(0, 0, 0, 0, BitConverter.ToInt32(mabRecord, maiFieldOffset[iCol]));
         }
 
         public short RecordCache
         {
-            get => this.msCacheSize;
+            get => msCacheSize;
             set
             {
-                this.CheckOpen();
-                if (!this.mbOpen || !(this.mhCursor != IntPtr.Zero) || (int)value == (int)this.msCacheSize)
+                CheckOpen();
+                if (!mbOpen || !(mhCursor != IntPtr.Zero) || value == msCacheSize)
                     return;
-                AdsException.CheckACE(ACE.AdsCacheRecords(this.mhCursor, (ushort)value));
-                this.msCacheSize = value;
-                if (this.msCacheSize != (short)0)
+                AdsException.CheckACE(ACE.AdsCacheRecords(mhCursor, (ushort)value));
+                msCacheSize = value;
+                if (msCacheSize != 0)
                     return;
-                this.msCacheSize = (short)1;
+                msCacheSize = 1;
             }
         }
 
-        public bool IsStatic => this.mbIsStatic;
+        public bool IsStatic => mbIsStatic;
 
         public bool IsDate(int iCol)
         {
-            this.CheckOpen();
-            this.CheckColumnIndex(iCol);
-            ushort aceFieldType = (ushort)this.GetACEFieldType(iCol);
-            return aceFieldType == (ushort)3 || aceFieldType == (ushort)9;
+            CheckOpen();
+            CheckColumnIndex(iCol);
+            var aceFieldType = (ushort)GetACEFieldType(iCol);
+            return aceFieldType == 3 || aceFieldType == 9;
         }
 
         public bool IsDateTime(int iCol)
         {
-            this.CheckOpen();
-            this.CheckColumnIndex(iCol);
-            ushort aceFieldType = (ushort)this.GetACEFieldType(iCol);
-            return aceFieldType == (ushort)14 || aceFieldType == (ushort)22;
+            CheckOpen();
+            CheckColumnIndex(iCol);
+            var aceFieldType = (ushort)GetACEFieldType(iCol);
+            return aceFieldType == 14 || aceFieldType == 22;
         }
 
         protected int GetACEFieldLength(int iCol)
         {
-            if (this.maiFieldLength != null)
-                return this.maiFieldLength[iCol];
-            int aceFieldType = (int)this.GetACEFieldType(iCol);
+            if (maiFieldLength != null)
+                return maiFieldLength[iCol];
+            int aceFieldType = GetACEFieldType(iCol);
             uint pulLength;
-            AdsException.CheckACE(ACE.AdsGetFieldLength(this.mhCursor, (uint)(iCol + 1), out pulLength));
+            AdsException.CheckACE(ACE.AdsGetFieldLength(mhCursor, (uint)(iCol + 1), out pulLength));
             return (int)pulLength;
         }
 
         protected int GetACEDataLength(int iCol)
         {
-            switch ((ushort)this.GetACEFieldType(iCol))
+            switch ((ushort)GetACEFieldType(iCol))
             {
                 case 5:
                 case 6:
@@ -1763,32 +1763,32 @@ namespace Advantage.Data.Provider
                 case 27:
                 case 28:
                     uint pulLength;
-                    AdsException.CheckACE(ACE.AdsGetDataLength(this.mhCursor, (uint)(iCol + 1), 0U, out pulLength));
+                    AdsException.CheckACE(ACE.AdsGetDataLength(mhCursor, (uint)(iCol + 1), 0U, out pulLength));
                     return (int)pulLength;
                 default:
-                    return this.GetACEFieldLength(iCol);
+                    return GetACEFieldLength(iCol);
             }
         }
 
         public int GetDataLength(int iCol)
         {
-            this.CheckOpen();
-            this.CheckPositioned();
-            this.CheckColumnIndex(iCol);
-            return this.GetACEDataLength(iCol);
+            CheckOpen();
+            CheckPositioned();
+            CheckColumnIndex(iCol);
+            return GetACEDataLength(iCol);
         }
 
         public override IEnumerator GetEnumerator()
         {
-            return (IEnumerator)new DbEnumerator((IDataReader)this);
+            return new DbEnumerator((IDataReader)this);
         }
 
         public override bool HasRows
         {
             get
             {
-                this.CheckOpen();
-                return this.mbHasRows;
+                CheckOpen();
+                return mbHasRows;
             }
         }
     }

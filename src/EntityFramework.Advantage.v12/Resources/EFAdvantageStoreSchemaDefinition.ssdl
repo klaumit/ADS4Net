@@ -1,0 +1,646 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Advantage" Provider="Advantage.Data.Provider" ProviderManifestToken="12" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
+  <EntityContainer Name="Schema">
+    <EntitySet Name="STables" EntityType="Self.Table">
+      <DefiningQuery>
+         SELECT * FROM #NEawjtV9QSyEXa5XICWIBg_9OJutwEmTZel3MBWeAxcuA_p1wLQyVUQyCbc7oa7SR1zg_STables
+      </DefiningQuery>
+    </EntitySet>
+
+    <EntitySet Name="STableColumns" EntityType="Self.TableColumn">
+      <DefiningQuery>
+         SELECT * FROM #NEawjtV9QSyEXa5XICWIBg_9OJutwEmTZel3MBWeAxcuA_oqpBG1cEQUiOhyrNzNa1ww_STableColumns
+
+      </DefiningQuery>
+    </EntitySet>
+
+    <EntitySet Name="SViews" EntityType="Self.View">
+      <DefiningQuery>
+         SELECT * FROM #NEawjtV9QSyEXa5XICWIBg_9OJutwEmTZel3MBWeAxcuA_WbQIJ2TaREKc05VZnT3Ttg_SViews
+      </DefiningQuery>
+    </EntitySet>
+
+    <EntitySet Name="SViewColumns" EntityType="Self.ViewColumn">
+      <DefiningQuery>
+         SELECT * FROM #NEawjtV9QSyEXa5XICWIBg_9OJutwEmTZel3MBWeAxcuA_fAMP9jIlSFuvMyHN1woedg_SViewColumns
+      </DefiningQuery>
+    </EntitySet>
+
+    <EntitySet Name="SFunctions" EntityType="Self.Function">
+      <DefiningQuery>
+         SELECT
+               CAST( NULL as SQL_CHAR( 401 ) ) Id,
+               CAST( NULL as SQL_CHAR( 200 ) ) CatalogName,
+               CAST( NULL as SQL_CHAR( 200 ) ) SchemaName,
+               CAST( NULL as SQL_CHAR( 200 )) Name,
+               CAST( NULL as SQL_CHAR( 200 )) ReturnTypeName,
+               0 ReturnMaxLength,
+               0 ReturnPrecision,
+               0 ReturnDateTimePrecision,
+               0 ReturnScale,
+               CAST( NULL as SQL_CHAR( 1 )) ReturnCollationCatalog,
+               CAST( NULL as SQL_CHAR( 1 )) ReturnCollationSchema,
+               CAST( NULL as SQL_CHAR( 1 )) ReturnCollationName,
+               CAST( NULL as SQL_CHAR( 1 )) ReturnCharacterSetCatalog,
+               CAST( NULL as SQL_CHAR( 1 )) ReturnCharacterSetSchema,
+               CAST( NULL as SQL_CHAR( 1 )) ReturnCharacterSetName,
+               FALSE ReturnIsMultiSet,
+               FALSE IsAggregate,
+               FALSE IsBuiltIn,
+               FALSE IsNiladic
+            FROM
+               System.Iota
+            WHERE
+               TRUE = FALSE
+      </DefiningQuery>
+    </EntitySet>
+
+    <EntitySet Name="SFunctionParameters" EntityType="Self.Parameter">
+      <DefiningQuery>
+         SELECT
+               CAST( NULL as SQL_CHAR( 401 ) ) Id,
+               CAST( NULL as SQL_CHAR( 401 )) ParentId,
+               CAST( NULL as SQL_CHAR( 200 )) Name,
+               0 Ordinal,
+               CAST( NULL as SQL_CHAR( 200 )) TypeName,
+               0 MaxLength,
+               0 Precision,
+               0 DateTimePrecision,
+               0 Scale,
+               CAST( NULL as SQL_CHAR( 1 )) CollationCatalog,
+               CAST( NULL as SQL_CHAR( 1 )) CollationSchema,
+               CAST( NULL as SQL_CHAR( 1 )) CollationName,
+               CAST( NULL as SQL_CHAR( 1 )) CharacterSetCatalog,
+               CAST( NULL as SQL_CHAR( 1 )) CharacterSetSchema,
+               CAST( NULL as SQL_CHAR( 1 )) CharacterSetName,
+               FALSE IsMultiSet,
+               'Input' AS [Mode],
+               CAST( NULL as SQL_CHAR( 1 )) as [Default]
+            FROM
+               system.Iota
+            WHERE
+               TRUE = FALSE
+      </DefiningQuery>
+    </EntitySet>
+
+    <EntitySet Name="SProcedures" EntityType="Self.Procedure">
+      <DefiningQuery>
+         SELECT
+         RTRIM( ID ) AS ID,
+         RTRIM( CatalogName ) AS CatalogName,
+         RTRIM( SchemaName ) AS SchemaName,
+         RTRIM( Name ) AS Name
+         FROM
+         #NEawjtV9QSyEXa5XICWIBg_9OJutwEmTZel3MBWeAxcuA_p6veFSIeS4mIKEByRvQhegAA_SProcedures
+      </DefiningQuery>
+    </EntitySet>
+
+    <EntitySet Name="SProcedureParameters" EntityType="Self.Parameter">
+      <DefiningQuery>
+         SELECT
+         RTRIM( ID ) AS ID,
+         RTRIM( ParentId ) AS ParentId,
+         RTRIM( Name ) AS Name,
+         Ordinal,
+         RTRIM( TypeName ) AS TypeName,
+         MaxLength,
+         Precision,
+         DateTimePrecision,
+         Scale,
+         CollationCatalog,
+         CollationSchema,
+         CollationName,
+         CharacterSetCatalog,
+         CharacterSetSchema,
+         CharacterSetName,
+         IsMultiSet,
+         RTRIM( [Mode] ) AS [Mode],
+         [Default]
+         FROM
+         #NEawjtV9QSyEXa5XICWIBg_9OJutwEmTZel3MBWeAxcuA_VAy9VFx0SHadO67Dsy5keQBB_SProcedureParameters
+      </DefiningQuery>
+    </EntitySet>
+
+    <EntitySet Name="SConstraints" EntityType="Self.Constraint">
+      <DefiningQuery>
+         SELECT * FROM #NEawjtV9QSyEXa5XICWIBg_9OJutwEmTZel3MBWeAxcuA_yxmlhu1QQRCaH7RRB6Ih2Q_SContraints
+      </DefiningQuery>
+    </EntitySet>
+
+    <EntitySet Name="SCheckConstraints" EntityType="Self.CheckConstraint">
+      <DefiningQuery>
+         SELECT
+               CAST( NULL as SQL_CHAR( 401 ) ) Id,
+               CAST( NULL as SQL_CHAR( 401 ) ) Expression
+            FROM
+               system.Iota
+            WHERE
+               TRUE = FALSE
+      </DefiningQuery>
+    </EntitySet>
+
+    <EntitySet Name="SConstraintColumns" EntityType="Self.ConstraintColumn">
+      <DefiningQuery>
+         SELECT * FROM #NEawjtV9QSyEXa5XICWIBg_9OJutwEmTZel3MBWeAxcuA_HjKKob2HSGy7ZBeM716Y0A_SConstraintColumns
+      </DefiningQuery>
+    </EntitySet>
+
+    <EntitySet Name="SForeignKeyConstraints" EntityType="Self.ForeignKeyConstraint">
+      <DefiningQuery>
+         SELECT * FROM #NEawjtV9QSyEXa5XICWIBg_9OJutwEmTZel3MBWeAxcuA_2BQ1qv15Qg2jNWEJRRLFIw_SForeignKeyConstraints
+      </DefiningQuery>
+    </EntitySet>
+
+    <EntitySet Name="SForeignKeys" EntityType="Self.ForeignKey">
+      <DefiningQuery>
+         SELECT * FROM #NEawjtV9QSyEXa5XICWIBg_9OJutwEmTZel3MBWeAxcuA_KlYebalJROGCtfxDWYbCeQ_SForeignKeys
+      </DefiningQuery>
+    </EntitySet>
+
+    <EntitySet Name="SViewConstraints" EntityType="Self.ViewConstraint">
+      <DefiningQuery>
+         SELECT
+               CAST( NULL as SQL_CHAR( 401 ) )  Id,
+               CAST( NULL as SQL_CHAR( 401 ) )  ParentId,
+               CAST( NULL as SQL_CHAR( 401 ) )  Name,
+               CAST( NULL as SQL_CHAR( 401 ) )  ConstraintType,
+               0 IsDeferrable,
+               0 IsInitiallyDeferred,
+               CAST( NULL as SQL_CHAR( 401 ) )  Expression,
+               'NO ACTION'  UpdateRule,
+               'NO ACTION'  DeleteRule
+            FROM
+               system.Iota
+            WHERE
+               TRUE = FALSE
+      </DefiningQuery>
+    </EntitySet>
+
+    <EntitySet Name="SViewConstraintColumns" EntityType="Self.ConstraintColumn">
+      <DefiningQuery>
+         SELECT
+            CAST( NULL as SQL_CHAR( 401 ) )  ConstraintId,
+            CAST( NULL as SQL_CHAR( 401 ) )  ColumnId
+         FROM
+            system.Iota
+         WHERE
+            TRUE = FALSE
+      </DefiningQuery>
+    </EntitySet>
+
+    <EntitySet Name="SViewForeignKeys" EntityType="Self.ForeignKey">
+      <DefiningQuery>
+         SELECT
+               CAST( NULL as SQL_CHAR( 401 ) )  Id,
+               CAST( NULL as SQL_CHAR( 401 ) )  ToColumnId,
+               CAST( NULL as SQL_CHAR( 401 ) )  FromColumnId,
+               CAST( NULL as SQL_CHAR( 401 ) )  ConstraintId,
+               0 Ordinal
+            FROM
+               system.Iota
+            WHERE
+               TRUE = FALSE
+      </DefiningQuery>
+    </EntitySet>
+
+    <AssociationSet Name="STableTableColumns" Association="Self.TableTableColumn" >
+      <End Role="Parent" EntitySet="STables"/>
+      <End Role="Column" EntitySet="STableColumns"/>
+    </AssociationSet>
+    <AssociationSet Name="STableConstraints" Association="Self.TableTableConstraint" >
+      <End Role="Parent" EntitySet="STables"/>
+      <End Role="Constraint" EntitySet="SConstraints"/>
+    </AssociationSet>
+    <AssociationSet Name="SConstraintConstraintColumns" Association="Self.ConstraintConstraintColumn" >
+      <End Role="ConstraintColumn" EntitySet="SConstraintColumns"/>
+      <End Role="Constraint" EntitySet="SConstraints"/>
+    </AssociationSet>
+    <AssociationSet Name="SConstraintForeignKeys" Association="Self.ConstraintForeignKey" >
+      <End Role="ForeignKey" EntitySet="SForeignKeys"/>
+      <End Role="Constraint" EntitySet="SForeignKeyConstraints"/>
+    </AssociationSet>
+    <AssociationSet Name="SFromForeignKeyColumns" Association="Self.FromForeignKeyColumn" >
+      <End Role="ForeignKey" EntitySet="SForeignKeys"/>
+      <End Role="Column" EntitySet="STableColumns"/>
+    </AssociationSet>
+    <AssociationSet Name="SToForeignKeyColumns" Association="Self.ToForeignKeyColumn" >
+      <End Role="ForeignKey" EntitySet="SForeignKeys"/>
+      <End Role="Column" EntitySet="STableColumns"/>
+    </AssociationSet>
+
+    <AssociationSet Name="SViewViewColumns" Association="Self.ViewViewColumn" >
+      <End Role="Parent" EntitySet="SViews"/>
+      <End Role="Column" EntitySet="SViewColumns"/>
+    </AssociationSet>
+    <AssociationSet Name="SViewViewConstraints" Association="Self.ViewViewConstraint" >
+      <End Role="Parent" EntitySet="SViews"/>
+      <End Role="Constraint" EntitySet="SViewConstraints"/>
+    </AssociationSet>
+    <AssociationSet Name="SViewConstraintConstraintColumns" Association="Self.ViewConstraintConstraintColumn" >
+      <End Role="ConstraintColumn" EntitySet="SViewConstraintColumns"/>
+      <End Role="Constraint" EntitySet="SViewConstraints"/>
+    </AssociationSet>
+    <AssociationSet Name="SViewConstraintForeignKeys" Association="Self.ViewConstraintForeignKey" >
+      <End Role="ForeignKey" EntitySet="SViewForeignKeys"/>
+      <End Role="Constraint" EntitySet="SViewConstraints"/>
+    </AssociationSet>
+    <AssociationSet Name="SFromForeignKeyViewColumns" Association="Self.FromForeignKeyViewColumn" >
+      <End Role="ForeignKey" EntitySet="SViewForeignKeys"/>
+      <End Role="Column" EntitySet="SViewColumns"/>
+    </AssociationSet>
+    <AssociationSet Name="SToForeignKeyViewColumns" Association="Self.ToForeignKeyViewColumn" >
+      <End Role="ForeignKey" EntitySet="SViewForeignKeys"/>
+      <End Role="Column" EntitySet="SViewColumns"/>
+    </AssociationSet>
+
+    <AssociationSet Name="FunctionFunctionParameters" Association="Self.FunctionFunctionParameter">
+      <End Role="Function" EntitySet="SFunctions"/>
+      <End Role="Parameter" EntitySet="SFunctionParameters"/>
+    </AssociationSet>
+    <AssociationSet Name="ProcedureProcedureParameters" Association="Self.ProcedureProcedureParameter" >
+      <End Role="Procedure" EntitySet="SProcedures"/>
+      <End Role="Parameter" EntitySet="SProcedureParameters"/>
+    </AssociationSet>
+
+  </EntityContainer>
+
+  <EntityType Name="Table">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" Type="char" />
+    <Property Name="CatalogName" Type="char" MaxLength="200" />
+    <Property Name="SchemaName" Type="char" MaxLength="200" />
+    <Property Name="Name" Nullable="false" Type="char" MaxLength="255" />
+  </EntityType>
+
+  <EntityType Name="TableColumn" >
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" Type="char"/>
+    <Property Name="ParentId" Nullable="false" Type="char"/>
+    <Property Name="Name" Nullable="false" Type="char" MaxLength="200"/>
+    <Property Name="Ordinal" Nullable="false" Type="integer" />
+    <Property Name="IsNullable" Nullable="false" Type="logical" />
+    <Property Name="TypeName" Nullable="false" Type="char" MaxLength="256" />
+    <Property Name="MaxLength" Type="integer" />
+    <Property Name="Precision" Type="integer" />
+    <Property Name="DateTimePrecision" Type="integer" />
+    <Property Name="Scale" Type="integer" />
+    <Property Name="CollationCatalog" Type="char" MaxLength="128" />
+    <Property Name="CollationSchema" Type="char" MaxLength="128" />
+    <Property Name="CollationName" Type="char" MaxLength="128" />
+    <Property Name="CharacterSetCatalog" Type="char" MaxLength="128" />
+    <Property Name="CharacterSetSchema" Type="char" MaxLength="128" />
+    <Property Name="CharacterSetName" Type="char" MaxLength="128" />
+    <Property Name="IsMultiSet" Nullable="false" Type="logical" />
+    <Property Name="IsIdentity" Nullable="false" Type="logical" />
+    <Property Name="IsStoreGenerated" Nullable="false" Type="logical" />
+    <Property Name="Default" Nullable="true" Type="memo"/>
+  </EntityType>
+
+  <EntityType Name="View">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" Type="char" />
+    <Property Name="CatalogName" Type="char" MaxLength="200" />
+    <Property Name="SchemaName" Type="char" MaxLength="200" />
+    <Property Name="Name" Nullable="false" Type="char" MaxLength="200" />
+    <Property Name="ViewDefinition" Nullable="true" Type="memo" />
+    <Property Name="IsUpdatable" Nullable="false" Type="logical" />
+  </EntityType>
+
+  <EntityType Name="ViewColumn">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" Type="char"/>
+    <Property Name="ParentId" Nullable="false" Type="char"/>
+    <Property Name="Name" Nullable="false" Type="char" MaxLength="200"/>
+    <Property Name="Ordinal" Nullable="false" Type="integer" />
+    <Property Name="IsNullable" Nullable="false" Type="logical" />
+    <Property Name="TypeName" Nullable="false" Type="char" MaxLength="256" />
+    <Property Name="MaxLength" Type="integer" />
+    <Property Name="Precision" Type="integer" />
+    <Property Name="DateTimePrecision" Type="integer" />
+    <Property Name="Scale" Type="integer" />
+    <Property Name="CollationCatalog" Type="char" MaxLength="128" />
+    <Property Name="CollationSchema" Type="char" MaxLength="128" />
+    <Property Name="CollationName" Type="char" MaxLength="128" />
+    <Property Name="CharacterSetCatalog" Type="char" MaxLength="128" />
+    <Property Name="CharacterSetSchema" Type="char" MaxLength="128" />
+    <Property Name="CharacterSetName" Type="char" MaxLength="128" />
+    <Property Name="IsMultiSet" Nullable="false" Type="logical" />
+    <Property Name="IsIdentity" Nullable="false" Type="logical" />
+    <Property Name="IsStoreGenerated" Nullable="false" Type="logical" />
+    <Property Name="Default" Nullable="true" Type="memo"/>
+  </EntityType>
+
+  <EntityType Name="Function">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" Type="char"/>
+    <Property Name="CatalogName" Type="char" MaxLength="200"/>
+    <Property Name="SchemaName" Type="char" MaxLength="200"/>
+    <Property Name="Name" Nullable="false" Type="char" MaxLength="200"/>
+    <Property Name="ReturnTypeName" Type="char" MaxLength="200" />
+    <Property Name="ReturnMaxLength" Type="integer" />
+    <Property Name="ReturnPrecision" Type="integer" />
+    <Property Name="ReturnDateTimePrecision" Type="integer" />
+    <Property Name="ReturnScale" Type="integer" />
+    <Property Name="ReturnCollationCatalog" Type="char" MaxLength="128" />
+    <Property Name="ReturnCollationSchema" Type="char" MaxLength="128" />
+    <Property Name="ReturnCollationName" Type="char" MaxLength="128" />
+    <Property Name="ReturnCharacterSetCatalog" Type="char" MaxLength="128" />
+    <Property Name="ReturnCharacterSetSchema" Type="char" MaxLength="128" />
+    <Property Name="ReturnCharacterSetName" Type="char" MaxLength="128" />
+    <Property Name="ReturnIsMultiSet" Nullable="false" Type="logical" />
+    <Property Name="IsAggregate" Type="logical" />
+    <Property Name="IsBuiltIn" Type="logical" />
+    <Property Name="IsNiladic" Type="logical" />
+  </EntityType>
+
+  <EntityType Name="Procedure">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" Type="char"/>
+    <Property Name="CatalogName" Type="char" MaxLength="256"/>
+    <Property Name="SchemaName" Type="char" MaxLength="256"/>
+    <Property Name="Name" Nullable="false" Type="char" MaxLength="256"/>
+  </EntityType>
+
+  <EntityType Name="Parameter">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" Type="char"/>
+    <Property Name="ParentId" Nullable="false" Type="char"/>
+    <Property Name="Name" Nullable="false" Type="char" />
+    <Property Name="Ordinal" Nullable="false" Type="integer"/>
+    <Property Name="TypeName" Nullable="false" Type="char" MaxLength="256" />
+    <Property Name="MaxLength" Nullable="true" Type="integer" />
+    <Property Name="Precision" Nullable="true" Type="integer" />
+    <Property Name="DateTimePrecision" Type="integer" />
+    <Property Name="Scale" Nullable="true" Type="integer" />
+    <Property Name="CollationCatalog" Type="char" MaxLength="128" />
+    <Property Name="CollationSchema" Type="char" MaxLength="128" />
+    <Property Name="CollationName" Type="char" MaxLength="128" />
+    <Property Name="CharacterSetCatalog" Type="char" MaxLength="128" />
+    <Property Name="CharacterSetSchema" Type="char" MaxLength="128" />
+    <Property Name="CharacterSetName" Type="char" MaxLength="128" />
+    <Property Name="IsMultiSet" Nullable="false" Type="logical" />
+    <Property Name="Mode" Type="char" MaxLength="16" />
+    <Property Name="Default" Type="char" />
+  </EntityType>
+
+  <EntityType Name="Constraint">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" Type="char" />
+    <Property Name="ParentId" Nullable="false" Type="char" />
+    <Property Name="Name" Nullable="false" MaxLength="256" Type="char" />
+    <Property Name="IsDeferrable" Nullable="false" Type="logical" />
+    <Property Name="IsInitiallyDeferred" Nullable="false" Type="logical" />
+    <Property Name="ConstraintType" Nullable="false" MaxLength="11" Type="char" />
+  </EntityType>
+
+  <EntityType Name="CheckConstraint">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" Type="char" />
+    <Property Name="Expression" Nullable="true" MaxLength="4000" Type="char" />
+  </EntityType>
+
+  <EntityType Name="ConstraintColumn">
+    <Key>
+      <PropertyRef Name="ConstraintId" />
+      <PropertyRef Name="ColumnId" />
+    </Key>
+    <Property Name="ConstraintId" Nullable="false" Type="char" />
+    <Property Name="ColumnId" Nullable="false" Type="char" />
+  </EntityType>
+
+  <EntityType Name="ForeignKeyConstraint">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" Type="char" />
+    <Property Name="UpdateRule" Nullable="false" MaxLength="11" Type="char" />
+    <Property Name="DeleteRule" Nullable="false" MaxLength="11" Type="char" />
+  </EntityType>
+
+  <EntityType Name="ForeignKey">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" Type="char" />
+    <Property Name="Ordinal" Nullable="false" Type="integer" />
+    <Property Name="ConstraintId" Nullable="false" Type="char" />
+    <Property Name="FromColumnId" Nullable="false" Type="char" />
+    <Property Name="ToColumnId" Nullable="false" Type="char" />
+  </EntityType>
+
+  <EntityType Name="ViewConstraint">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Nullable="false" Type="char" />
+    <Property Name="ParentId" Nullable="false" Type="char" />
+    <Property Name="Name" Nullable="false" MaxLength="256" Type="char" />
+    <Property Name="IsDeferrable" Nullable="false" Type="logical" />
+    <Property Name="IsInitiallyDeferred" Nullable="false" Type="logical" />
+    <Property Name="ConstraintType" Nullable="false" MaxLength="11" Type="char" />
+    <Property Name="Expression" Nullable="true" MaxLength="4000" Type="char" />
+    <Property Name="UpdateRule" Nullable="true" MaxLength="11" Type="char" />
+    <Property Name="DeleteRule" Nullable="true" MaxLength="11" Type="char" />
+  </EntityType>
+
+  <Association Name="TableTableConstraint">
+    <End Type="Self.Table" Role="Parent" Multiplicity="1" />
+    <End Type="Self.Constraint" Role="Constraint" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Parent">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Constraint">
+        <PropertyRef Name="ParentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+
+  <Association Name="ConstraintConstraintColumn">
+    <End Type="Self.Constraint" Role="Constraint" Multiplicity="1" />
+    <End Type="Self.ConstraintColumn" Role="ConstraintColumn" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Constraint">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ConstraintColumn">
+        <PropertyRef Name="ConstraintId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+
+  <Association Name="ConstraintForeignKey">
+    <End Type="Self.ForeignKeyConstraint" Role="Constraint" Multiplicity="1" />
+    <End Type="Self.ForeignKey" Role="ForeignKey" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Constraint">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ForeignKey">
+        <PropertyRef Name="ConstraintId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+
+  <Association Name="FromForeignKeyColumn">
+    <End Type="Self.TableColumn" Role="Column" Multiplicity="1" />
+    <End Type="Self.ForeignKey" Role="ForeignKey" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Column">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ForeignKey">
+        <PropertyRef Name="FromColumnId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+
+  <Association Name="ToForeignKeyColumn">
+    <End Type="Self.TableColumn" Role="Column" Multiplicity="1" />
+    <End Type="Self.ForeignKey" Role="ForeignKey" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Column">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ForeignKey">
+        <PropertyRef Name="ToColumnId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+
+  <Association Name="TableTableColumn">
+    <End Type="Self.Table" Role="Parent" Multiplicity="1" />
+    <End Type="Self.TableColumn" Role="Column" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Parent">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Column">
+        <PropertyRef Name="ParentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+
+  <Association Name="ViewViewColumn">
+    <End Type="Self.View" Role="Parent" Multiplicity="1" />
+    <End Type="Self.ViewColumn" Role="Column" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Parent">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Column">
+        <PropertyRef Name="ParentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+
+  <Association Name="FunctionFunctionParameter">
+    <End Type="Self.Function" Role="Function" Multiplicity="1" />
+    <End Type="Self.Parameter" Role="Parameter" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Function">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Parameter">
+        <PropertyRef Name="ParentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+
+  <Association Name="ProcedureProcedureParameter">
+    <End Type="Self.Procedure" Role="Procedure" Multiplicity="1" />
+    <End Type="Self.Parameter" Role="Parameter" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Procedure">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Parameter">
+        <PropertyRef Name="ParentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+
+  <Association Name="ViewViewConstraint">
+    <End Type="Self.View" Role="Parent" Multiplicity="1" />
+    <End Type="Self.ViewConstraint" Role="Constraint" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Parent">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Constraint">
+        <PropertyRef Name="ParentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+
+  <Association Name="ViewConstraintConstraintColumn">
+    <End Type="Self.ViewConstraint" Role="Constraint" Multiplicity="1" />
+    <End Type="Self.ConstraintColumn" Role="ConstraintColumn" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Constraint">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ConstraintColumn">
+        <PropertyRef Name="ConstraintId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+
+  <Association Name="ViewConstraintForeignKey">
+    <End Type="Self.ViewConstraint" Role="Constraint" Multiplicity="1" />
+    <End Type="Self.ForeignKey" Role="ForeignKey" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Constraint">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ForeignKey">
+        <PropertyRef Name="ConstraintId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+
+  <Association Name="FromForeignKeyViewColumn">
+    <End Type="Self.ViewColumn" Role="Column" Multiplicity="1" />
+    <End Type="Self.ForeignKey" Role="ForeignKey" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Column">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ForeignKey">
+        <PropertyRef Name="FromColumnId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+
+  <Association Name="ToForeignKeyViewColumn">
+    <End Type="Self.ViewColumn" Role="Column" Multiplicity="1" />
+    <End Type="Self.ForeignKey" Role="ForeignKey" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Column">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ForeignKey">
+        <PropertyRef Name="ToColumnId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+
+</Schema>

@@ -1,10 +1,10 @@
-﻿using AdvantageClientEngine;
-using System;
+﻿using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using System.Globalization;
+using AdvantageClientEngine;
 
 namespace Advantage.Data.Provider
 {
@@ -24,34 +24,34 @@ namespace Advantage.Data.Provider
 
         private void InitializeBuilder()
         {
-            this.mCSHandler = new AdsConnectionStringHandler();
-            this.mstrServerType = "REMOTE";
-            this.mstrTableType = "ADT";
-            this.mstrCharType = "ANSI";
-            this.mstrUnicodeCollation = "";
-            AdsConnectionStringBuilder.maUnicodeNames = (ArrayList)null;
-            this.mstrLockMode = "PROPRIETARY";
-            this.mstrSecurityMode = "IGNORERIGHTS";
-            this.mstrFilterOptions = "IGNORE_WHEN_COUNTING";
-            this.mstrCompression = "";
-            this.mstrCommType = "";
+            mCSHandler = new AdsConnectionStringHandler();
+            mstrServerType = "REMOTE";
+            mstrTableType = "ADT";
+            mstrCharType = "ANSI";
+            mstrUnicodeCollation = "";
+            maUnicodeNames = null;
+            mstrLockMode = "PROPRIETARY";
+            mstrSecurityMode = "IGNORERIGHTS";
+            mstrFilterOptions = "IGNORE_WHEN_COUNTING";
+            mstrCompression = "";
+            mstrCommType = "";
         }
 
         public AdsConnectionStringBuilder()
-            : this((string)null)
+            : this(null)
         {
-            this.InitializeBuilder();
+            InitializeBuilder();
         }
 
         public AdsConnectionStringBuilder(string connStr)
         {
-            this.InitializeBuilder();
-            this.ConnectionString = connStr;
+            InitializeBuilder();
+            ConnectionString = connStr;
         }
 
         public override void Clear()
         {
-            this.InitializeBuilder();
+            InitializeBuilder();
             base.Clear();
         }
 
@@ -62,11 +62,11 @@ namespace Advantage.Data.Provider
         [ParenthesizePropertyName(true)]
         public string DataSource
         {
-            get => this.mCSHandler.DataSource;
+            get => mCSHandler.DataSource;
             set
             {
-                base["Data Source"] = (object)value;
-                this.mCSHandler.DataSource = value;
+                base["Data Source"] = value;
+                mCSHandler.DataSource = value;
             }
         }
 
@@ -77,11 +77,11 @@ namespace Advantage.Data.Provider
         [Category("Data Source")]
         public string InitialCatalog
         {
-            get => this.mCSHandler.InitialCatalog;
+            get => mCSHandler.InitialCatalog;
             set
             {
-                base["Initial Catalog"] = (object)value;
-                this.mCSHandler.InitialCatalog = value;
+                base["Initial Catalog"] = value;
+                mCSHandler.InitialCatalog = value;
             }
         }
 
@@ -91,11 +91,11 @@ namespace Advantage.Data.Provider
         [Description("Specifies the user ID to use when connecting to the data source.")]
         public string UserID
         {
-            get => this.mCSHandler.UserID;
+            get => mCSHandler.UserID;
             set
             {
-                base["User ID"] = (object)value;
-                this.mCSHandler.UserID = value;
+                base["User ID"] = value;
+                mCSHandler.UserID = value;
             }
         }
 
@@ -106,11 +106,11 @@ namespace Advantage.Data.Provider
         [RefreshProperties(RefreshProperties.All)]
         public string Password
         {
-            get => this.mCSHandler.Password;
+            get => mCSHandler.Password;
             set
             {
-                base[nameof(Password)] = (object)value;
-                this.mCSHandler.Password = value;
+                base[nameof(Password)] = value;
+                mCSHandler.Password = value;
             }
         }
 
@@ -118,93 +118,93 @@ namespace Advantage.Data.Provider
         [DisplayName("TableType")]
         [RefreshProperties(RefreshProperties.All)]
         [Category("Source")]
-        [TypeConverter(typeof(AdsConnectionStringBuilder.TableTypeConverter))]
+        [TypeConverter(typeof(TableTypeConverter))]
         public string TableType
         {
-            get => this.mstrTableType;
+            get => mstrTableType;
             set
             {
                 if (value == null)
                 {
                     base.Remove(nameof(TableType));
-                    this.mstrTableType = "ADT";
+                    mstrTableType = "ADT";
                 }
                 else
                 {
-                    this.mCSHandler.ParseConnectionString("TableType=" + value);
-                    base[nameof(TableType)] = (object)value;
-                    this.mstrTableType = value;
+                    mCSHandler.ParseConnectionString("TableType=" + value);
+                    base[nameof(TableType)] = value;
+                    mstrTableType = value;
                 }
             }
         }
 
         [RefreshProperties(RefreshProperties.All)]
-        [TypeConverter(typeof(AdsConnectionStringBuilder.ServerTypeConverter))]
+        [TypeConverter(typeof(ServerTypeConverter))]
         [DisplayName("ServerType")]
         [Category("Source")]
         [Description("Specifies the server type to use for the connection.")]
         public string ServerType
         {
-            get => this.mstrServerType;
+            get => mstrServerType;
             set
             {
                 if (value == null)
                 {
                     base.Remove(nameof(ServerType));
-                    this.mstrServerType = "REMOTE";
+                    mstrServerType = "REMOTE";
                 }
                 else
                 {
-                    base[nameof(ServerType)] = (object)value;
-                    this.mCSHandler.ParseConnectionString("ServerType=" + value);
-                    this.mstrServerType = value;
+                    base[nameof(ServerType)] = value;
+                    mCSHandler.ParseConnectionString("ServerType=" + value);
+                    mstrServerType = value;
                 }
             }
         }
 
-        [TypeConverter(typeof(AdsConnectionStringBuilder.CharTypeConverter))]
+        [TypeConverter(typeof(CharTypeConverter))]
         [DisplayName("CharType")]
         [RefreshProperties(RefreshProperties.All)]
         [Category("Source")]
         [Description("Specifies the character set to use for collation and comparison of string values.")]
         public string CharType
         {
-            get => this.mstrCharType;
+            get => mstrCharType;
             set
             {
                 if (value == null)
                 {
                     base.Remove(nameof(CharType));
-                    this.mstrCharType = "ANSI";
+                    mstrCharType = "ANSI";
                 }
                 else
                 {
-                    base[nameof(CharType)] = (object)value;
-                    this.mCSHandler.ParseConnectionString("CharType=" + value);
-                    this.mstrCharType = value;
+                    base[nameof(CharType)] = value;
+                    mCSHandler.ParseConnectionString("CharType=" + value);
+                    mstrCharType = value;
                 }
             }
         }
 
         [Category("Source")]
-        [TypeConverter(typeof(AdsConnectionStringBuilder.UnicodeCollationConverter))]
+        [TypeConverter(typeof(UnicodeCollationConverter))]
         [DisplayName("UnicodeCollation")]
         [RefreshProperties(RefreshProperties.All)]
         [Description("Specifies the Unicode collation to use for sorting of string values.")]
         public string UnicodeCollation
         {
-            get => this.mstrUnicodeCollation;
+            get => mstrUnicodeCollation;
             set
             {
                 if (value == null)
                 {
                     base.Remove(nameof(UnicodeCollation));
-                    this.mstrUnicodeCollation = "";
+                    mstrUnicodeCollation = "";
                 }
                 else
                 {
-                    base[nameof(UnicodeCollation)] = (object)value;
-                    this.mstrUnicodeCollation = value;
+                    base[nameof(UnicodeCollation)] = value;
+                    mstrUnicodeCollation = value;
                 }
             }
         }
@@ -213,46 +213,46 @@ namespace Advantage.Data.Provider
         [Description("Specifies the locking mode to use with DBF tables.")]
         [DisplayName("LockMode")]
         [RefreshProperties(RefreshProperties.All)]
-        [TypeConverter(typeof(AdsConnectionStringBuilder.LockModeTypeConverter))]
+        [TypeConverter(typeof(LockModeTypeConverter))]
         public string LockMode
         {
-            get => this.mstrLockMode;
+            get => mstrLockMode;
             set
             {
                 if (value == null)
                 {
                     base.Remove(nameof(LockMode));
-                    this.mstrLockMode = "PROPRIETARY";
+                    mstrLockMode = "PROPRIETARY";
                 }
                 else
                 {
-                    base[nameof(LockMode)] = (object)value;
-                    this.mCSHandler.ParseConnectionString("LockMode=" + value);
-                    this.mstrLockMode = value;
+                    base[nameof(LockMode)] = value;
+                    mCSHandler.ParseConnectionString("LockMode=" + value);
+                    mstrLockMode = value;
                 }
             }
         }
 
         [Category("Source")]
-        [TypeConverter(typeof(AdsConnectionStringBuilder.SecurityModeTypeConverter))]
+        [TypeConverter(typeof(SecurityModeTypeConverter))]
         [DisplayName("SecurityMode")]
         [Description("Specifies if the client should perform rights checking for free connections.")]
         [RefreshProperties(RefreshProperties.All)]
         public string SecurityMode
         {
-            get => this.mstrSecurityMode;
+            get => mstrSecurityMode;
             set
             {
                 if (value == null)
                 {
                     base.Remove(nameof(SecurityMode));
-                    this.mstrSecurityMode = "IGNORERIGHTS";
+                    mstrSecurityMode = "IGNORERIGHTS";
                 }
                 else
                 {
-                    base[nameof(SecurityMode)] = (object)value;
-                    this.mCSHandler.ParseConnectionString("SecurityMode=" + value);
-                    this.mstrSecurityMode = value;
+                    base[nameof(SecurityMode)] = value;
+                    mCSHandler.ParseConnectionString("SecurityMode=" + value);
+                    mstrSecurityMode = value;
                 }
             }
         }
@@ -261,22 +261,22 @@ namespace Advantage.Data.Provider
         [Description("Specifies the communication protocol used to connect to the Advantage Database Server.")]
         [DisplayName("CommType")]
         [RefreshProperties(RefreshProperties.All)]
-        [TypeConverter(typeof(AdsConnectionStringBuilder.CommTypeConverter))]
+        [TypeConverter(typeof(CommTypeConverter))]
         public string CommType
         {
-            get => this.mstrCommType;
+            get => mstrCommType;
             set
             {
                 if (value == null)
                 {
                     base.Remove(nameof(CommType));
-                    this.mstrCommType = "";
+                    mstrCommType = "";
                 }
                 else
                 {
-                    base[nameof(CommType)] = (object)value;
-                    this.mCSHandler.ParseConnectionString("CommType=" + value);
-                    this.mstrCommType = value;
+                    base[nameof(CommType)] = value;
+                    mCSHandler.ParseConnectionString("CommType=" + value);
+                    mstrCommType = value;
                 }
             }
         }
@@ -287,11 +287,11 @@ namespace Advantage.Data.Provider
         [Category("Source")]
         public bool ShowDeleted
         {
-            get => this.mCSHandler.ShowDeleted;
+            get => mCSHandler.ShowDeleted;
             set
             {
-                base[nameof(ShowDeleted)] = (object)value;
-                this.mCSHandler.ShowDeleted = value;
+                base[nameof(ShowDeleted)] = value;
+                mCSHandler.ShowDeleted = value;
             }
         }
 
@@ -303,11 +303,11 @@ namespace Advantage.Data.Provider
         [PasswordPropertyText(true)]
         public string EncryptionPassword
         {
-            get => this.mCSHandler.EncryptionPassword;
+            get => mCSHandler.EncryptionPassword;
             set
             {
-                base[nameof(EncryptionPassword)] = (object)value;
-                this.mCSHandler.EncryptionPassword = value;
+                base[nameof(EncryptionPassword)] = value;
+                mCSHandler.EncryptionPassword = value;
             }
         }
 
@@ -318,15 +318,15 @@ namespace Advantage.Data.Provider
             "Specifies whether DBF tables are to return NULL for column data that is ordinarily considered as \"empty\" in Xbase terminology.")]
         public bool DbfsUseNulls
         {
-            get => this.mCSHandler.DbfsUseNulls;
+            get => mCSHandler.DbfsUseNulls;
             set
             {
-                base[nameof(DbfsUseNulls)] = (object)value;
-                this.mCSHandler.DbfsUseNulls = value;
+                base[nameof(DbfsUseNulls)] = value;
+                mCSHandler.DbfsUseNulls = value;
             }
         }
 
-        [TypeConverter(typeof(AdsConnectionStringBuilder.FilterOptionsTypeConverter))]
+        [TypeConverter(typeof(FilterOptionsTypeConverter))]
         [DisplayName("FilterOptions")]
         [RefreshProperties(RefreshProperties.All)]
         [Category("Source")]
@@ -334,19 +334,19 @@ namespace Advantage.Data.Provider
             "Specifies whether to respect the filtering applied to the rowset when determining record count and logical positioning information.")]
         public string FilterOptions
         {
-            get => this.mstrFilterOptions;
+            get => mstrFilterOptions;
             set
             {
                 if (value == null)
                 {
                     base.Remove(nameof(FilterOptions));
-                    this.mstrFilterOptions = "IGNORE_WHEN_COUNTING";
+                    mstrFilterOptions = "IGNORE_WHEN_COUNTING";
                 }
                 else
                 {
-                    base[nameof(FilterOptions)] = (object)value;
-                    this.mCSHandler.ParseConnectionString("FilterOptions=" + value);
-                    this.mstrFilterOptions = value;
+                    base[nameof(FilterOptions)] = value;
+                    mCSHandler.ParseConnectionString("FilterOptions=" + value);
+                    mstrFilterOptions = value;
                 }
             }
         }
@@ -358,11 +358,11 @@ namespace Advantage.Data.Provider
             "Specifies whether trailing white space is removed from string fields when the data is retrieved.")]
         public bool TrimTrailingSpaces
         {
-            get => this.mCSHandler.TrimTrailingSpaces;
+            get => mCSHandler.TrimTrailingSpaces;
             set
             {
-                base[nameof(TrimTrailingSpaces)] = (object)value;
-                this.mCSHandler.TrimTrailingSpaces = value;
+                base[nameof(TrimTrailingSpaces)] = value;
+                mCSHandler.TrimTrailingSpaces = value;
             }
         }
 
@@ -373,34 +373,34 @@ namespace Advantage.Data.Provider
         [Category("Source")]
         public bool Enlist
         {
-            get => this.mCSHandler.TransScopeEnlist;
+            get => mCSHandler.TransScopeEnlist;
             set
             {
-                base[nameof(Enlist)] = (object)value;
-                this.mCSHandler.TransScopeEnlist = value;
+                base[nameof(Enlist)] = value;
+                mCSHandler.TransScopeEnlist = value;
             }
         }
 
-        [TypeConverter(typeof(AdsConnectionStringBuilder.CompressionTypeConverter))]
+        [TypeConverter(typeof(CompressionTypeConverter))]
         [Category("Source")]
         [Description("Specifies the option for communications compression between client and server.")]
         [DisplayName("Compression")]
         [RefreshProperties(RefreshProperties.All)]
         public string Compression
         {
-            get => this.mstrCompression;
+            get => mstrCompression;
             set
             {
                 if (value == null)
                 {
                     base.Remove(nameof(Compression));
-                    this.mstrCompression = "";
+                    mstrCompression = "";
                 }
                 else
                 {
-                    base[nameof(Compression)] = (object)value;
-                    this.mCSHandler.ParseConnectionString("Compression=" + value);
-                    this.mstrCompression = value;
+                    base[nameof(Compression)] = value;
+                    mCSHandler.ParseConnectionString("Compression=" + value);
+                    mstrCompression = value;
                 }
             }
         }
@@ -412,11 +412,11 @@ namespace Advantage.Data.Provider
         [Category("Source")]
         public bool Shared
         {
-            get => this.mCSHandler.Shared;
+            get => mCSHandler.Shared;
             set
             {
-                base[nameof(Shared)] = (object)value;
-                this.mCSHandler.Shared = value;
+                base[nameof(Shared)] = value;
+                mCSHandler.Shared = value;
             }
         }
 
@@ -426,11 +426,11 @@ namespace Advantage.Data.Provider
         [Description("Specifies whether tables are opened read-only or read-write.")]
         public bool ReadOnly
         {
-            get => this.mCSHandler.ReadOnly;
+            get => mCSHandler.ReadOnly;
             set
             {
-                base[nameof(ReadOnly)] = (object)value;
-                this.mCSHandler.ReadOnly = value;
+                base[nameof(ReadOnly)] = value;
+                mCSHandler.ReadOnly = value;
             }
         }
 
@@ -440,11 +440,11 @@ namespace Advantage.Data.Provider
         [Category("Pooling")]
         public bool Pooling
         {
-            get => this.mCSHandler.Pooling;
+            get => mCSHandler.Pooling;
             set
             {
-                base[nameof(Pooling)] = (object)value;
-                this.mCSHandler.Pooling = value;
+                base[nameof(Pooling)] = value;
+                mCSHandler.Pooling = value;
             }
         }
 
@@ -454,11 +454,11 @@ namespace Advantage.Data.Provider
         [DisplayName("Min Pool Size")]
         public int MinPoolSize
         {
-            get => this.mCSHandler.MinPoolSize;
+            get => mCSHandler.MinPoolSize;
             set
             {
-                base["Min Pool Size"] = (object)value;
-                this.mCSHandler.MinPoolSize = value;
+                base["Min Pool Size"] = value;
+                mCSHandler.MinPoolSize = value;
             }
         }
 
@@ -468,11 +468,11 @@ namespace Advantage.Data.Provider
         [DisplayName("Max Pool Size")]
         public int MaxPoolSize
         {
-            get => this.mCSHandler.MaxPoolSize;
+            get => mCSHandler.MaxPoolSize;
             set
             {
-                base["Max Pool Size"] = (object)value;
-                this.mCSHandler.MaxPoolSize = value;
+                base["Max Pool Size"] = value;
+                mCSHandler.MaxPoolSize = value;
             }
         }
 
@@ -483,11 +483,11 @@ namespace Advantage.Data.Provider
         [DisplayName("Connection Lifetime")]
         public int ConnectionLifetime
         {
-            get => this.mCSHandler.LifeTime;
+            get => mCSHandler.LifeTime;
             set
             {
-                base["Connection Lifetime"] = (object)value;
-                this.mCSHandler.LifeTime = value;
+                base["Connection Lifetime"] = value;
+                mCSHandler.LifeTime = value;
             }
         }
 
@@ -498,23 +498,23 @@ namespace Advantage.Data.Provider
         [Category("Source")]
         public bool FIPS
         {
-            get => this.mCSHandler.FIPSMode;
+            get => mCSHandler.FIPSMode;
             set
             {
-                base[nameof(FIPS)] = (object)value;
-                this.mCSHandler.FIPSMode = value;
+                base[nameof(FIPS)] = value;
+                mCSHandler.FIPSMode = value;
             }
         }
 
         [Description(
             "Specifies the encryption type to use for newly encrypted free tables or new dictionaries created on this connection.")]
         [RefreshProperties(RefreshProperties.All)]
-        [TypeConverter(typeof(AdsConnectionStringBuilder.EncryptionTypeConverter))]
+        [TypeConverter(typeof(EncryptionTypeConverter))]
         [DisplayName("EncryptionType")]
         [Category("Source")]
         public string EncryptionType
         {
-            get => this.mCSHandler.EncryptionType;
+            get => mCSHandler.EncryptionType;
             set
             {
                 if (value == null)
@@ -523,8 +523,8 @@ namespace Advantage.Data.Provider
                 }
                 else
                 {
-                    base[nameof(EncryptionType)] = (object)value;
-                    this.mCSHandler.EncryptionType = value;
+                    base[nameof(EncryptionType)] = value;
+                    mCSHandler.EncryptionType = value;
                 }
             }
         }
@@ -533,10 +533,10 @@ namespace Advantage.Data.Provider
         [Category("Source")]
         [Description("Specifies the allowed ciphers for Transport Layer Security communications.")]
         [DisplayName("TLSCiphers")]
-        [TypeConverter(typeof(AdsConnectionStringBuilder.TLSCiphersConverter))]
+        [TypeConverter(typeof(TLSCiphersConverter))]
         public string TLSCiphers
         {
-            get => this.mCSHandler.TLSCiphers;
+            get => mCSHandler.TLSCiphers;
             set
             {
                 if (value == null)
@@ -545,8 +545,8 @@ namespace Advantage.Data.Provider
                 }
                 else
                 {
-                    base[nameof(TLSCiphers)] = (object)value;
-                    this.mCSHandler.TLSCiphers = value;
+                    base[nameof(TLSCiphers)] = value;
+                    mCSHandler.TLSCiphers = value;
                 }
             }
         }
@@ -557,11 +557,11 @@ namespace Advantage.Data.Provider
         [Description("Specifies the public certificate file for Transport Layer Security communications.")]
         public string TLSCertificate
         {
-            get => this.mCSHandler.TLSCertificate;
+            get => mCSHandler.TLSCertificate;
             set
             {
-                base[nameof(TLSCertificate)] = (object)value;
-                this.mCSHandler.TLSCertificate = value;
+                base[nameof(TLSCertificate)] = value;
+                mCSHandler.TLSCertificate = value;
             }
         }
 
@@ -571,11 +571,11 @@ namespace Advantage.Data.Provider
         [RefreshProperties(RefreshProperties.All)]
         public string TLSCommonName
         {
-            get => this.mCSHandler.TLSCommonName;
+            get => mCSHandler.TLSCommonName;
             set
             {
-                base[nameof(TLSCommonName)] = (object)value;
-                this.mCSHandler.TLSCommonName = value;
+                base[nameof(TLSCommonName)] = value;
+                mCSHandler.TLSCommonName = value;
             }
         }
 
@@ -587,11 +587,11 @@ namespace Advantage.Data.Provider
         [RefreshProperties(RefreshProperties.All)]
         public string DDPassword
         {
-            get => this.mCSHandler.DDPassword;
+            get => mCSHandler.DDPassword;
             set
             {
-                base[nameof(DDPassword)] = (object)value;
-                this.mCSHandler.DDPassword = value;
+                base[nameof(DDPassword)] = value;
+                mCSHandler.DDPassword = value;
             }
         }
 
@@ -600,101 +600,101 @@ namespace Advantage.Data.Provider
             get => base[strKey];
             set
             {
-                switch (this.mCSHandler.MapPropertyName(strKey))
+                switch (mCSHandler.MapPropertyName(strKey))
                 {
                     case "TableType":
-                        this.TableType = (string)value;
+                        TableType = (string)value;
                         break;
                     case "CharType":
-                        this.CharType = (string)value;
+                        CharType = (string)value;
                         break;
                     case "UnicodeCollation":
-                        this.UnicodeCollation = (string)value;
+                        UnicodeCollation = (string)value;
                         break;
                     case "LockMode":
-                        this.LockMode = (string)value;
+                        LockMode = (string)value;
                         break;
                     case "SecurityMode":
-                        this.SecurityMode = (string)value;
+                        SecurityMode = (string)value;
                         break;
                     case "ServerType":
-                        this.ServerType = (string)value;
+                        ServerType = (string)value;
                         break;
                     case "ShowDeleted":
-                        this.ShowDeleted =
-                            ((IConvertible)value).ToBoolean((IFormatProvider)CultureInfo.InvariantCulture);
+                        ShowDeleted =
+                            ((IConvertible)value).ToBoolean(CultureInfo.InvariantCulture);
                         break;
                     case "EncryptionPassword":
-                        this.EncryptionPassword = (string)value;
+                        EncryptionPassword = (string)value;
                         break;
                     case "DbfsUseNulls":
-                        this.DbfsUseNulls =
-                            ((IConvertible)value).ToBoolean((IFormatProvider)CultureInfo.InvariantCulture);
+                        DbfsUseNulls =
+                            ((IConvertible)value).ToBoolean(CultureInfo.InvariantCulture);
                         break;
                     case "FilterOptions":
-                        this.FilterOptions = (string)value;
+                        FilterOptions = (string)value;
                         break;
                     case "TrimTrailingSpaces":
-                        this.TrimTrailingSpaces =
-                            ((IConvertible)value).ToBoolean((IFormatProvider)CultureInfo.InvariantCulture);
+                        TrimTrailingSpaces =
+                            ((IConvertible)value).ToBoolean(CultureInfo.InvariantCulture);
                         break;
                     case "Enlist":
-                        this.Enlist = ((IConvertible)value).ToBoolean((IFormatProvider)CultureInfo.InvariantCulture);
+                        Enlist = ((IConvertible)value).ToBoolean(CultureInfo.InvariantCulture);
                         break;
                     case "Compression":
-                        this.Compression = (string)value;
+                        Compression = (string)value;
                         break;
                     case "Shared":
-                        this.Shared = ((IConvertible)value).ToBoolean((IFormatProvider)CultureInfo.InvariantCulture);
+                        Shared = ((IConvertible)value).ToBoolean(CultureInfo.InvariantCulture);
                         break;
                     case "ReadOnly":
-                        this.ReadOnly = ((IConvertible)value).ToBoolean((IFormatProvider)CultureInfo.InvariantCulture);
+                        ReadOnly = ((IConvertible)value).ToBoolean(CultureInfo.InvariantCulture);
                         break;
                     case "Data Source":
-                        this.DataSource = (string)value;
+                        DataSource = (string)value;
                         break;
                     case "Initial Catalog":
-                        this.InitialCatalog = (string)value;
+                        InitialCatalog = (string)value;
                         break;
                     case "User ID":
-                        this.UserID = (string)value;
+                        UserID = (string)value;
                         break;
                     case "Password":
-                        this.Password = (string)value;
+                        Password = (string)value;
                         break;
                     case "Pooling":
-                        this.Pooling = ((IConvertible)value).ToBoolean((IFormatProvider)CultureInfo.InvariantCulture);
+                        Pooling = ((IConvertible)value).ToBoolean(CultureInfo.InvariantCulture);
                         break;
                     case "Min Pool Size":
-                        this.MinPoolSize = ((IConvertible)value).ToInt32((IFormatProvider)CultureInfo.InvariantCulture);
+                        MinPoolSize = ((IConvertible)value).ToInt32(CultureInfo.InvariantCulture);
                         break;
                     case "Max Pool Size":
-                        this.MaxPoolSize = ((IConvertible)value).ToInt32((IFormatProvider)CultureInfo.InvariantCulture);
+                        MaxPoolSize = ((IConvertible)value).ToInt32(CultureInfo.InvariantCulture);
                         break;
                     case "Connection Lifetime":
-                        this.ConnectionLifetime =
-                            ((IConvertible)value).ToInt32((IFormatProvider)CultureInfo.InvariantCulture);
+                        ConnectionLifetime =
+                            ((IConvertible)value).ToInt32(CultureInfo.InvariantCulture);
                         break;
                     case "CommType":
-                        this.CommType = (string)value;
+                        CommType = (string)value;
                         break;
                     case "FIPS":
-                        this.FIPS = ((IConvertible)value).ToBoolean((IFormatProvider)CultureInfo.InvariantCulture);
+                        FIPS = ((IConvertible)value).ToBoolean(CultureInfo.InvariantCulture);
                         break;
                     case "EncryptionType":
-                        this.EncryptionType = (string)value;
+                        EncryptionType = (string)value;
                         break;
                     case "DDPassword":
-                        this.DDPassword = (string)value;
+                        DDPassword = (string)value;
                         break;
                     case "TLSCiphers":
-                        this.TLSCiphers = (string)value;
+                        TLSCiphers = (string)value;
                         break;
                     case "TLSCertificate":
-                        this.TLSCertificate = (string)value;
+                        TLSCertificate = (string)value;
                         break;
                     case "TLSCommonName":
-                        this.TLSCommonName = (string)value;
+                        TLSCommonName = (string)value;
                         break;
                     default:
                         base[strKey] = value;
@@ -705,98 +705,98 @@ namespace Advantage.Data.Provider
 
         public override bool Remove(string strKey)
         {
-            bool flag = base.Remove(strKey);
-            switch (this.mCSHandler.MapPropertyName(strKey))
+            var flag = base.Remove(strKey);
+            switch (mCSHandler.MapPropertyName(strKey))
             {
                 case "TableType":
-                    this.TableType = (string)null;
+                    TableType = null;
                     break;
                 case "CharType":
-                    this.CharType = (string)null;
+                    CharType = null;
                     break;
                 case "UnicodeCollation":
-                    this.UnicodeCollation = (string)null;
+                    UnicodeCollation = null;
                     break;
                 case "LockMode":
-                    this.LockMode = (string)null;
+                    LockMode = null;
                     break;
                 case "SecurityMode":
-                    this.SecurityMode = (string)null;
+                    SecurityMode = null;
                     break;
                 case "ServerType":
-                    this.ServerType = (string)null;
+                    ServerType = null;
                     break;
                 case "ShowDeleted":
-                    this.mCSHandler.ShowDeleted = false;
+                    mCSHandler.ShowDeleted = false;
                     break;
                 case "EncryptionPassword":
-                    this.mCSHandler.EncryptionPassword = (string)null;
+                    mCSHandler.EncryptionPassword = null;
                     break;
                 case "DbfsUseNulls":
-                    this.mCSHandler.DbfsUseNulls = false;
+                    mCSHandler.DbfsUseNulls = false;
                     break;
                 case "FilterOptions":
-                    this.FilterOptions = (string)null;
+                    FilterOptions = null;
                     break;
                 case "TrimTrailingSpaces":
-                    this.mCSHandler.TrimTrailingSpaces = false;
+                    mCSHandler.TrimTrailingSpaces = false;
                     break;
                 case "Enlist":
-                    this.mCSHandler.TransScopeEnlist = true;
+                    mCSHandler.TransScopeEnlist = true;
                     break;
                 case "Compression":
-                    this.Compression = (string)null;
+                    Compression = null;
                     break;
                 case "Shared":
-                    this.mCSHandler.Shared = true;
+                    mCSHandler.Shared = true;
                     break;
                 case "ReadOnly":
-                    this.mCSHandler.ReadOnly = false;
+                    mCSHandler.ReadOnly = false;
                     break;
                 case "Data Source":
-                    this.mCSHandler.DataSource = (string)null;
+                    mCSHandler.DataSource = null;
                     break;
                 case "Initial Catalog":
-                    this.mCSHandler.InitialCatalog = (string)null;
+                    mCSHandler.InitialCatalog = null;
                     break;
                 case "User ID":
-                    this.mCSHandler.UserID = (string)null;
+                    mCSHandler.UserID = null;
                     break;
                 case "Password":
-                    this.mCSHandler.Password = (string)null;
+                    mCSHandler.Password = null;
                     break;
                 case "Pooling":
-                    this.mCSHandler.Pooling = true;
+                    mCSHandler.Pooling = true;
                     break;
                 case "Min Pool Size":
-                    this.mCSHandler.MinPoolSize = 0;
+                    mCSHandler.MinPoolSize = 0;
                     break;
                 case "Max Pool Size":
-                    this.mCSHandler.MaxPoolSize = 100;
+                    mCSHandler.MaxPoolSize = 100;
                     break;
                 case "Connection Lifetime":
-                    this.mCSHandler.LifeTime = 0;
+                    mCSHandler.LifeTime = 0;
                     break;
                 case "CommType":
-                    this.CommType = (string)null;
+                    CommType = null;
                     break;
                 case "FIPS":
-                    this.FIPS = false;
+                    FIPS = false;
                     break;
                 case "EncryptionType":
-                    this.EncryptionType = (string)null;
+                    EncryptionType = null;
                     break;
                 case "DDPassword":
-                    this.DDPassword = (string)null;
+                    DDPassword = null;
                     break;
                 case "TLSCiphers":
-                    this.TLSCiphers = (string)null;
+                    TLSCiphers = null;
                     break;
                 case "TLSCertificate":
-                    this.TLSCertificate = (string)null;
+                    TLSCertificate = null;
                     break;
                 case "TLSCommonName":
-                    this.TLSCommonName = (string)null;
+                    TLSCommonName = null;
                     break;
             }
 
@@ -805,92 +805,92 @@ namespace Advantage.Data.Provider
 
         private sealed class TableTypeConverter : TypeConverter
         {
-            private TypeConverter.StandardValuesCollection mcValues;
+            private StandardValuesCollection mcValues;
 
             public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
-            public override TypeConverter.StandardValuesCollection GetStandardValues(
+            public override StandardValuesCollection GetStandardValues(
                 ITypeDescriptorContext context)
             {
-                if (this.mcValues == null)
-                    this.mcValues = new TypeConverter.StandardValuesCollection((ICollection)new string[4]
+                if (mcValues == null)
+                    mcValues = new StandardValuesCollection(new string[4]
                     {
                         "ADT",
                         "VFP",
                         "CDX",
                         "NTX"
                     });
-                return this.mcValues;
+                return mcValues;
             }
         }
 
         private sealed class ServerTypeConverter : TypeConverter
         {
-            private TypeConverter.StandardValuesCollection mcValues;
+            private StandardValuesCollection mcValues;
 
             public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
-            public override TypeConverter.StandardValuesCollection GetStandardValues(
+            public override StandardValuesCollection GetStandardValues(
                 ITypeDescriptorContext context)
             {
-                if (this.mcValues == null)
-                    this.mcValues = new TypeConverter.StandardValuesCollection((ICollection)new string[4]
+                if (mcValues == null)
+                    mcValues = new StandardValuesCollection(new string[4]
                     {
                         "",
                         "REMOTE",
                         "LOCAL",
                         "AIS"
                     });
-                return this.mcValues;
+                return mcValues;
             }
         }
 
         private sealed class CharTypeConverter : TypeConverter
         {
-            private TypeConverter.StandardValuesCollection mcValues;
+            private StandardValuesCollection mcValues;
 
             public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
-            public override TypeConverter.StandardValuesCollection GetStandardValues(
+            public override StandardValuesCollection GetStandardValues(
                 ITypeDescriptorContext context)
             {
-                if (this.mcValues == null)
-                    this.mcValues =
-                        new TypeConverter.StandardValuesCollection(
-                            (ICollection)Enum.GetNames(typeof(ACE.AdsCharTypes)));
-                return this.mcValues;
+                if (mcValues == null)
+                    mcValues =
+                        new StandardValuesCollection(
+                            Enum.GetNames(typeof(ACE.AdsCharTypes)));
+                return mcValues;
             }
         }
 
         private sealed class UnicodeCollationConverter : TypeConverter
         {
-            private TypeConverter.StandardValuesCollection mcValues;
+            private StandardValuesCollection mcValues;
 
             public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
-            public override TypeConverter.StandardValuesCollection GetStandardValues(
+            public override StandardValuesCollection GetStandardValues(
                 ITypeDescriptorContext context)
             {
-                if (this.mcValues == null)
+                if (mcValues == null)
                 {
                     try
                     {
-                        if (AdsConnectionStringBuilder.maUnicodeNames == null)
+                        if (maUnicodeNames == null)
                         {
-                            AdsConnection adsConnection = new AdsConnection("data source=.;servertype=local;");
+                            var adsConnection = new AdsConnection("data source=.;servertype=local;");
                             adsConnection.Open();
-                            AdsCommand command = adsConnection.CreateCommand();
+                            var command = adsConnection.CreateCommand();
                             command.CommandText =
                                 "select x.Name from ( execute procedure sp_getcollations(null) )x where x.UnicodeLocale is null;";
                             command.CommandType = CommandType.Text;
-                            AdsDataReader adsDataReader = command.ExecuteReader();
-                            AdsConnectionStringBuilder.maUnicodeNames = new ArrayList();
+                            var adsDataReader = command.ExecuteReader();
+                            maUnicodeNames = new ArrayList();
                             while (adsDataReader.Read())
                             {
-                                AdsConnectionStringBuilder.maUnicodeNames.Add((object)adsDataReader.GetString(0)
+                                maUnicodeNames.Add(adsDataReader.GetString(0)
                                     .Trim());
-                                AdsConnectionStringBuilder.maUnicodeNames.Add(
-                                    (object)(adsDataReader.GetString(0).Trim() + "_ads_ci"));
+                                maUnicodeNames.Add(
+                                    adsDataReader.GetString(0).Trim() + "_ads_ci");
                             }
 
                             adsDataReader.Close();
@@ -898,69 +898,69 @@ namespace Advantage.Data.Provider
                             adsConnection.Dispose();
                         }
 
-                        this.mcValues =
-                            new TypeConverter.StandardValuesCollection(
-                                (ICollection)AdsConnectionStringBuilder.maUnicodeNames);
+                        mcValues =
+                            new StandardValuesCollection(
+                                maUnicodeNames);
                     }
                     catch
                     {
-                        this.mcValues = new TypeConverter.StandardValuesCollection((ICollection)new object[0]);
+                        mcValues = new StandardValuesCollection(new object[0]);
                     }
                 }
 
-                return this.mcValues;
+                return mcValues;
             }
         }
 
         private sealed class LockModeTypeConverter : TypeConverter
         {
-            private TypeConverter.StandardValuesCollection mcValues;
+            private StandardValuesCollection mcValues;
 
             public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
-            public override TypeConverter.StandardValuesCollection GetStandardValues(
+            public override StandardValuesCollection GetStandardValues(
                 ITypeDescriptorContext context)
             {
-                if (this.mcValues == null)
-                    this.mcValues = new TypeConverter.StandardValuesCollection((ICollection)new string[2]
+                if (mcValues == null)
+                    mcValues = new StandardValuesCollection(new string[2]
                     {
                         "PROPRIETARY",
                         "COMPATIBLE"
                     });
-                return this.mcValues;
+                return mcValues;
             }
         }
 
         private sealed class SecurityModeTypeConverter : TypeConverter
         {
-            private TypeConverter.StandardValuesCollection mcValues;
+            private StandardValuesCollection mcValues;
 
             public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
-            public override TypeConverter.StandardValuesCollection GetStandardValues(
+            public override StandardValuesCollection GetStandardValues(
                 ITypeDescriptorContext context)
             {
-                if (this.mcValues == null)
-                    this.mcValues = new TypeConverter.StandardValuesCollection((ICollection)new string[2]
+                if (mcValues == null)
+                    mcValues = new StandardValuesCollection(new string[2]
                     {
                         "IGNORERIGHTS",
                         "CHECKRIGHTS"
                     });
-                return this.mcValues;
+                return mcValues;
             }
         }
 
         private sealed class CommTypeConverter : TypeConverter
         {
-            private TypeConverter.StandardValuesCollection mcValues;
+            private StandardValuesCollection mcValues;
 
             public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
-            public override TypeConverter.StandardValuesCollection GetStandardValues(
+            public override StandardValuesCollection GetStandardValues(
                 ITypeDescriptorContext context)
             {
-                if (this.mcValues == null)
-                    this.mcValues = new TypeConverter.StandardValuesCollection((ICollection)new string[5]
+                if (mcValues == null)
+                    mcValues = new StandardValuesCollection(new string[5]
                     {
                         "",
                         "UDP_IP",
@@ -968,82 +968,82 @@ namespace Advantage.Data.Provider
                         "IPX",
                         "TLS"
                     });
-                return this.mcValues;
+                return mcValues;
             }
         }
 
         private sealed class FilterOptionsTypeConverter : TypeConverter
         {
-            private TypeConverter.StandardValuesCollection mcValues;
+            private StandardValuesCollection mcValues;
 
             public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
-            public override TypeConverter.StandardValuesCollection GetStandardValues(
+            public override StandardValuesCollection GetStandardValues(
                 ITypeDescriptorContext context)
             {
-                if (this.mcValues == null)
-                    this.mcValues = new TypeConverter.StandardValuesCollection((ICollection)new string[2]
+                if (mcValues == null)
+                    mcValues = new StandardValuesCollection(new string[2]
                     {
                         "IGNORE_WHEN_COUNTING",
                         "RESPECT_WHEN_COUNTING"
                     });
-                return this.mcValues;
+                return mcValues;
             }
         }
 
         private sealed class CompressionTypeConverter : TypeConverter
         {
-            private TypeConverter.StandardValuesCollection mcValues;
+            private StandardValuesCollection mcValues;
 
             public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
-            public override TypeConverter.StandardValuesCollection GetStandardValues(
+            public override StandardValuesCollection GetStandardValues(
                 ITypeDescriptorContext context)
             {
-                if (this.mcValues == null)
-                    this.mcValues = new TypeConverter.StandardValuesCollection((ICollection)new string[4]
+                if (mcValues == null)
+                    mcValues = new StandardValuesCollection(new string[4]
                     {
                         "",
                         "INTERNET",
                         "ALWAYS",
                         "NEVER"
                     });
-                return this.mcValues;
+                return mcValues;
             }
         }
 
         private sealed class EncryptionTypeConverter : TypeConverter
         {
-            private TypeConverter.StandardValuesCollection mcValues;
+            private StandardValuesCollection mcValues;
 
             public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
-            public override TypeConverter.StandardValuesCollection GetStandardValues(
+            public override StandardValuesCollection GetStandardValues(
                 ITypeDescriptorContext context)
             {
-                if (this.mcValues == null)
-                    this.mcValues = new TypeConverter.StandardValuesCollection((ICollection)new string[4]
+                if (mcValues == null)
+                    mcValues = new StandardValuesCollection(new string[4]
                     {
                         "",
                         "RC4",
                         "AES128",
                         "AES256"
                     });
-                return this.mcValues;
+                return mcValues;
             }
         }
 
         private sealed class TLSCiphersConverter : TypeConverter
         {
-            private TypeConverter.StandardValuesCollection mcValues;
+            private StandardValuesCollection mcValues;
 
             public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
 
-            public override TypeConverter.StandardValuesCollection GetStandardValues(
+            public override StandardValuesCollection GetStandardValues(
                 ITypeDescriptorContext context)
             {
-                if (this.mcValues == null)
-                    this.mcValues = new TypeConverter.StandardValuesCollection((ICollection)new string[6]
+                if (mcValues == null)
+                    mcValues = new StandardValuesCollection(new string[6]
                     {
                         "",
                         "AES128-SHA:AES256-SHA:RC4-MD5",
@@ -1052,7 +1052,7 @@ namespace Advantage.Data.Provider
                         "AES256-SHA",
                         "RC4-MD5"
                     });
-                return this.mcValues;
+                return mcValues;
             }
         }
     }

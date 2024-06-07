@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<VSDataViewSupport xmlns="http://tempuri.org/VSDataViewSupport.xsd">
+   <DataViews>
+      <DataView name="Advantage Database Server">
+            <DisplayName resource="DataView_AdsServer"/>
+            <StaticConnectionNode>
+               <InitialDisplayName>Advantage.NET ({Root.DataSource})</InitialDisplayName>
+               <Children>
+                   <StaticNode nid="Tables">
+                       <DisplayName>Tables</DisplayName>
+                       <Children>
+                           <Selection type="Table" restrictions="null,null,null,TABLE">
+                              <SelectionNode nid="Table">
+                                 <DisplayName when="NOT ({Schema} = {Database.DefaultSchema})" resource="Node_ObjectWithSchema"/>
+                                 <Icon name="Table"/>
+                                 <Children>
+                                    <Selection type="Column" restrictions="{Table.Catalog},{Table.Schema},{Table.Name}">
+                                       <SelectionNode>
+                                          <Icon name="Column"/>
+                                       </SelectionNode>
+                                    </Selection>
+                                 </Children>
+                              </SelectionNode>
+                           </Selection>
+                       </Children>
+                  </StaticNode>
+
+                   <StaticNode nid="Views">
+                      <DisplayName>Views</DisplayName>
+                      <CommandBindings>
+                         <CommandBinding name="NewQuery" guid="501822E1-B5AF-11d0-B4DC-00A0C91506EF" cmdid="13608" handler="884DD964-5327-461f-9F06-6484DD540F8F"/>
+                      </CommandBindings>
+                      <Children>
+                         <Selection type="View">
+                            <SelectionNode nid="View">
+                               <Icon name="View"/>
+                               <Children>
+                                  <Selection type="ViewColumn" restrictions="{View.Catalog},{View.Schema},{View.Name}">
+                                     <SelectionNode>
+                                        <Icon name="Column"/>
+                                     </SelectionNode>
+                                  </Selection>
+                               </Children>
+                            </SelectionNode>
+                         </Selection>
+                      </Children>
+                   </StaticNode>
+
+                   <StaticNode nid="StoredProcedures">
+                      <DisplayName>Stored Procedures</DisplayName>
+                      <!--CommandBindings commandHandler="Microsoft.VisualStudio.DataTools.DBPackage.VDT_CommandHandler_TextEditors">
+                         <CommandBinding name="New" guid="501822E1-B5AF-11d0-B4DC-00A0C91506EF" cmdid="13602">
+                            <Parameter value="New"/>
+                            <Parameter value="StoredProcedure"/>
+                         </CommandBinding>
+                      </CommandBindings-->
+                      <Children>
+                         <Selection type="StoredProcedure" restrictions="{Catalog.Name}">
+                            <SelectionNode nid="StoredProcedure">
+                               <Icon name="StoredProcedure"/>
+                               <Children>
+                                  <Selection type="StoredProcedureParameter" restrictions="{StoredProcedure.Catalog},{StoredProcedure.Schema},{StoredProcedure.Name}" >
+                                     <SelectionNode>
+                                        <Icon when="{IsOutputParameter}=false" name="InputParameter"/>
+                                        <Icon when="{IsOutputParameter}=true" name="OutputParameter"/>
+                                     </SelectionNode>
+                                  </Selection>
+                               </Children>
+                            </SelectionNode>
+                         </Selection>
+                      </Children>
+                   </StaticNode>
+            </Children>
+            </StaticConnectionNode>
+         </DataView>
+   </DataViews>
+
+   <Resources>
+      <Resource name="DataView_AdsServer">Advantage Database Server</Resource>
+      <Resource name="Node_ObjectWithSchema">{Name} ({Schema})</Resource>
+      <Resource name="Node_Procedures">Procedures</Resource>
+      <Resource name="Node_Tables">Tables</Resource>
+      <Resource name="Node_Users">Users</Resource>
+      <Resource name="Node_Views">Views</Resource>
+   </Resources>
+</VSDataViewSupport>
