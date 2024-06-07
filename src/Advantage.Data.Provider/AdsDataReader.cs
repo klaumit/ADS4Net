@@ -238,7 +238,7 @@ namespace Advantage.Data.Provider
             {
                 uint pulLength = 0;
                 AdsException.CheckACE(ACE.AdsGetRecordLength(this.mhCursor, out pulLength));
-                this.mabRecord = new byte[(IntPtr)pulLength];
+                this.mabRecord = new byte[pulLength];
             }
 
             if (this.maiFieldOffset == null)
@@ -1079,7 +1079,7 @@ namespace Advantage.Data.Provider
                             break;
                         default:
                             uint pulLen1 = aceDataLength + 1U;
-                            char[] chArray = new char[(IntPtr)pulLen1];
+                            char[] chArray = new char[pulLen1];
                             AdsException.CheckACE(ACE.AdsGetFieldW(this.mhCursor, (uint)(iCol + 1), chArray,
                                 ref pulLen1, (ushort)0));
                             Array.Copy((Array)chArray, lFieldOffset, (Array)acBuffer, (long)iBufferOffset, (long)chars);
@@ -1290,7 +1290,7 @@ namespace Advantage.Data.Provider
                     }
 
                     uint pulLen = (uint)chars + 1U;
-                    char[] pwcBuf = new char[(IntPtr)pulLen];
+                    char[] pwcBuf = new char[pulLen];
                     if (bTrim)
                         usOption = (ushort)2;
                     uint fieldW = ACE.AdsGetFieldW(this.mhCursor, (uint)(iCol + 1), pwcBuf, ref pulLen, usOption);
@@ -1682,7 +1682,7 @@ namespace Advantage.Data.Provider
                 case 7:
                     uint pulLength;
                     AdsException.CheckACE(ACE.AdsGetBinaryLength(this.mhCursor, (uint)(iCol + 1), out pulLength));
-                    byte[] pucBuf = new byte[(IntPtr)pulLength];
+                    byte[] pucBuf = new byte[pulLength];
                     uint pulLen = pulLength;
                     AdsException.CheckACE(ACE.AdsGetBinary(this.mhCursor, (uint)(iCol + 1), 0U, pucBuf, ref pulLen));
                     return pucBuf;

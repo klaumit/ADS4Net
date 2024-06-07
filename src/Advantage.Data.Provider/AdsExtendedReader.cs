@@ -695,7 +695,7 @@ namespace Advantage.Data.Provider
                 switch (aoF100)
                 {
                     case 5005:
-                        char[] pvFilter = new char[(IntPtr)pulLen];
+                        char[] pvFilter = new char[pulLen];
                         AdsException.CheckACE(ACE.AdsGetAOF100(this.mhCursor, 8192U, pvFilter, ref pulLen));
                         return new string(pvFilter);
                     case 5037:

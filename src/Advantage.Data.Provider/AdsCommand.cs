@@ -163,7 +163,7 @@ namespace Advantage.Data.Provider
         [Description("Connection used by the command.")]
         [Category("Behavior")]
         [DefaultValue(null)]
-        public AdsConnection Connection
+        public new AdsConnection Connection
         {
             get => this.mConnection;
             set
@@ -201,7 +201,7 @@ namespace Advantage.Data.Provider
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         [Category("Data")]
-        public AdsParameterCollection Parameters => this.mParameters;
+        public new AdsParameterCollection Parameters => this.mParameters;
 
         IDbTransaction IDbCommand.Transaction
         {
@@ -217,7 +217,7 @@ namespace Advantage.Data.Provider
 
         [DefaultValue(null)]
         [Browsable(false)]
-        public AdsTransaction Transaction
+        public new AdsTransaction Transaction
         {
             get => this.mTxn;
             set => this.mTxn = value;
@@ -293,7 +293,7 @@ namespace Advantage.Data.Provider
 
         protected override DbParameter CreateDbParameter() => (DbParameter)this.CreateParameter();
 
-        public AdsParameter CreateParameter() => new AdsParameter();
+        public new AdsParameter CreateParameter() => new AdsParameter();
 
         public override int ExecuteNonQuery()
         {
@@ -337,7 +337,7 @@ namespace Advantage.Data.Provider
 
         IDataReader IDbCommand.ExecuteReader() => (IDataReader)this.ExecuteReader();
 
-        public AdsDataReader ExecuteReader() => this.ExecuteReader(CommandBehavior.Default);
+        public new AdsDataReader ExecuteReader() => this.ExecuteReader(CommandBehavior.Default);
 
         public AdsExtendedReader ExecuteExtendedReader()
         {
@@ -354,7 +354,7 @@ namespace Advantage.Data.Provider
             return (DbDataReader)this.ExecuteReader(behavior);
         }
 
-        public AdsDataReader ExecuteReader(CommandBehavior behavior)
+        public new AdsDataReader ExecuteReader(CommandBehavior behavior)
         {
             return this.ExtecuteReaderInternal(behavior, false);
         }

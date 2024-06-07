@@ -113,7 +113,7 @@ namespace Advantage.Data.Provider
             this.OnInfoMessage(new AdsInfoMessageEventArgs(iWarning, strMessage));
         }
 
-        public AdsTransaction BeginTransaction()
+        public new AdsTransaction BeginTransaction()
         {
             if (this.mState == ConnectionState.Closed)
                 throw new InvalidOperationException("Invalid operation. The connection is closed.");
@@ -129,7 +129,7 @@ namespace Advantage.Data.Provider
             return (DbTransaction)this.BeginTransaction(isolationLevel);
         }
 
-        public AdsTransaction BeginTransaction(System.Data.IsolationLevel level)
+        public new AdsTransaction BeginTransaction(System.Data.IsolationLevel level)
         {
             if (this.mState == ConnectionState.Closed)
                 throw new InvalidOperationException("Invalid operation. The connection is closed.");
@@ -202,7 +202,7 @@ namespace Advantage.Data.Provider
 
         protected override DbCommand CreateDbCommand() => (DbCommand)this.CreateCommand();
 
-        public AdsCommand CreateCommand() => new AdsCommand("", this);
+        public new AdsCommand CreateCommand() => new AdsCommand("", this);
 
         public static void FlushConnectionPool() => AdsConnection.mPoolMgr.FlushConnections();
 

@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
+    <NoWarn>CS0168;CS0642</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -17,6 +18,11 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\*.bmp" />
     <EmbeddedResource Include="Resources\*.xml" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.6" />
   </ItemGroup>
   
 </Project>

@@ -67,7 +67,7 @@ namespace Advantage.Data.Provider
 
         [Category("Fill")]
         [Description("Used during Fill/FillSchema.")]
-        public AdsCommand SelectCommand
+        public new AdsCommand SelectCommand
         {
             get => this.m_selectCommand;
             set => this.m_selectCommand = value;
@@ -81,7 +81,7 @@ namespace Advantage.Data.Provider
 
         [Category("Update")]
         [Description("Used during Update for new rows in DataSet.")]
-        public AdsCommand InsertCommand
+        public new AdsCommand InsertCommand
         {
             get => this.m_insertCommand;
             set => this.m_insertCommand = value;
@@ -95,7 +95,7 @@ namespace Advantage.Data.Provider
 
         [Category("Update")]
         [Description("Used during Update for modified rows in DataSet.")]
-        public AdsCommand UpdateCommand
+        public new AdsCommand UpdateCommand
         {
             get => this.m_updateCommand;
             set => this.m_updateCommand = value;
@@ -109,7 +109,7 @@ namespace Advantage.Data.Provider
 
         [Description("Used during Update for deleted rows in DataSet.")]
         [Category("Update")]
-        public AdsCommand DeleteCommand
+        public new AdsCommand DeleteCommand
         {
             get => this.m_deleteCommand;
             set => this.m_deleteCommand = value;

@@ -43,7 +43,7 @@ namespace Advantage.Data.Provider
 
         protected override DbConnection DbConnection => (DbConnection)this.Connection;
 
-        public AdsConnection Connection => this.mConnection;
+        public new AdsConnection Connection => this.mConnection;
 
         internal void InternalCommit(IntPtr hConn)
         {

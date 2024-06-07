@@ -1,5 +1,5 @@
 using System;
-using Advantage.Data.Provider.AdvantageClientEngine;
+using AdvantageClientEngine;
 
 namespace Advantage.Data.Provider
 {

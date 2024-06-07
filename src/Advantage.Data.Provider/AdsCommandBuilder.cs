@@ -392,7 +392,7 @@ namespace Advantage.Data.Provider
                 ((AdsDataAdapter)adapter).RowUpdating += new AdsRowUpdatingEventHandler(this.OnRowUpdating);
         }
 
-        public AdsCommand GetDeleteCommand()
+        public new AdsCommand GetDeleteCommand()
         {
             if (this.mSchemaTable == null)
                 this.GetSchema();
@@ -401,7 +401,7 @@ namespace Advantage.Data.Provider
             return this.mDeleteCmd;
         }
 
-        public AdsCommand GetInsertCommand()
+        public new AdsCommand GetInsertCommand()
         {
             if (this.mSchemaTable == null)
                 this.GetSchema();
@@ -538,7 +538,7 @@ namespace Advantage.Data.Provider
             return stringBuilder.ToString();
         }
 
-        public AdsCommand GetUpdateCommand()
+        public new AdsCommand GetUpdateCommand()
         {
             if (this.mSchemaTable == null)
                 this.GetSchema();
@@ -559,13 +559,13 @@ namespace Advantage.Data.Provider
         }
 
         [Description("The DataAdapter for which to automatically generate AdsCommands.")]
-        public AdsDataAdapter DataAdapter
+        public new AdsDataAdapter DataAdapter
         {
             get => (AdsDataAdapter)base.DataAdapter;
             set
             {
                 this.RefreshSchema();
-                this.DataAdapter = (DbDataAdapter)value;
+                this.DataAdapter = value;
             }
         }
 
