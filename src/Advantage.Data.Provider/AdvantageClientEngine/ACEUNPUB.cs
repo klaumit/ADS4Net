@@ -1,4 +1,6 @@
-namespace Advantage.Data.Provider.AdvantageClientEngine
+// ReSharper disable CheckNamespace
+
+namespace AdvantageClientEngine
 {
     public class ACEUNPUB
     {
