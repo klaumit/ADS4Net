@@ -1,3 +1,4 @@
+using System;
 using System.Data;
 
 namespace Advantage.Data.Provider
@@ -11,37 +12,37 @@ namespace Advantage.Data.Provider
 
         public void Cancel()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public IDbDataParameter CreateParameter()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public int ExecuteNonQuery()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public IDataReader ExecuteReader()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public IDataReader ExecuteReader(CommandBehavior behavior)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public object ExecuteScalar()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void Prepare()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public string CommandText { get; set; }
