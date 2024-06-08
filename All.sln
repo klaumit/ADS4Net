@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advantage.Designer", "src\A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFramework.Advantage.v12", "src\EntityFramework.Advantage.v12\EntityFramework.Advantage.v12.csproj", "{DC01E5C7-6012-4C01-B360-8CDEF7FA964D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advantage.VisualStudio.Data.Providers.Advantage", "src\Advantage.VisualStudio.Data.Providers.Advantage\Advantage.VisualStudio.Data.Providers.Advantage.csproj", "{4E3AAA61-81A1-4CC6-B6CE-324856D72085}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,15 +32,10 @@ Global
 		{DC01E5C7-6012-4C01-B360-8CDEF7FA964D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC01E5C7-6012-4C01-B360-8CDEF7FA964D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC01E5C7-6012-4C01-B360-8CDEF7FA964D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4E3AAA61-81A1-4CC6-B6CE-324856D72085}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4E3AAA61-81A1-4CC6-B6CE-324856D72085}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E3AAA61-81A1-4CC6-B6CE-324856D72085}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4E3AAA61-81A1-4CC6-B6CE-324856D72085}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{340989A3-8331-47D6-AFC6-E75C81D252F6} = {003744C5-ACC6-4C88-8B6B-A217477107BB}
 		{5AA425F6-1D9D-40C7-A9F0-3E0854BA45FF} = {003744C5-ACC6-4C88-8B6B-A217477107BB}
 		{DC01E5C7-6012-4C01-B360-8CDEF7FA964D} = {003744C5-ACC6-4C88-8B6B-A217477107BB}
-		{4E3AAA61-81A1-4CC6-B6CE-324856D72085} = {003744C5-ACC6-4C88-8B6B-A217477107BB}
 	EndGlobalSection
 EndGlobal
