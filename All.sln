@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advantage.Designer", "src\A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFramework.Advantage.v12", "src\EntityFramework.Advantage.v12\EntityFramework.Advantage.v12.csproj", "{DC01E5C7-6012-4C01-B360-8CDEF7FA964D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{5B452F83-5D5B-4EB6-90F7-DCDC241DDF4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advantage.Data.Provider.Test", "test\Advantage.Data.Provider.Test\Advantage.Data.Provider.Test.csproj", "{72A87549-27F8-4E08-86C0-11842B46E952}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,10 +36,15 @@ Global
 		{DC01E5C7-6012-4C01-B360-8CDEF7FA964D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC01E5C7-6012-4C01-B360-8CDEF7FA964D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC01E5C7-6012-4C01-B360-8CDEF7FA964D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72A87549-27F8-4E08-86C0-11842B46E952}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72A87549-27F8-4E08-86C0-11842B46E952}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72A87549-27F8-4E08-86C0-11842B46E952}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72A87549-27F8-4E08-86C0-11842B46E952}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{340989A3-8331-47D6-AFC6-E75C81D252F6} = {003744C5-ACC6-4C88-8B6B-A217477107BB}
 		{5AA425F6-1D9D-40C7-A9F0-3E0854BA45FF} = {003744C5-ACC6-4C88-8B6B-A217477107BB}
 		{DC01E5C7-6012-4C01-B360-8CDEF7FA964D} = {003744C5-ACC6-4C88-8B6B-A217477107BB}
+		{72A87549-27F8-4E08-86C0-11842B46E952} = {5B452F83-5D5B-4EB6-90F7-DCDC241DDF4E}
 	EndGlobalSection
 EndGlobal
