@@ -10,7 +10,7 @@
     <RootNamespace>Advantage.Data</RootNamespace>
     <Version>12.0.2.0</Version>
     <Product>Advantage .NET Data Provider</Product>
-    <Company>SAP SE</Company>
+    <Company>Sybase</Company>
     <Copyright>Copyright © 2015 SAP SE or an SAP affiliate company.</Copyright>
     <Title>Advantage .NET Component Designer</Title>
     <Description>Advantage .NET Component Designer</Description>

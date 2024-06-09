@@ -535,11 +535,9 @@ namespace Advantage.Data.Provider
         private DataTable GetSchemaDataTypes(string[] restrictions)
         {
             var schemaDataTypes = new DataTable("DataTypes");
-            using (var manifestResourceStream = Assembly.GetExecutingAssembly()
-                       .GetManifestResourceStream("Advantage.Data.Provider.DataTypes.xml"))
-            {
-                var num = (int)schemaDataTypes.ReadXml(manifestResourceStream);
-            }
+            using var manifestResourceStream = Assembly.GetExecutingAssembly()
+                .GetManifestResourceStream("Advantage.Data.Provider.DataTypes.xml");
+            var num = (int)schemaDataTypes.ReadXml(manifestResourceStream);
 
             return schemaDataTypes;
         }
