@@ -28,9 +28,23 @@
   <ItemGroup>
     <Content Include="../../lib/win/64/ace64.dll" Link="runtimes/win-x64/native/ace64.dll">
       <PackagePath>runtimes/win-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>ace64.dll</TargetPath>
+    </Content>
+    <Content Include="../../lib/win/64/axcws64.dll" Link="runtimes/win-x64/native/axcws64.dll">
+      <PackagePath>runtimes/win-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>axcws64.dll</TargetPath>
     </Content>
     <Content Include="../../lib/win/32/ace32.dll" Link="runtimes/win-x86/native/ace32.dll">
       <PackagePath>runtimes/win-x86/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>ace32.dll</TargetPath>
+    </Content>
+    <Content Include="../../lib/win/32/axcws32.dll" Link="runtimes/win-x86/native/axcws32.dll">
+      <PackagePath>runtimes/win-x86/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>axcws32.dll</TargetPath>
     </Content>
     <Content Include="../../lib/linux/64/libace.so.12.00.0.02" Link="runtimes/linux-x64/native/libace.so.12.00.0.02">
       <PackagePath>runtimes/linux-x64/native</PackagePath>
