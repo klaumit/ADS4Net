@@ -26,20 +26,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="../../lib/win/64/ace64.dll" Link="runtimes/win-x64/native/ace64.dll" 
-             Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' ">
+    <Content Include="../../lib/win/64/ace64.dll" Link="runtimes/win-x64/native/ace64.dll">
       <PackagePath>runtimes/win-x64/native</PackagePath>
     </Content>
-    <Content Include="../../lib/win/32/ace32.dll" Link="runtimes/win-x86/native/ace32.dll" 
-             Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' ">
+    <Content Include="../../lib/win/32/ace32.dll" Link="runtimes/win-x86/native/ace32.dll">
       <PackagePath>runtimes/win-x86/native</PackagePath>
     </Content>
-    <Content Include="../../lib/linux/64/libace.so.12.00.0.02" Link="runtimes/linux-x64/native/libace.so.12.00.0.02" 
-             Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
+    <Content Include="../../lib/linux/64/libace.so.12.00.0.02" Link="runtimes/linux-x64/native/libace.so.12.00.0.02">
       <PackagePath>runtimes/linux-x64/native</PackagePath>
     </Content>
-    <Content Include="../../lib/linux/32/libace.so.12.00.0.02" Link="runtimes/linux-x86/native/libace.so.12.00.0.02" 
-             Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
+    <Content Include="../../lib/linux/32/libace.so.12.00.0.02" Link="runtimes/linux-x86/native/libace.so.12.00.0.02">
       <PackagePath>runtimes/linux-x86/native</PackagePath>
     </Content>
   </ItemGroup>
