@@ -120,15 +120,15 @@
 
   <ItemGroup>
     <!-- Linux 64 bit -->
-    <Content Include="../../lib/linux/64/libace.so.12.00.0.02" Link="runtimes/linux-x64/native/libace.so.12.00.0.02">
+    <Content Include="../../lib/linux/64/libace.so.12.00.0.02" Link="runtimes/linux-x64/native/libace64.so">
       <PackagePath>runtimes/linux-x64/native</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <TargetPath>libace.so.12.00.0.02</TargetPath>
+      <TargetPath>libace64.so</TargetPath>
     </Content>
-    <Content Include="../../lib/linux/64/libadsloc.so.12.00.0.02" Link="runtimes/linux-x64/native/libadsloc.so.12.00.0.02">
+    <Content Include="../../lib/linux/64/libadsloc.so.12.00.0.02" Link="runtimes/linux-x64/native/libadsloc.so.12.00">
       <PackagePath>runtimes/linux-x64/native</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <TargetPath>libadsloc.so.12.00.0.02</TargetPath>
+      <TargetPath>libadsloc.so.12.00</TargetPath>
     </Content>
     <Content Include="../../lib/linux/64/libaicu.so" Link="runtimes/linux-x64/native/libaicu.so">
       <PackagePath>runtimes/linux-x64/native</PackagePath>
