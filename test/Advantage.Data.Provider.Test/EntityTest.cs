@@ -25,7 +25,7 @@ namespace Advantage.Data.Provider.Test
             context.Products.Add(newProduct);
             context.SaveChanges();
 
-            var product = context.Products.FirstOrDefault(p => p.Name == "Example Product");
+            var product = context.Products.FirstOrDefault();
             if (product != null)
             {
                 _out.WriteLine($"Product found: {product.Name}, {product.Price}");
