@@ -17,7 +17,7 @@ namespace Advantage.Data.Provider.Test
         [Fact]
         public void TestProducts()
         {
-            var connStr = GetConnStr(GetSource(nameof(TestProducts)) + "\\", true);
+            var connStr = GetConnStr(GetSource(nameof(TestProducts)), true);
             _out.WriteLine(connStr);
 
             using var context = new ProductContext(connStr);

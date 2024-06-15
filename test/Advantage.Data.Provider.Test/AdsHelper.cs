@@ -1,10 +1,16 @@
 using System;
+using System.Text;
 using System.IO;
 
 namespace Advantage.Data.Provider.Test
 {
     public static class AdsHelper
     {
+        static AdsHelper()
+        {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        }
+
         public static AdsConnection GetConn(string connStr)
         {
             return new AdsConnection(connStr);
@@ -16,6 +22,7 @@ namespace Advantage.Data.Provider.Test
             dir = Path.Combine(dir, name, sub);
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
+            dir += Path.DirectorySeparatorChar;
             return dir;
         }
 
