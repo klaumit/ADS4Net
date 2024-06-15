@@ -1,6 +1,7 @@
 using System.Linq;
 using Xunit;
 using Xunit.Abstractions;
+using static Advantage.Data.Provider.Test.AdsHelper;
 
 namespace Advantage.Data.Provider.Test
 {
@@ -16,9 +17,10 @@ namespace Advantage.Data.Provider.Test
         [Fact]
         public void TestProducts()
         {
-            var bld = AdsHelper.GetConnStr("products.adt");
+            var connStr = GetConnStr(GetSource(nameof(TestProducts)) + "\\", true);
+            _out.WriteLine(connStr);
 
-            using var context = new ProductContext(bld);
+            using var context = new ProductContext(connStr);
             var newProduct = new Product { Name = "Example Product", Price = 9.99M };
             context.Products.Add(newProduct);
             context.SaveChanges();

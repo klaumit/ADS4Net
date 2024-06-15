@@ -26,36 +26,75 @@
   </ItemGroup>
 
   <ItemGroup>
+    
+    <!-- Common files -->
+    <None Include="../../lib/win/32/adslocal.cfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>adslocal.cfg</TargetPath>
+    </None>
+    <None Include="../../lib/win/32/icudt40l.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>icudt40l.dat</TargetPath>
+    </None>
+    
+    <!-- Windows 64 bit -->
     <Content Include="../../lib/win/64/ace64.dll" Link="runtimes/win-x64/native/ace64.dll">
       <PackagePath>runtimes/win-x64/native</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>ace64.dll</TargetPath>
+    </Content>
+    <Content Include="../../lib/win/64/adsloc64.dll" Link="runtimes/win-x64/native/adsloc64.dll">
+      <PackagePath>runtimes/win-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>adsloc64.dll</TargetPath>
     </Content>
     <Content Include="../../lib/win/64/axcws64.dll" Link="runtimes/win-x64/native/axcws64.dll">
       <PackagePath>runtimes/win-x64/native</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>axcws64.dll</TargetPath>
     </Content>
+    <Content Include="../../lib/win/64/aicu64.dll" Link="runtimes/win-x64/native/aicu64.dll">
+      <PackagePath>runtimes/win-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>aicu64.dll</TargetPath>
+    </Content>
+    
+    <!-- Windows 32 bit -->
     <Content Include="../../lib/win/32/ace32.dll" Link="runtimes/win-x86/native/ace32.dll">
       <PackagePath>runtimes/win-x86/native</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>ace32.dll</TargetPath>
+    </Content>
+    <Content Include="../../lib/win/32/adsloc32.dll" Link="runtimes/win-x86/native/adsloc32.dll">
+      <PackagePath>runtimes/win-x86/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>adsloc32.dll</TargetPath>
     </Content>
     <Content Include="../../lib/win/32/axcws32.dll" Link="runtimes/win-x86/native/axcws32.dll">
       <PackagePath>runtimes/win-x86/native</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>axcws32.dll</TargetPath>
     </Content>
+    <Content Include="../../lib/win/32/aicu32.dll" Link="runtimes/win-x86/native/aicu32.dll">
+      <PackagePath>runtimes/win-x86/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>aicu32.dll</TargetPath>
+    </Content>
+    
+    <!-- Linux 64 bit -->
     <Content Include="../../lib/linux/64/libace64.so" Link="runtimes/linux-x64/native/libace64.so">
       <PackagePath>runtimes/linux-x64/native</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>libace64.so</TargetPath>
     </Content>
+    
+    <!-- Linux 32 bit -->
     <Content Include="../../lib/linux/32/libace32.so" Link="runtimes/linux-x86/native/libace32.so">
       <PackagePath>runtimes/linux-x86/native</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <TargetPath>libace32.so</TargetPath>
+        <TargetPath>libace32.so</TargetPath>
     </Content>
+    
   </ItemGroup>
 
 </Project>
