@@ -1,0 +1,64 @@
+Advantage Database Server Backup Utility
+Usage:
+       Free Table Backup
+          adsbackup [options] <src path> <file mask> <dest path>
+       Data Dictionary Backup
+          adsbackup [options] <src database> <dest path>
+Valid options include:
+   -a  Prepare a database for a differential backup
+   -c[ANSI|OEM|<dynamic collation>]  Character type (default ANSI)
+       The dynamic collations include the VFP-compatible collations that are
+       loaded at runtime.  Refer to the help file for the collation names.
+   -d  Don't overwrite existing backup tables
+   -e<file1, .. ,filen>  Exclude file list
+   -f  Differential backup
+   -h[ON|OFF]  Rights checking (default ON)
+   -i<file1, .. ,filen>  Include file list
+   -m  Backup metadata only
+   -n<path>  Path to store the backup output table
+   -o<filepath>  Path and filename to the backup output table
+   -p  Password(s): Database user password if source path is a database
+                    List of free table passwords if source path is a directory
+                    Free table usage can pass a single password for all
+                    encrypted tables, or a name/value pair for each table, for
+                    example, "table1=pass1;table2=pass2"
+   -q[PROP|COMPAT]  Locking mode, proprietary or compatible (default PROP)
+   -r  Restore database or free table files
+   -s<server path|connection string>
+                    Connection path of ADS server to perform backup or restore or
+                    a connection string
+   -u[ADT|CDX|VFP|NTX]  Table type of backup output table (default ADT)
+   -v[1-10]  Lowest level of error severity to return (default 1)
+   -w  Table Type Map used to perform a free table backup or restore with
+       mixed table types. Used to provide the table type for each table
+       extension. For example, -wadt=ADS_ADT,dbf=ADS_CDX
+   -x  Don't create the output table if no errors are logged
+   -y  Database user name (if using a non-AdsSys user)
+   -z  Other online backup/restore options.  Pass any options that are valid
+       as Backup and Restore Options in the help file.  These can be used in
+       addition to or in place of the other command line parameters.  For
+       example,
+           -z "Include=a*.adt;diff;ArchiveFile=backup.tar"
+
+For the options that require values, the space between the option and the value
+is not required.  For example, -pPassword and -p Password are equivalent.
+
+Examples:
+   adsbackup -p Pass //server/share/mydata.add //server/share/backup
+   adsbackup -pTablePass //server/share *.adt //server/share/backup
+   adsbackup -r -pPass //server/share/backup/mydata.add //server/share/backup/mydata.add
+   adsbackup -r -pTablePass //server/share/backup //server/share
+
+   The following example (entered as a single command) shows how to use the
+   -s option to provide a connection string specifying FIPS mode and a TLS
+   connection.
+   adsbackup -s "Data Source=//server/share/;CommType=TLS; \
+             FIPS=TRUE;TLSCertificate=/path/clientcert.pem; \
+             TLSCommonName=www.myserver.com;DDPassword=dictionarypass;" \
+             //server/share/mydata.add //server/share/backup
+   adsbackup //server/share/mydata.add //server/share/backup \
+             -z "ArchiveFileCompressed=mydata.tar.gz;ForceArchiveExtract"
+   adsbackup -r //server/share/backup/mydata.add \
+                //server/share/restore/mydata.add \
+             -s //server/share/ \
+             -z "ArchiveFileCompressed=mydata.tar.gz"
