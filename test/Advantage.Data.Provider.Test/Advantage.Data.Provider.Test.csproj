@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Advantage.Data.Provider\Advantage.Data.Provider.csproj" />
     <ProjectReference Include="..\..\src\EntityFramework.Advantage.v12\EntityFramework.Advantage.v12.csproj" />
   </ItemGroup>
 
