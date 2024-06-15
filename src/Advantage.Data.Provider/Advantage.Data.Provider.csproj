@@ -46,11 +46,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>axcws32.dll</TargetPath>
     </Content>
-    <Content Include="../../lib/linux/64/libace.so.12.00.0.02" Link="runtimes/linux-x64/native/libace.so.12.00.0.02">
+    <Content Include="../../lib/linux/64/libace64.so" Link="runtimes/linux-x64/native/libace64.so">
       <PackagePath>runtimes/linux-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>libace64.so</TargetPath>
     </Content>
-    <Content Include="../../lib/linux/32/libace.so.12.00.0.02" Link="runtimes/linux-x86/native/libace.so.12.00.0.02">
+    <Content Include="../../lib/linux/32/libace32.so" Link="runtimes/linux-x86/native/libace32.so">
       <PackagePath>runtimes/linux-x86/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>libace32.so</TargetPath>
     </Content>
   </ItemGroup>
 

@@ -230,7 +230,7 @@ namespace AdvantageClientEngine
         public const ushort ADS_DONT_ADD_TO_DD = 69;
         public const ushort ADS_RAWFILE_FOR_HOLD = 1;
 
-        [DllImport("ace32.dll", EntryPoint = "AdsBuildKeyFromRecord", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsBuildKeyFromRecord", CharSet = CharSet.Ansi)]
         private static extern uint AdsBuildKeyFromRecord_32(
         IntPtr hTag,
         string mpucRecBuffer,
@@ -238,7 +238,7 @@ namespace AdvantageClientEngine
         [In, Out] char[] pucKey,
         ref ushort pusKeyLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsBuildKeyFromRecord", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsBuildKeyFromRecord", CharSet = CharSet.Ansi)]
         private static extern uint AdsBuildKeyFromRecord_64(
         IntPtr hTag,
         string mpucRecBuffer,
@@ -256,10 +256,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsBuildKeyFromRecord_32(hTag, mpucRecBuffer, ulRecordLen, pucKey, ref pusKeyLen) : AdsBuildKeyFromRecord_64(hTag, mpucRecBuffer, ulRecordLen, pucKey, ref pusKeyLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsClearLastError", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsClearLastError", CharSet = CharSet.Ansi)]
         private static extern uint AdsClearLastError_32();
 
-        [DllImport("ace64.dll", EntryPoint = "AdsClearLastError", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsClearLastError", CharSet = CharSet.Ansi)]
         private static extern uint AdsClearLastError_64();
 
         public static uint AdsClearLastError()
@@ -267,10 +267,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsClearLastError_32() : AdsClearLastError_64();
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDeleteFile", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDeleteFile", CharSet = CharSet.Ansi)]
         private static extern uint AdsDeleteFile_32(IntPtr hConnect, string pucFileName);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDeleteFile", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDeleteFile", CharSet = CharSet.Ansi)]
         private static extern uint AdsDeleteFile_64(IntPtr hConnect, string pucFileName);
 
         public static uint AdsDeleteFile(IntPtr hConnect, string pucFileName)
@@ -278,10 +278,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDeleteFile_32(hConnect, pucFileName) : AdsDeleteFile_64(hConnect, pucFileName);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDeleteTable", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDeleteTable", CharSet = CharSet.Ansi)]
         private static extern uint AdsDeleteTable_32(IntPtr hTable);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDeleteTable", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDeleteTable", CharSet = CharSet.Ansi)]
         private static extern uint AdsDeleteTable_64(IntPtr hTable);
 
         public static uint AdsDeleteTable(IntPtr hTable)
@@ -289,7 +289,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDeleteTable_32(hTable) : AdsDeleteTable_64(hTable);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsMemCompare", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsMemCompare", CharSet = CharSet.Ansi)]
         private static extern uint AdsMemCompare_32(
         IntPtr hConnect,
         string pucStr1,
@@ -299,7 +299,7 @@ namespace AdvantageClientEngine
         ushort usCharSet,
         out short psResult);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsMemCompare", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsMemCompare", CharSet = CharSet.Ansi)]
         private static extern uint AdsMemCompare_64(
         IntPtr hConnect,
         string pucStr1,
@@ -321,7 +321,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsMemCompare_32(hConnect, pucStr1, ulStr1Len, pucStr2, ulStr2Len, usCharSet, out psResult) : AdsMemCompare_64(hConnect, pucStr1, ulStr1Len, pucStr2, ulStr2Len, usCharSet, out psResult);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsMemCompare90", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsMemCompare90", CharSet = CharSet.Ansi)]
         private static extern uint AdsMemCompare90_32(
         IntPtr hConnect,
         string pucStr1,
@@ -332,7 +332,7 @@ namespace AdvantageClientEngine
         uint ulCollationID,
         out short psResult);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsMemCompare90", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsMemCompare90", CharSet = CharSet.Ansi)]
         private static extern uint AdsMemCompare90_64(
         IntPtr hConnect,
         string pucStr1,
@@ -356,7 +356,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsMemCompare90_32(hConnect, pucStr1, ulStr1Len, pucStr2, ulStr2Len, usCharSet, ulCollationID, out psResult) : AdsMemCompare90_64(hConnect, pucStr1, ulStr1Len, pucStr2, ulStr2Len, usCharSet, ulCollationID, out psResult);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsMemICompare", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsMemICompare", CharSet = CharSet.Ansi)]
         private static extern uint AdsMemICompare_32(
         IntPtr hConnect,
         string pucStr1,
@@ -366,7 +366,7 @@ namespace AdvantageClientEngine
         ushort usCharSet,
         out short psResult);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsMemICompare", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsMemICompare", CharSet = CharSet.Ansi)]
         private static extern uint AdsMemICompare_64(
         IntPtr hConnect,
         string pucStr1,
@@ -388,7 +388,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsMemICompare_32(hConnect, pucStr1, ulStr1Len, pucStr2, ulStr2Len, usCharSet, out psResult) : AdsMemICompare_64(hConnect, pucStr1, ulStr1Len, pucStr2, ulStr2Len, usCharSet, out psResult);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsMemICompare90", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsMemICompare90", CharSet = CharSet.Ansi)]
         private static extern uint AdsMemICompare90_32(
         IntPtr hConnect,
         string pucStr1,
@@ -399,7 +399,7 @@ namespace AdvantageClientEngine
         uint ulCollationID,
         out short psResult);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsMemICompare90", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsMemICompare90", CharSet = CharSet.Ansi)]
         private static extern uint AdsMemICompare90_64(
         IntPtr hConnect,
         string pucStr1,
@@ -423,14 +423,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsMemICompare90_32(hConnect, pucStr1, ulStr1Len, pucStr2, ulStr2Len, usCharSet, ulCollationID, out psResult) : AdsMemICompare90_64(hConnect, pucStr1, ulStr1Len, pucStr2, ulStr2Len, usCharSet, ulCollationID, out psResult);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsMemLwr", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsMemLwr", CharSet = CharSet.Ansi)]
         private static extern uint AdsMemLwr_32(
         IntPtr hConnect,
         string pucStr,
         ushort usStrLen,
         ushort usCharSet);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsMemLwr", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsMemLwr", CharSet = CharSet.Ansi)]
         private static extern uint AdsMemLwr_64(
         IntPtr hConnect,
         string pucStr,
@@ -446,7 +446,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsMemLwr_32(hConnect, pucStr, usStrLen, usCharSet) : AdsMemLwr_64(hConnect, pucStr, usStrLen, usCharSet);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsMemLwr90", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsMemLwr90", CharSet = CharSet.Ansi)]
         private static extern uint AdsMemLwr90_32(
         IntPtr hConnect,
         string pucStr,
@@ -454,7 +454,7 @@ namespace AdvantageClientEngine
         ushort usCharSet,
         uint ulCollationID);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsMemLwr90", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsMemLwr90", CharSet = CharSet.Ansi)]
         private static extern uint AdsMemLwr90_64(
         IntPtr hConnect,
         string pucStr,
@@ -472,10 +472,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsMemLwr90_32(hConnect, pucStr, usStrLen, usCharSet, ulCollationID) : AdsMemLwr90_64(hConnect, pucStr, usStrLen, usCharSet, ulCollationID);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsGetIndexFlags", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsGetIndexFlags", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetIndexFlags_32(IntPtr hIndex, out uint pulFlags);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsGetIndexFlags", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsGetIndexFlags", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetIndexFlags_64(IntPtr hIndex, out uint pulFlags);
 
         public static uint AdsGetIndexFlags(IntPtr hIndex, out uint pulFlags)
@@ -483,10 +483,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsGetIndexFlags_32(hIndex, out pulFlags) : AdsGetIndexFlags_64(hIndex, out pulFlags);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsConvertKeyToDouble", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsConvertKeyToDouble", CharSet = CharSet.Ansi)]
         private static extern uint AdsConvertKeyToDouble_32(string pucKey, out double pdValue);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsConvertKeyToDouble", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsConvertKeyToDouble", CharSet = CharSet.Ansi)]
         private static extern uint AdsConvertKeyToDouble_64(string pucKey, out double pdValue);
 
         public static uint AdsConvertKeyToDouble(string pucKey, out double pdValue)
@@ -494,10 +494,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsConvertKeyToDouble_32(pucKey, out pdValue) : AdsConvertKeyToDouble_64(pucKey, out pdValue);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsGetNumSegments", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsGetNumSegments", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetNumSegments_32(IntPtr hTag, out ushort usSegments);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsGetNumSegments", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsGetNumSegments", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetNumSegments_64(IntPtr hTag, out ushort usSegments);
 
         public static uint AdsGetNumSegments(IntPtr hTag, out ushort usSegments)
@@ -505,14 +505,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsGetNumSegments_32(hTag, out usSegments) : AdsGetNumSegments_64(hTag, out usSegments);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsGetSegmentFieldname", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsGetSegmentFieldname", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetSegmentFieldname_32(
         IntPtr hTag,
         ushort usSegmentNum,
         [In, Out] char[] pucFieldname,
         ref ushort pusFldnameLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsGetSegmentFieldname", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsGetSegmentFieldname", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetSegmentFieldname_64(
         IntPtr hTag,
         ushort usSegmentNum,
@@ -528,13 +528,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsGetSegmentFieldname_32(hTag, usSegmentNum, pucFieldname, ref pusFldnameLen) : AdsGetSegmentFieldname_64(hTag, usSegmentNum, pucFieldname, ref pusFldnameLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsGetSegmentOffset", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsGetSegmentOffset", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetSegmentOffset_32(
         IntPtr hTag,
         ushort usSegmentNum,
         out ushort usOffset);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsGetSegmentOffset", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsGetSegmentOffset", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetSegmentOffset_64(
         IntPtr hTag,
         ushort usSegmentNum,
@@ -545,13 +545,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsGetSegmentOffset_32(hTag, usSegmentNum, out usOffset) : AdsGetSegmentOffset_64(hTag, usSegmentNum, out usOffset);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsIsSegmentDescending", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsIsSegmentDescending", CharSet = CharSet.Ansi)]
         private static extern uint AdsIsSegmentDescending_32(
         IntPtr hTag,
         ushort usSegmentNum,
         out ushort pbDescending);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsIsSegmentDescending", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsIsSegmentDescending", CharSet = CharSet.Ansi)]
         private static extern uint AdsIsSegmentDescending_64(
         IntPtr hTag,
         ushort usSegmentNum,
@@ -565,13 +565,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsIsSegmentDescending_32(hTag, usSegmentNum, out pbDescending) : AdsIsSegmentDescending_64(hTag, usSegmentNum, out pbDescending);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsGetSegmentFieldNumbers", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsGetSegmentFieldNumbers", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetSegmentFieldNumbers_32(
         IntPtr hTag,
         out ushort pusNumSegments,
         [In, Out] ushort[] pusSegFieldNumbers);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsGetSegmentFieldNumbers", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsGetSegmentFieldNumbers", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetSegmentFieldNumbers_64(
         IntPtr hTag,
         out ushort pusNumSegments,
@@ -585,14 +585,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsGetSegmentFieldNumbers_32(hTag, out pusNumSegments, pusSegFieldNumbers) : AdsGetSegmentFieldNumbers_64(hTag, out pusNumSegments, pusSegFieldNumbers);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsSetFieldRaw", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsSetFieldRaw", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetFieldRaw_32(
         IntPtr hObj,
         string pucFldName,
         byte[] pucBuf,
         uint ulLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsSetFieldRaw", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsSetFieldRaw", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetFieldRaw_64(
         IntPtr hObj,
         string pucFldName,
@@ -604,14 +604,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsSetFieldRaw_32(hObj, pucFldName, pucBuf, ulLen) : AdsSetFieldRaw_64(hObj, pucFldName, pucBuf, ulLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsSetFieldRaw", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsSetFieldRaw", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetFieldRaw_32(
         IntPtr hObj,
         uint lFieldOrdinal,
         byte[] pucBuf,
         uint ulLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsSetFieldRaw", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsSetFieldRaw", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetFieldRaw_64(
         IntPtr hObj,
         uint lFieldOrdinal,
@@ -623,14 +623,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsSetFieldRaw_32(hObj, lFieldOrdinal, pucBuf, ulLen) : AdsSetFieldRaw_64(hObj, lFieldOrdinal, pucBuf, ulLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsGetFieldRaw", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsGetFieldRaw", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetFieldRaw_32(
         IntPtr hTbl,
         string pucFldName,
         [In, Out] byte[] pucBuf,
         ref uint pulLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsGetFieldRaw", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsGetFieldRaw", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetFieldRaw_64(
         IntPtr hTbl,
         string pucFldName,
@@ -646,14 +646,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsGetFieldRaw_32(hTbl, pucFldName, pucBuf, ref pulLen) : AdsGetFieldRaw_64(hTbl, pucFldName, pucBuf, ref pulLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsGetFieldRaw", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsGetFieldRaw", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetFieldRaw_32(
         IntPtr hTbl,
         uint lFieldOrdinal,
         [In, Out] byte[] pucBuf,
         ref uint pulLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsGetFieldRaw", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsGetFieldRaw", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetFieldRaw_64(
         IntPtr hTbl,
         uint lFieldOrdinal,
@@ -669,10 +669,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsGetFieldRaw_32(hTbl, lFieldOrdinal, pucBuf, ref pulLen) : AdsGetFieldRaw_64(hTbl, lFieldOrdinal, pucBuf, ref pulLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsSetFlushFlag", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsSetFlushFlag", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetFlushFlag_32(IntPtr hConnect, ushort usFlushEveryUpdate);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsSetFlushFlag", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsSetFlushFlag", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetFlushFlag_64(IntPtr hConnect, ushort usFlushEveryUpdate);
 
         public static uint AdsSetFlushFlag(IntPtr hConnect, ushort usFlushEveryUpdate)
@@ -680,14 +680,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsSetFlushFlag_32(hConnect, usFlushEveryUpdate) : AdsSetFlushFlag_64(hConnect, usFlushEveryUpdate);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsSetTimeStampRaw", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsSetTimeStampRaw", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetTimeStampRaw_32(
         IntPtr hObj,
         string pucFldName,
         ref ulong pucBuf,
         uint ulLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsSetTimeStampRaw", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsSetTimeStampRaw", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetTimeStampRaw_64(
         IntPtr hObj,
         string pucFldName,
@@ -703,14 +703,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsSetTimeStampRaw_32(hObj, pucFldName, ref pucBuf, ulLen) : AdsSetTimeStampRaw_64(hObj, pucFldName, ref pucBuf, ulLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsSetTimeStampRaw", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsSetTimeStampRaw", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetTimeStampRaw_32(
         IntPtr hObj,
         uint lFieldOrdinal,
         ref ulong pucBuf,
         uint ulLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsSetTimeStampRaw", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsSetTimeStampRaw", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetTimeStampRaw_64(
         IntPtr hObj,
         uint lFieldOrdinal,
@@ -726,10 +726,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsSetTimeStampRaw_32(hObj, lFieldOrdinal, ref pucBuf, ulLen) : AdsSetTimeStampRaw_64(hObj, lFieldOrdinal, ref pucBuf, ulLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsSetInternalError", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsSetInternalError", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetInternalError_32(uint ulErrCode, string pucFile, uint ulLine);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsSetInternalError", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsSetInternalError", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetInternalError_64(uint ulErrCode, string pucFile, uint ulLine);
 
         public static uint AdsSetInternalError(uint ulErrCode, string pucFile, uint ulLine)
@@ -737,10 +737,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsSetInternalError_32(ulErrCode, pucFile, ulLine) : AdsSetInternalError_64(ulErrCode, pucFile, ulLine);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsValidateThread", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsValidateThread", CharSet = CharSet.Ansi)]
         private static extern uint AdsValidateThread_32();
 
-        [DllImport("ace64.dll", EntryPoint = "AdsValidateThread", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsValidateThread", CharSet = CharSet.Ansi)]
         private static extern uint AdsValidateThread_64();
 
         public static uint AdsValidateThread()
@@ -748,10 +748,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsValidateThread_32() : AdsValidateThread_64();
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsSetLastError", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsSetLastError", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetLastError_32(uint ulErrCode, string pucDetails);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsSetLastError", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsSetLastError", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetLastError_64(uint ulErrCode, string pucDetails);
 
         public static uint AdsSetLastError(uint ulErrCode, string pucDetails)
@@ -759,10 +759,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsSetLastError_32(ulErrCode, pucDetails) : AdsSetLastError_64(ulErrCode, pucDetails);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsSetTableCharType", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsSetTableCharType", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetTableCharType_32(IntPtr hTbl, ushort usCharType);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsSetTableCharType", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsSetTableCharType", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetTableCharType_64(IntPtr hTbl, ushort usCharType);
 
         public static uint AdsSetTableCharType(IntPtr hTbl, ushort usCharType)
@@ -770,13 +770,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsSetTableCharType_32(hTbl, usCharType) : AdsSetTableCharType_64(hTbl, usCharType);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsConvertJulianToString", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsConvertJulianToString", CharSet = CharSet.Ansi)]
         private static extern uint AdsConvertJulianToString_32(
         double dJulian,
         [In, Out] char[] pucJulian,
         ref ushort pusLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsConvertJulianToString", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsConvertJulianToString", CharSet = CharSet.Ansi)]
         private static extern uint AdsConvertJulianToString_64(
         double dJulian,
         [In, Out] char[] pucJulian,
@@ -790,13 +790,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsConvertJulianToString_32(dJulian, pucJulian, ref pusLen) : AdsConvertJulianToString_64(dJulian, pucJulian, ref pusLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsConvertStringToJulian", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsConvertStringToJulian", CharSet = CharSet.Ansi)]
         private static extern uint AdsConvertStringToJulian_32(
         string pucJulian,
         ushort usLen,
         out double pdJulian);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsConvertStringToJulian", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsConvertStringToJulian", CharSet = CharSet.Ansi)]
         private static extern uint AdsConvertStringToJulian_64(
         string pucJulian,
         ushort usLen,
@@ -810,13 +810,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsConvertStringToJulian_32(pucJulian, usLen, out pdJulian) : AdsConvertStringToJulian_64(pucJulian, usLen, out pdJulian);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsConvertStringToJulian", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsConvertStringToJulian", CharSet = CharSet.Ansi)]
         private static extern uint AdsConvertStringToJulian_32(
         [In, Out] char[] pucJulian,
         ushort usLen,
         out double pdJulian);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsConvertStringToJulian", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsConvertStringToJulian", CharSet = CharSet.Ansi)]
         private static extern uint AdsConvertStringToJulian_64(
         [In, Out] char[] pucJulian,
         ushort usLen,
@@ -830,13 +830,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsConvertStringToJulian_32(pucJulian, usLen, out pdJulian) : AdsConvertStringToJulian_64(pucJulian, usLen, out pdJulian);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsConvertMillisecondsToString", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsConvertMillisecondsToString", CharSet = CharSet.Ansi)]
         private static extern uint AdsConvertMillisecondsToString_32(
         uint ulMSeconds,
         [In, Out] char[] pucTime,
         ref ushort pusLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsConvertMillisecondsToString", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsConvertMillisecondsToString", CharSet = CharSet.Ansi)]
         private static extern uint AdsConvertMillisecondsToString_64(
         uint ulMSeconds,
         [In, Out] char[] pucTime,
@@ -850,13 +850,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsConvertMillisecondsToString_32(ulMSeconds, pucTime, ref pusLen) : AdsConvertMillisecondsToString_64(ulMSeconds, pucTime, ref pusLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsConvertStringToMilliseconds", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsConvertStringToMilliseconds", CharSet = CharSet.Ansi)]
         private static extern uint AdsConvertStringToMilliseconds_32(
         string pucTime,
         ushort usLen,
         out uint pulMSeconds);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsConvertStringToMilliseconds", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsConvertStringToMilliseconds", CharSet = CharSet.Ansi)]
         private static extern uint AdsConvertStringToMilliseconds_64(
         string pucTime,
         ushort usLen,
@@ -870,10 +870,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsConvertStringToMilliseconds_32(pucTime, usLen, out pulMSeconds) : AdsConvertStringToMilliseconds_64(pucTime, usLen, out pulMSeconds);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsSetCollationSequence", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsSetCollationSequence", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetCollationSequence_32(string pucSequence);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsSetCollationSequence", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsSetCollationSequence", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetCollationSequence_64(string pucSequence);
 
         public static uint AdsSetCollationSequence(string pucSequence)
@@ -881,10 +881,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsSetCollationSequence_32(pucSequence) : AdsSetCollationSequence_64(pucSequence);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsSetBOFFlag", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsSetBOFFlag", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetBOFFlag_32(IntPtr hTbl, ushort usBOF);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsSetBOFFlag", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsSetBOFFlag", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetBOFFlag_64(IntPtr hTbl, ushort usBOF);
 
         public static uint AdsSetBOFFlag(IntPtr hTbl, ushort usBOF)
@@ -892,10 +892,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsSetBOFFlag_32(hTbl, usBOF) : AdsSetBOFFlag_64(hTbl, usBOF);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDBFDateToString", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDBFDateToString", CharSet = CharSet.Ansi)]
         private static extern uint AdsDBFDateToString_32(string pucDBFDate, string pucFormattedDate);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDBFDateToString", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDBFDateToString", CharSet = CharSet.Ansi)]
         private static extern uint AdsDBFDateToString_64(string pucDBFDate, string pucFormattedDate);
 
         public static uint AdsDBFDateToString(string pucDBFDate, string pucFormattedDate)
@@ -903,10 +903,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDBFDateToString_32(pucDBFDate, pucFormattedDate) : AdsDBFDateToString_64(pucDBFDate, pucFormattedDate);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsActivateAOF", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsActivateAOF", CharSet = CharSet.Ansi)]
         private static extern uint AdsActivateAOF_32(IntPtr hTable);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsActivateAOF", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsActivateAOF", CharSet = CharSet.Ansi)]
         private static extern uint AdsActivateAOF_64(IntPtr hTable);
 
         public static uint AdsActivateAOF(IntPtr hTable)
@@ -914,10 +914,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsActivateAOF_32(hTable) : AdsActivateAOF_64(hTable);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDeactivateAOF", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDeactivateAOF", CharSet = CharSet.Ansi)]
         private static extern uint AdsDeactivateAOF_32(IntPtr hTable);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDeactivateAOF", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDeactivateAOF", CharSet = CharSet.Ansi)]
         private static extern uint AdsDeactivateAOF_64(IntPtr hTable);
 
         public static uint AdsDeactivateAOF(IntPtr hTable)
@@ -925,14 +925,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDeactivateAOF_32(hTable) : AdsDeactivateAOF_64(hTable);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsExtractPathPart", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsExtractPathPart", CharSet = CharSet.Ansi)]
         private static extern uint AdsExtractPathPart_32(
         ushort usPart,
         string pucFile,
         [In, Out] char[] pucPart,
         ref ushort pusPartLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsExtractPathPart", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsExtractPathPart", CharSet = CharSet.Ansi)]
         private static extern uint AdsExtractPathPart_64(
         ushort usPart,
         string pucFile,
@@ -948,14 +948,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsExtractPathPart_32(usPart, pucFile, pucPart, ref pusPartLen) : AdsExtractPathPart_64(usPart, pucFile, pucPart, ref pusPartLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsExpressionLongToShort", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsExpressionLongToShort", CharSet = CharSet.Ansi)]
         private static extern uint AdsExpressionLongToShort_32(
         IntPtr hTable,
         string pucLongExpr,
         [In, Out] char[] pucShortExpr,
         ref ushort pusBufferLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsExpressionLongToShort", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsExpressionLongToShort", CharSet = CharSet.Ansi)]
         private static extern uint AdsExpressionLongToShort_64(
         IntPtr hTable,
         string pucLongExpr,
@@ -971,14 +971,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsExpressionLongToShort_32(hTable, pucLongExpr, pucShortExpr, ref pusBufferLen) : AdsExpressionLongToShort_64(hTable, pucLongExpr, pucShortExpr, ref pusBufferLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsExpressionShortToLong", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsExpressionShortToLong", CharSet = CharSet.Ansi)]
         private static extern uint AdsExpressionShortToLong_32(
         IntPtr hTable,
         string pucShortExpr,
         [In, Out] char[] pucLongExpr,
         ref ushort pusBufferLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsExpressionShortToLong", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsExpressionShortToLong", CharSet = CharSet.Ansi)]
         private static extern uint AdsExpressionShortToLong_64(
         IntPtr hTable,
         string pucShortExpr,
@@ -994,14 +994,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsExpressionShortToLong_32(hTable, pucShortExpr, pucLongExpr, ref pusBufferLen) : AdsExpressionShortToLong_64(hTable, pucShortExpr, pucLongExpr, ref pusBufferLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsExpressionLongToShort90", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsExpressionLongToShort90", CharSet = CharSet.Ansi)]
         private static extern uint AdsExpressionLongToShort90_32(
         IntPtr hTable,
         string pucLongExpr,
         [In, Out] char[] pucShortExpr,
         ref uint pulBufferLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsExpressionLongToShort90", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsExpressionLongToShort90", CharSet = CharSet.Ansi)]
         private static extern uint AdsExpressionLongToShort90_64(
         IntPtr hTable,
         string pucLongExpr,
@@ -1017,7 +1017,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsExpressionLongToShort90_32(hTable, pucLongExpr, pucShortExpr, ref pulBufferLen) : AdsExpressionLongToShort90_64(hTable, pucLongExpr, pucShortExpr, ref pulBufferLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsExpressionLongToShort100", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsExpressionLongToShort100", CharSet = CharSet.Ansi)]
         private static extern uint AdsExpressionLongToShort100_32(
         IntPtr hTable,
         string pucLongExpr,
@@ -1025,7 +1025,7 @@ namespace AdvantageClientEngine
         ref uint pulBufferLen,
         uint ulOptions);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsExpressionLongToShort100", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsExpressionLongToShort100", CharSet = CharSet.Ansi)]
         private static extern uint AdsExpressionLongToShort100_64(
         IntPtr hTable,
         string pucLongExpr,
@@ -1043,14 +1043,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsExpressionLongToShort100_32(hTable, pucLongExpr, pucShortExpr, ref pulBufferLen, ulOptions) : AdsExpressionLongToShort100_64(hTable, pucLongExpr, pucShortExpr, ref pulBufferLen, ulOptions);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsExpressionShortToLong90", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsExpressionShortToLong90", CharSet = CharSet.Ansi)]
         private static extern uint AdsExpressionShortToLong90_32(
         IntPtr hTable,
         string pucShortExpr,
         [In, Out] char[] pucLongExpr,
         ref uint pulBufferLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsExpressionShortToLong90", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsExpressionShortToLong90", CharSet = CharSet.Ansi)]
         private static extern uint AdsExpressionShortToLong90_64(
         IntPtr hTable,
         string pucShortExpr,
@@ -1066,10 +1066,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsExpressionShortToLong90_32(hTable, pucShortExpr, pucLongExpr, ref pulBufferLen) : AdsExpressionShortToLong90_64(hTable, pucShortExpr, pucLongExpr, ref pulBufferLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsSqlPeekStatement", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsSqlPeekStatement", CharSet = CharSet.Ansi)]
         private static extern uint AdsSqlPeekStatement_32(IntPtr hCursor, out byte IsLive);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsSqlPeekStatement", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsSqlPeekStatement", CharSet = CharSet.Ansi)]
         private static extern uint AdsSqlPeekStatement_64(IntPtr hCursor, out byte IsLive);
 
         public static uint AdsSqlPeekStatement(IntPtr hCursor, out byte IsLive)
@@ -1077,13 +1077,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsSqlPeekStatement_32(hCursor, out IsLive) : AdsSqlPeekStatement_64(hCursor, out IsLive);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsSetCursorAOF", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsSetCursorAOF", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetCursorAOF_32(
         IntPtr hTable,
         string pucFilter,
         ushort usResolve);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsSetCursorAOF", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsSetCursorAOF", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetCursorAOF_64(
         IntPtr hTable,
         string pucFilter,
@@ -1094,13 +1094,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsSetCursorAOF_32(hTable, pucFilter, usResolve) : AdsSetCursorAOF_64(hTable, pucFilter, usResolve);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsGetCursorAOF", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsGetCursorAOF", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetCursorAOF_32(
         IntPtr hCursor,
         [In, Out] char[] pucFilter,
         ref ushort pusFilterLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsGetCursorAOF", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsGetCursorAOF", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetCursorAOF_64(
         IntPtr hCursor,
         [In, Out] char[] pucFilter,
@@ -1111,10 +1111,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsGetCursorAOF_32(hCursor, pucFilter, ref pusFilterLen) : AdsGetCursorAOF_64(hCursor, pucFilter, ref pusFilterLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsClearCursorAOF", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsClearCursorAOF", CharSet = CharSet.Ansi)]
         private static extern uint AdsClearCursorAOF_32(IntPtr hTable);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsClearCursorAOF", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsClearCursorAOF", CharSet = CharSet.Ansi)]
         private static extern uint AdsClearCursorAOF_64(IntPtr hTable);
 
         public static uint AdsClearCursorAOF(IntPtr hTable)
@@ -1122,10 +1122,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsClearCursorAOF_32(hTable) : AdsClearCursorAOF_64(hTable);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsInternalCloseCachedTables", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsInternalCloseCachedTables", CharSet = CharSet.Ansi)]
         private static extern uint AdsInternalCloseCachedTables_32(IntPtr hConnect, ushort usOpen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsInternalCloseCachedTables", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsInternalCloseCachedTables", CharSet = CharSet.Ansi)]
         private static extern uint AdsInternalCloseCachedTables_64(IntPtr hConnect, ushort usOpen);
 
         public static uint AdsInternalCloseCachedTables(IntPtr hConnect, ushort usOpen)
@@ -1133,10 +1133,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsInternalCloseCachedTables_32(hConnect, usOpen) : AdsInternalCloseCachedTables_64(hConnect, usOpen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsInternalBeginTransaction", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsInternalBeginTransaction", CharSet = CharSet.Ansi)]
         private static extern uint AdsInternalBeginTransaction_32(IntPtr hConnect);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsInternalBeginTransaction", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsInternalBeginTransaction", CharSet = CharSet.Ansi)]
         private static extern uint AdsInternalBeginTransaction_64(IntPtr hConnect);
 
         public static uint AdsInternalBeginTransaction(IntPtr hConnect)
@@ -1144,10 +1144,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsInternalBeginTransaction_32(hConnect) : AdsInternalBeginTransaction_64(hConnect);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsInternalCommitTransaction", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsInternalCommitTransaction", CharSet = CharSet.Ansi)]
         private static extern uint AdsInternalCommitTransaction_32(IntPtr hConnect);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsInternalCommitTransaction", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsInternalCommitTransaction", CharSet = CharSet.Ansi)]
         private static extern uint AdsInternalCommitTransaction_64(IntPtr hConnect);
 
         public static uint AdsInternalCommitTransaction(IntPtr hConnect)
@@ -1155,10 +1155,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsInternalCommitTransaction_32(hConnect) : AdsInternalCommitTransaction_64(hConnect);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsInternalRollbackTransaction", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsInternalRollbackTransaction", CharSet = CharSet.Ansi)]
         private static extern uint AdsInternalRollbackTransaction_32(IntPtr hConnect);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsInternalRollbackTransaction", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsInternalRollbackTransaction", CharSet = CharSet.Ansi)]
         private static extern uint AdsInternalRollbackTransaction_64(IntPtr hConnect);
 
         public static uint AdsInternalRollbackTransaction(IntPtr hConnect)
@@ -1166,13 +1166,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsInternalRollbackTransaction_32(hConnect) : AdsInternalRollbackTransaction_64(hConnect);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsInternalRollbackTransaction80", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsInternalRollbackTransaction80", CharSet = CharSet.Ansi)]
         private static extern uint AdsInternalRollbackTransaction80_32(
         IntPtr hConnect,
         string pucSavepoint,
         uint ulOptions);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsInternalRollbackTransaction80", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsInternalRollbackTransaction80", CharSet = CharSet.Ansi)]
         private static extern uint AdsInternalRollbackTransaction80_64(
         IntPtr hConnect,
         string pucSavepoint,
@@ -1186,13 +1186,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsInternalRollbackTransaction80_32(hConnect, pucSavepoint, ulOptions) : AdsInternalRollbackTransaction80_64(hConnect, pucSavepoint, ulOptions);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsInternalCreateSavepoint", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsInternalCreateSavepoint", CharSet = CharSet.Ansi)]
         private static extern uint AdsInternalCreateSavepoint_32(
         IntPtr hConnect,
         string pucSavepoint,
         uint ulOptions);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsInternalCreateSavepoint", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsInternalCreateSavepoint", CharSet = CharSet.Ansi)]
         private static extern uint AdsInternalCreateSavepoint_64(
         IntPtr hConnect,
         string pucSavepoint,
@@ -1206,10 +1206,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsInternalCreateSavepoint_32(hConnect, pucSavepoint, ulOptions) : AdsInternalCreateSavepoint_64(hConnect, pucSavepoint, ulOptions);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsClearRecordBuffer", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsClearRecordBuffer", CharSet = CharSet.Ansi)]
         private static extern uint AdsClearRecordBuffer_32(IntPtr hTbl, string pucBuf, uint ulLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsClearRecordBuffer", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsClearRecordBuffer", CharSet = CharSet.Ansi)]
         private static extern uint AdsClearRecordBuffer_64(IntPtr hTbl, string pucBuf, uint ulLen);
 
         public static uint AdsClearRecordBuffer(IntPtr hTbl, string pucBuf, uint ulLen)
@@ -1217,13 +1217,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsClearRecordBuffer_32(hTbl, pucBuf, ulLen) : AdsClearRecordBuffer_64(hTbl, pucBuf, ulLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "ObsAdsEncryptBuffer", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "ObsAdsEncryptBuffer", CharSet = CharSet.Ansi)]
         private static extern uint ObsAdsEncryptBuffer_32(
         string pucPassword,
         string pucBuffer,
         ushort usLen);
 
-        [DllImport("ace64.dll", EntryPoint = "ObsAdsEncryptBuffer", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "ObsAdsEncryptBuffer", CharSet = CharSet.Ansi)]
         private static extern uint ObsAdsEncryptBuffer_64(
         string pucPassword,
         string pucBuffer,
@@ -1234,13 +1234,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? ObsAdsEncryptBuffer_32(pucPassword, pucBuffer, usLen) : ObsAdsEncryptBuffer_64(pucPassword, pucBuffer, usLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "ObsAdsDecryptBuffer", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "ObsAdsDecryptBuffer", CharSet = CharSet.Ansi)]
         private static extern uint ObsAdsDecryptBuffer_32(
         string pucPassword,
         string pucBuffer,
         ushort usLen);
 
-        [DllImport("ace64.dll", EntryPoint = "ObsAdsDecryptBuffer", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "ObsAdsDecryptBuffer", CharSet = CharSet.Ansi)]
         private static extern uint ObsAdsDecryptBuffer_64(
         string pucPassword,
         string pucBuffer,
@@ -1251,14 +1251,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? ObsAdsDecryptBuffer_32(pucPassword, pucBuffer, usLen) : ObsAdsDecryptBuffer_64(pucPassword, pucBuffer, usLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsEvalExpr", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsEvalExpr", CharSet = CharSet.Ansi)]
         private static extern uint AdsEvalExpr_32(
         IntPtr hTable,
         string pucPCode,
         [In, Out] char[] pucResult,
         ref ushort pusLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsEvalExpr", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsEvalExpr", CharSet = CharSet.Ansi)]
         private static extern uint AdsEvalExpr_64(
         IntPtr hTable,
         string pucPCode,
@@ -1274,10 +1274,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsEvalExpr_32(hTable, pucPCode, pucResult, ref pusLen) : AdsEvalExpr_64(hTable, pucPCode, pucResult, ref pusLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsFreeExpr", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsFreeExpr", CharSet = CharSet.Ansi)]
         private static extern uint AdsFreeExpr_32(IntPtr hTable, string pucPCode);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsFreeExpr", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsFreeExpr", CharSet = CharSet.Ansi)]
         private static extern uint AdsFreeExpr_64(IntPtr hTable, string pucPCode);
 
         public static uint AdsFreeExpr(IntPtr hTable, string pucPCode)
@@ -1285,13 +1285,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsFreeExpr_32(hTable, pucPCode) : AdsFreeExpr_64(hTable, pucPCode);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsIsIndexExprValid", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsIsIndexExprValid", CharSet = CharSet.Ansi)]
         private static extern uint AdsIsIndexExprValid_32(
         IntPtr hTbl,
         string pucExpr,
         out ushort pbValid);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsIsIndexExprValid", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsIsIndexExprValid", CharSet = CharSet.Ansi)]
         private static extern uint AdsIsIndexExprValid_64(
         IntPtr hTbl,
         string pucExpr,
@@ -1302,14 +1302,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsIsIndexExprValid_32(hTbl, pucExpr, out pbValid) : AdsIsIndexExprValid_64(hTbl, pucExpr, out pbValid);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsStepIndexKey", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsStepIndexKey", CharSet = CharSet.Ansi)]
         private static extern uint AdsStepIndexKey_32(
         IntPtr hIndex,
         string pucKey,
         ushort usLen,
         short sDirection);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsStepIndexKey", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsStepIndexKey", CharSet = CharSet.Ansi)]
         private static extern uint AdsStepIndexKey_64(
         IntPtr hIndex,
         string pucKey,
@@ -1325,14 +1325,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsStepIndexKey_32(hIndex, pucKey, usLen, sDirection) : AdsStepIndexKey_64(hIndex, pucKey, usLen, sDirection);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsPrepareSQLNow", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsPrepareSQLNow", CharSet = CharSet.Ansi)]
         private static extern uint AdsPrepareSQLNow_32(
         IntPtr hStatement,
         string pucSQL,
         [In, Out] char[] pucFieldInfo,
         ref ushort pusFieldInfoLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsPrepareSQLNow", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsPrepareSQLNow", CharSet = CharSet.Ansi)]
         private static extern uint AdsPrepareSQLNow_64(
         IntPtr hStatement,
         string pucSQL,
@@ -1348,14 +1348,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsPrepareSQLNow_32(hStatement, pucSQL, pucFieldInfo, ref pusFieldInfoLen) : AdsPrepareSQLNow_64(hStatement, pucSQL, pucFieldInfo, ref pusFieldInfoLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsPrepareSQLNowW", CharSet = CharSet.Unicode)]
+        [DllImport("ace32", EntryPoint = "AdsPrepareSQLNowW", CharSet = CharSet.Unicode)]
         private static extern uint AdsPrepareSQLNowW_32(
         IntPtr hStatement,
         string pwcSQL,
         [In, Out] char[] pucFieldInfo,
         ref ushort pusFieldInfoLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsPrepareSQLNowW", CharSet = CharSet.Unicode)]
+        [DllImport("ace64", EntryPoint = "AdsPrepareSQLNowW", CharSet = CharSet.Unicode)]
         private static extern uint AdsPrepareSQLNowW_64(
         IntPtr hStatement,
         string pwcSQL,
@@ -1371,14 +1371,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsPrepareSQLNowW_32(hStatement, pwcSQL, pucFieldInfo, ref pusFieldInfoLen) : AdsPrepareSQLNowW_64(hStatement, pwcSQL, pucFieldInfo, ref pusFieldInfoLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsGetPreparedFields", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsGetPreparedFields", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetPreparedFields_32(
         IntPtr hStatement,
         [In, Out] char[] pucBuffer,
         ref uint pulBufferLen,
         uint ulOptions);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsGetPreparedFields", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsGetPreparedFields", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetPreparedFields_64(
         IntPtr hStatement,
         [In, Out] char[] pucBuffer,
@@ -1394,10 +1394,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsGetPreparedFields_32(hStatement, pucBuffer, ref pulBufferLen, ulOptions) : AdsGetPreparedFields_64(hStatement, pucBuffer, ref pulBufferLen, ulOptions);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsEcho", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsEcho", CharSet = CharSet.Ansi)]
         private static extern uint AdsEcho_32(IntPtr hConnect, string pucData, ushort usLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsEcho", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsEcho", CharSet = CharSet.Ansi)]
         private static extern uint AdsEcho_64(IntPtr hConnect, string pucData, ushort usLen);
 
         public static uint AdsEcho(IntPtr hConnect, string pucData, ushort usLen)
@@ -1405,10 +1405,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsEcho_32(hConnect, pucData, usLen) : AdsEcho_64(hConnect, pucData, usLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsReadRecords", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsReadRecords", CharSet = CharSet.Ansi)]
         private static extern uint AdsReadRecords_32(IntPtr hObj, uint ulRecordNum, byte cDirection);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsReadRecords", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsReadRecords", CharSet = CharSet.Ansi)]
         private static extern uint AdsReadRecords_64(IntPtr hObj, uint ulRecordNum, byte cDirection);
 
         public static uint AdsReadRecords(IntPtr hObj, uint ulRecordNum, byte cDirection)
@@ -1416,7 +1416,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsReadRecords_32(hObj, ulRecordNum, cDirection) : AdsReadRecords_64(hObj, ulRecordNum, cDirection);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsReadRecordNumbers", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsReadRecordNumbers", CharSet = CharSet.Ansi)]
         private static extern uint AdsReadRecordNumbers_32(
         IntPtr hObj,
         uint ulRecordNum,
@@ -1425,7 +1425,7 @@ namespace AdvantageClientEngine
         ref uint pulArrayLen,
         out ushort pusHitEOF);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsReadRecordNumbers", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsReadRecordNumbers", CharSet = CharSet.Ansi)]
         private static extern uint AdsReadRecordNumbers_64(
         IntPtr hObj,
         uint ulRecordNum,
@@ -1445,10 +1445,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsReadRecordNumbers_32(hObj, ulRecordNum, ucDirection, out pulRecords, ref pulArrayLen, out pusHitEOF) : AdsReadRecordNumbers_64(hObj, ulRecordNum, ucDirection, out pulRecords, ref pulArrayLen, out pusHitEOF);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsMergeAOF", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsMergeAOF", CharSet = CharSet.Ansi)]
         private static extern uint AdsMergeAOF_32(IntPtr hTable);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsMergeAOF", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsMergeAOF", CharSet = CharSet.Ansi)]
         private static extern uint AdsMergeAOF_64(IntPtr hTable);
 
         public static uint AdsMergeAOF(IntPtr hTable)
@@ -1456,14 +1456,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsMergeAOF_32(hTable) : AdsMergeAOF_64(hTable);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsSetupRI", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsSetupRI", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetupRI_32(
         IntPtr hConnection,
         int lTableID,
         byte ucOpen,
         uint ulServerWAN);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsSetupRI", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsSetupRI", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetupRI_64(
         IntPtr hConnection,
         int lTableID,
@@ -1475,10 +1475,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsSetupRI_32(hConnection, lTableID, ucOpen, ulServerWAN) : AdsSetupRI_64(hConnection, lTableID, ucOpen, ulServerWAN);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsPerformRI", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsPerformRI", CharSet = CharSet.Ansi)]
         private static extern uint AdsPerformRI_32(IntPtr hTable, uint ulRecNum, string pucRecBuffer);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsPerformRI", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsPerformRI", CharSet = CharSet.Ansi)]
         private static extern uint AdsPerformRI_64(IntPtr hTable, uint ulRecNum, string pucRecBuffer);
 
         public static uint AdsPerformRI(IntPtr hTable, uint ulRecNum, string pucRecBuffer)
@@ -1486,10 +1486,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsPerformRI_32(hTable, ulRecNum, pucRecBuffer) : AdsPerformRI_64(hTable, ulRecNum, pucRecBuffer);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsLockRecordImplicitly", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsLockRecordImplicitly", CharSet = CharSet.Ansi)]
         private static extern uint AdsLockRecordImplicitly_32(IntPtr hTbl, uint ulRec);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsLockRecordImplicitly", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsLockRecordImplicitly", CharSet = CharSet.Ansi)]
         private static extern uint AdsLockRecordImplicitly_64(IntPtr hTbl, uint ulRec);
 
         public static uint AdsLockRecordImplicitly(IntPtr hTbl, uint ulRec)
@@ -1497,13 +1497,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsLockRecordImplicitly_32(hTbl, ulRec) : AdsLockRecordImplicitly_64(hTbl, ulRec);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsGetBaseFieldNum", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsGetBaseFieldNum", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetBaseFieldNum_32(
         IntPtr hCursor,
         string pucColumnName,
         out ushort pusBaseFieldNum);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsGetBaseFieldNum", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsGetBaseFieldNum", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetBaseFieldNum_64(
         IntPtr hCursor,
         string pucColumnName,
@@ -1517,14 +1517,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsGetBaseFieldNum_32(hCursor, pucColumnName, out pusBaseFieldNum) : AdsGetBaseFieldNum_64(hCursor, pucColumnName, out pusBaseFieldNum);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsGetBaseFieldName", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsGetBaseFieldName", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetBaseFieldName_32(
         IntPtr hTbl,
         ushort usFld,
         [In, Out] char[] pucName,
         ref ushort pusBufLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsGetBaseFieldName", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsGetBaseFieldName", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetBaseFieldName_64(
         IntPtr hTbl,
         ushort usFld,
@@ -1540,13 +1540,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsGetBaseFieldName_32(hTbl, usFld, pucName, ref pusBufLen) : AdsGetBaseFieldName_64(hTbl, usFld, pucName, ref pusBufLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDOpen", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDOpen", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDOpen_32(
         string pucDictionaryPath,
         string pucPassword,
         out IntPtr phDictionary);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDOpen", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDOpen", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDOpen_64(
         string pucDictionaryPath,
         string pucPassword,
@@ -1560,10 +1560,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDOpen_32(pucDictionaryPath, pucPassword, out phDictionary) : AdsDDOpen_64(pucDictionaryPath, pucPassword, out phDictionary);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDClose", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDClose", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDClose_32(IntPtr hDictionary);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDClose", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDClose", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDClose_64(IntPtr hDictionary);
 
         public static uint AdsDDClose(IntPtr hDictionary)
@@ -1571,10 +1571,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDClose_32(hDictionary) : AdsDDClose_64(hDictionary);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsRefreshView", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsRefreshView", CharSet = CharSet.Ansi)]
         private static extern uint AdsRefreshView_32(out IntPtr phCursor);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsRefreshView", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsRefreshView", CharSet = CharSet.Ansi)]
         private static extern uint AdsRefreshView_64(out IntPtr phCursor);
 
         public static uint AdsRefreshView(out IntPtr phCursor)
@@ -1582,7 +1582,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsRefreshView_32(out phCursor) : AdsRefreshView_64(out phCursor);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDExecuteProcedure", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDExecuteProcedure", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDExecuteProcedure_32(
         IntPtr hDictionary,
         string pucProcName,
@@ -1591,7 +1591,7 @@ namespace AdvantageClientEngine
         out uint pulRowsAffected,
         uint ulInvokeType);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDExecuteProcedure", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDExecuteProcedure", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDExecuteProcedure_64(
         IntPtr hDictionary,
         string pucProcName,
@@ -1611,13 +1611,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDExecuteProcedure_32(hDictionary, pucProcName, pucInput, pucOutput, out pulRowsAffected, ulInvokeType) : AdsDDExecuteProcedure_64(hDictionary, pucProcName, pucInput, pucOutput, out pulRowsAffected, ulInvokeType);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDGetProcInterfaceVersion", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDGetProcInterfaceVersion", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDGetProcInterfaceVersion_32(
         IntPtr hDictionary,
         string pucProcName,
         out uint pulInterfaceVersion);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDGetProcInterfaceVersion", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDGetProcInterfaceVersion", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDGetProcInterfaceVersion_64(
         IntPtr hDictionary,
         string pucProcName,
@@ -1631,10 +1631,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDGetProcInterfaceVersion_32(hDictionary, pucProcName, out pulInterfaceVersion) : AdsDDGetProcInterfaceVersion_64(hDictionary, pucProcName, out pulInterfaceVersion);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsSetPacketSize", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsSetPacketSize", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetPacketSize_32(IntPtr hConnect, ushort usPacketLength);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsSetPacketSize", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsSetPacketSize", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetPacketSize_64(IntPtr hConnect, ushort usPacketLength);
 
         public static uint AdsSetPacketSize(IntPtr hConnect, ushort usPacketLength)
@@ -1642,10 +1642,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsSetPacketSize_32(hConnect, usPacketLength) : AdsSetPacketSize_64(hConnect, usPacketLength);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsVerifyRI", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsVerifyRI", CharSet = CharSet.Ansi)]
         private static extern uint AdsVerifyRI_32(IntPtr hConnect, ushort usExclusive);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsVerifyRI", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsVerifyRI", CharSet = CharSet.Ansi)]
         private static extern uint AdsVerifyRI_64(IntPtr hConnect, ushort usExclusive);
 
         public static uint AdsVerifyRI(IntPtr hConnect, ushort usExclusive)
@@ -1653,14 +1653,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsVerifyRI_32(hConnect, usExclusive) : AdsVerifyRI_64(hConnect, usExclusive);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsAddToAOF", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsAddToAOF", CharSet = CharSet.Ansi)]
         private static extern uint AdsAddToAOF_32(
         IntPtr hTable,
         string pucFilter,
         ushort usOperation,
         ushort usWhichAOF);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsAddToAOF", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsAddToAOF", CharSet = CharSet.Ansi)]
         private static extern uint AdsAddToAOF_64(
         IntPtr hTable,
         string pucFilter,
@@ -1676,13 +1676,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsAddToAOF_32(hTable, pucFilter, usOperation, usWhichAOF) : AdsAddToAOF_64(hTable, pucFilter, usOperation, usWhichAOF);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDVerifyUserRights", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDVerifyUserRights", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDVerifyUserRights_32(
         IntPtr hObject,
         string pucTableName,
         out uint pulUserRights);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDVerifyUserRights", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDVerifyUserRights", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDVerifyUserRights_64(
         IntPtr hObject,
         string pucTableName,
@@ -1696,10 +1696,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDVerifyUserRights_32(hObject, pucTableName, out pulUserRights) : AdsDDVerifyUserRights_64(hObject, pucTableName, out pulUserRights);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsGetIndexPageSize", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsGetIndexPageSize", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetIndexPageSize_32(IntPtr hIndex, out uint pulPageSize);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsGetIndexPageSize", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsGetIndexPageSize", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetIndexPageSize_64(IntPtr hIndex, out uint pulPageSize);
 
         public static uint AdsGetIndexPageSize(IntPtr hIndex, out uint pulPageSize)
@@ -1707,13 +1707,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsGetIndexPageSize_32(hIndex, out pulPageSize) : AdsGetIndexPageSize_64(hIndex, out pulPageSize);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDAutoCreateTable", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDAutoCreateTable", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDAutoCreateTable_32(
         IntPtr hConnect,
         string pucTableName,
         string pucCollation);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDAutoCreateTable", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDAutoCreateTable", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDAutoCreateTable_64(
         IntPtr hConnect,
         string pucTableName,
@@ -1727,14 +1727,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDAutoCreateTable_32(hConnect, pucTableName, pucCollation) : AdsDDAutoCreateTable_64(hConnect, pucTableName, pucCollation);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDAutoCreateIndex", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDAutoCreateIndex", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDAutoCreateIndex_32(
         IntPtr hConnect,
         string pucTableName,
         string pucIndexName,
         string pucCollation);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDAutoCreateIndex", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDAutoCreateIndex", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDAutoCreateIndex_64(
         IntPtr hConnect,
         string pucTableName,
@@ -1750,13 +1750,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDAutoCreateIndex_32(hConnect, pucTableName, pucIndexName, pucCollation) : AdsDDAutoCreateIndex_64(hConnect, pucTableName, pucIndexName, pucCollation);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsGetROWIDPrefix", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsGetROWIDPrefix", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetROWIDPrefix_32(
         IntPtr hTable,
         string pucRowIDPrefix,
         ushort usBufferLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsGetROWIDPrefix", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsGetROWIDPrefix", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetROWIDPrefix_64(
         IntPtr hTable,
         string pucRowIDPrefix,
@@ -1767,13 +1767,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsGetROWIDPrefix_32(hTable, pucRowIDPrefix, usBufferLen) : AdsGetROWIDPrefix_64(hTable, pucRowIDPrefix, usBufferLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsGetColumnPermissions", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsGetColumnPermissions", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetColumnPermissions_32(
         IntPtr hTable,
         ushort usColumnNum,
         string pucPermissions);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsGetColumnPermissions", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsGetColumnPermissions", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetColumnPermissions_64(
         IntPtr hTable,
         ushort usColumnNum,
@@ -1787,10 +1787,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsGetColumnPermissions_32(hTable, usColumnNum, pucPermissions) : AdsGetColumnPermissions_64(hTable, usColumnNum, pucPermissions);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsGetSQLStmtParams", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsGetSQLStmtParams", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetSQLStmtParams_32(string pucStatement);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsGetSQLStmtParams", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsGetSQLStmtParams", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetSQLStmtParams_64(string pucStatement);
 
         public static uint AdsGetSQLStmtParams(string pucStatement)
@@ -1798,10 +1798,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsGetSQLStmtParams_32(pucStatement) : AdsGetSQLStmtParams_64(pucStatement);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsRemoveSQLComments", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsRemoveSQLComments", CharSet = CharSet.Ansi)]
         private static extern uint AdsRemoveSQLComments_32(string pucStatement);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsRemoveSQLComments", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsRemoveSQLComments", CharSet = CharSet.Ansi)]
         private static extern uint AdsRemoveSQLComments_64(string pucStatement);
 
         public static uint AdsRemoveSQLComments(string pucStatement)
@@ -1809,10 +1809,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsRemoveSQLComments_32(pucStatement) : AdsRemoveSQLComments_64(pucStatement);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsSetBaseTableAccess", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsSetBaseTableAccess", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetBaseTableAccess_32(IntPtr hTbl, ushort usAccessBase);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsSetBaseTableAccess", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsSetBaseTableAccess", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetBaseTableAccess_64(IntPtr hTbl, ushort usAccessBase);
 
         public static uint AdsSetBaseTableAccess(IntPtr hTbl, ushort usAccessBase)
@@ -1820,13 +1820,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsSetBaseTableAccess_32(hTbl, usAccessBase) : AdsSetBaseTableAccess_64(hTbl, usAccessBase);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsCopyTableTop", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsCopyTableTop", CharSet = CharSet.Ansi)]
         private static extern uint AdsCopyTableTop_32(
         IntPtr hObj,
         IntPtr hDestTbl,
         uint ulNumTopRecords);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsCopyTableTop", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsCopyTableTop", CharSet = CharSet.Ansi)]
         private static extern uint AdsCopyTableTop_64(
         IntPtr hObj,
         IntPtr hDestTbl,
@@ -1837,14 +1837,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsCopyTableTop_32(hObj, hDestTbl, ulNumTopRecords) : AdsCopyTableTop_64(hObj, hDestTbl, ulNumTopRecords);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsCopyTableTop100", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsCopyTableTop100", CharSet = CharSet.Ansi)]
         private static extern uint AdsCopyTableTop100_32(
         IntPtr hObj,
         IntPtr hDestTbl,
         uint ulNumTopRecords,
         uint ulOffset);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsCopyTableTop100", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsCopyTableTop100", CharSet = CharSet.Ansi)]
         private static extern uint AdsCopyTableTop100_64(
         IntPtr hObj,
         IntPtr hDestTbl,
@@ -1860,10 +1860,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsCopyTableTop100_32(hObj, hDestTbl, ulNumTopRecords, ulOffset) : AdsCopyTableTop100_64(hObj, hDestTbl, ulNumTopRecords, ulOffset);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsGetNullRecord", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsGetNullRecord", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetNullRecord_32(IntPtr hTbl, string pucBuf, uint ulLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsGetNullRecord", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsGetNullRecord", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetNullRecord_64(IntPtr hTbl, string pucBuf, uint ulLen);
 
         public static uint AdsGetNullRecord(IntPtr hTbl, string pucBuf, uint ulLen)
@@ -1871,10 +1871,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsGetNullRecord_32(hTbl, pucBuf, ulLen) : AdsGetNullRecord_64(hTbl, pucBuf, ulLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsSetProperty", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsSetProperty", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetProperty_32(IntPtr hObj, uint ulOperation, uint ulValue);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsSetProperty", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsSetProperty", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetProperty_64(IntPtr hObj, uint ulOperation, uint ulValue);
 
         public static uint AdsSetProperty(IntPtr hObj, uint ulOperation, uint ulValue)
@@ -1882,10 +1882,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsSetProperty_32(hObj, ulOperation, ulValue) : AdsSetProperty_64(hObj, ulOperation, ulValue);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsSetProperty90", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsSetProperty90", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetProperty90_32(IntPtr hObj, uint ulOperation, ulong uqValue);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsSetProperty90", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsSetProperty90", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetProperty90_64(IntPtr hObj, uint ulOperation, ulong uqValue);
 
         public static uint AdsSetProperty90(IntPtr hObj, uint ulOperation, ulong uqValue)
@@ -1893,10 +1893,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsSetProperty90_32(hObj, ulOperation, uqValue) : AdsSetProperty90_64(hObj, ulOperation, uqValue);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsCloseCachedTrigStatements", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsCloseCachedTrigStatements", CharSet = CharSet.Ansi)]
         private static extern uint AdsCloseCachedTrigStatements_32(IntPtr hConnection, int lTableID);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsCloseCachedTrigStatements", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsCloseCachedTrigStatements", CharSet = CharSet.Ansi)]
         private static extern uint AdsCloseCachedTrigStatements_64(IntPtr hConnection, int lTableID);
 
         public static uint AdsCloseCachedTrigStatements(IntPtr hConnection, int lTableID)
@@ -1904,14 +1904,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsCloseCachedTrigStatements_32(hConnection, lTableID) : AdsCloseCachedTrigStatements_64(hConnection, lTableID);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsAreTriggersEnabled", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsAreTriggersEnabled", CharSet = CharSet.Ansi)]
         private static extern uint AdsAreTriggersEnabled_32(
         IntPtr hConnection,
         int lTableID,
         byte ucUpdateType,
         out uint pulEnabled);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsAreTriggersEnabled", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsAreTriggersEnabled", CharSet = CharSet.Ansi)]
         private static extern uint AdsAreTriggersEnabled_64(
         IntPtr hConnection,
         int lTableID,
@@ -1927,7 +1927,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsAreTriggersEnabled_32(hConnection, lTableID, ucUpdateType, out pulEnabled) : AdsAreTriggersEnabled_64(hConnection, lTableID, ucUpdateType, out pulEnabled);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDCreateASA", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDCreateASA", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDCreateASA_32(
         IntPtr hConnect,
         string pucDictionaryPath,
@@ -1935,7 +1935,7 @@ namespace AdvantageClientEngine
         string pucDescription,
         string pucPassword);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDCreateASA", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDCreateASA", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDCreateASA_64(
         IntPtr hConnect,
         string pucDictionaryPath,
@@ -1953,10 +1953,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDCreateASA_32(hConnect, pucDictionaryPath, usEncrypt, pucDescription, pucPassword) : AdsDDCreateASA_64(hConnect, pucDictionaryPath, usEncrypt, pucDescription, pucPassword);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsGotoBOF", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsGotoBOF", CharSet = CharSet.Ansi)]
         private static extern uint AdsGotoBOF_32(IntPtr hObj);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsGotoBOF", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsGotoBOF", CharSet = CharSet.Ansi)]
         private static extern uint AdsGotoBOF_64(IntPtr hObj);
 
         public static uint AdsGotoBOF(IntPtr hObj)
@@ -1964,10 +1964,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsGotoBOF_32(hObj) : AdsGotoBOF_64(hObj);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsGotoEOF", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsGotoEOF", CharSet = CharSet.Ansi)]
         private static extern uint AdsGotoEOF_32(IntPtr hObj);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsGotoEOF", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsGotoEOF", CharSet = CharSet.Ansi)]
         private static extern uint AdsGotoEOF_64(IntPtr hObj);
 
         public static uint AdsGotoEOF(IntPtr hObj)
@@ -1975,7 +1975,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsGotoEOF_32(hObj) : AdsGotoEOF_64(hObj);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsCreateMemTable", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsCreateMemTable", CharSet = CharSet.Ansi)]
         private static extern uint AdsCreateMemTable_32(
         IntPtr hConnection,
         string pucName,
@@ -1985,7 +1985,7 @@ namespace AdvantageClientEngine
         uint ulSize,
         out IntPtr phTable);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsCreateMemTable", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsCreateMemTable", CharSet = CharSet.Ansi)]
         private static extern uint AdsCreateMemTable_64(
         IntPtr hConnection,
         string pucName,
@@ -2007,7 +2007,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsCreateMemTable_32(hConnection, pucName, usTableType, usCharType, pucFields, ulSize, out phTable) : AdsCreateMemTable_64(hConnection, pucName, usTableType, usCharType, pucFields, ulSize, out phTable);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsCreateMemTable90", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsCreateMemTable90", CharSet = CharSet.Ansi)]
         private static extern uint AdsCreateMemTable90_32(
         IntPtr hConnection,
         string pucName,
@@ -2018,7 +2018,7 @@ namespace AdvantageClientEngine
         string pucCollation,
         out IntPtr phTable);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsCreateMemTable90", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsCreateMemTable90", CharSet = CharSet.Ansi)]
         private static extern uint AdsCreateMemTable90_64(
         IntPtr hConnection,
         string pucName,
@@ -2042,10 +2042,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsCreateMemTable90_32(hConnection, pucName, usTableType, usCharType, pucFields, ulSize, pucCollation, out phTable) : AdsCreateMemTable90_64(hConnection, pucName, usTableType, usCharType, pucFields, ulSize, pucCollation, out phTable);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsGetTableWAN", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsGetTableWAN", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetTableWAN_32(IntPtr hTable, out ushort pusWAN);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsGetTableWAN", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsGetTableWAN", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetTableWAN_64(IntPtr hTable, out ushort pusWAN);
 
         public static uint AdsGetTableWAN(IntPtr hTable, out ushort pusWAN)
@@ -2053,7 +2053,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsGetTableWAN_32(hTable, out pusWAN) : AdsGetTableWAN_64(hTable, out pusWAN);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsGetFTSScore", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsGetFTSScore", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetFTSScore_32(
         IntPtr hIndex,
         uint ulRecord,
@@ -2063,7 +2063,7 @@ namespace AdvantageClientEngine
         ushort usSeekType,
         out uint pulScore);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsGetFTSScore", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsGetFTSScore", CharSet = CharSet.Ansi)]
         private static extern uint AdsGetFTSScore_64(
         IntPtr hIndex,
         uint ulRecord,
@@ -2085,14 +2085,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsGetFTSScore_32(hIndex, ulRecord, pucKey, usKeyLen, usDataType, usSeekType, out pulScore) : AdsGetFTSScore_64(hIndex, ulRecord, pucKey, usKeyLen, usDataType, usSeekType, out pulScore);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsConvertDateToJulian", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsConvertDateToJulian", CharSet = CharSet.Ansi)]
         private static extern uint AdsConvertDateToJulian_32(
         IntPtr hConnect,
         string pucDate,
         ushort usLen,
         out double pdJulian);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsConvertDateToJulian", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsConvertDateToJulian", CharSet = CharSet.Ansi)]
         private static extern uint AdsConvertDateToJulian_64(
         IntPtr hConnect,
         string pucDate,
@@ -2108,13 +2108,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsConvertDateToJulian_32(hConnect, pucDate, usLen, out pdJulian) : AdsConvertDateToJulian_64(hConnect, pucDate, usLen, out pdJulian);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDSetActiveDictionary", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDSetActiveDictionary", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDSetActiveDictionary_32(
         IntPtr hConnect,
         string pucLinkName,
         out IntPtr phDictionary);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDSetActiveDictionary", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDSetActiveDictionary", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDSetActiveDictionary_64(
         IntPtr hConnect,
         string pucLinkName,
@@ -2128,7 +2128,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDSetActiveDictionary_32(hConnect, pucLinkName, out phDictionary) : AdsDDSetActiveDictionary_64(hConnect, pucLinkName, out phDictionary);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDCreateLinkPre71", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDCreateLinkPre71", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDCreateLinkPre71_32(
         IntPtr hDBConn,
         string pucLinkAlias,
@@ -2137,7 +2137,7 @@ namespace AdvantageClientEngine
         string pucPassword,
         uint ulOptions);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDCreateLinkPre71", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDCreateLinkPre71", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDCreateLinkPre71_64(
         IntPtr hDBConn,
         string pucLinkAlias,
@@ -2157,13 +2157,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDCreateLinkPre71_32(hDBConn, pucLinkAlias, pucLinkedDDPath, pucUserName, pucPassword, ulOptions) : AdsDDCreateLinkPre71_64(hDBConn, pucLinkAlias, pucLinkedDDPath, pucUserName, pucPassword, ulOptions);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDDropLinkPre71", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDDropLinkPre71", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDDropLinkPre71_32(
         IntPtr hDBConn,
         string pucLinkedDD,
         ushort usDropGlobal);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDDropLinkPre71", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDDropLinkPre71", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDDropLinkPre71_64(
         IntPtr hDBConn,
         string pucLinkedDD,
@@ -2174,14 +2174,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDDropLinkPre71_32(hDBConn, pucLinkedDD, usDropGlobal) : AdsDDDropLinkPre71_64(hDBConn, pucLinkedDD, usDropGlobal);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDDisableTriggers", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDDisableTriggers", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDDisableTriggers_32(
         IntPtr hDictionary,
         string pucObjectName,
         string pucParent,
         uint ulOptions);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDDisableTriggers", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDDisableTriggers", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDDisableTriggers_64(
         IntPtr hDictionary,
         string pucObjectName,
@@ -2197,14 +2197,14 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDDisableTriggers_32(hDictionary, pucObjectName, pucParent, ulOptions) : AdsDDDisableTriggers_64(hDictionary, pucObjectName, pucParent, ulOptions);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDEnableTriggers", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDEnableTriggers", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDEnableTriggers_32(
         IntPtr hDictionary,
         string pucObjectName,
         string pucParent,
         uint ulOptions);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDEnableTriggers", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDEnableTriggers", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDEnableTriggers_64(
         IntPtr hDictionary,
         string pucObjectName,
@@ -2220,10 +2220,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDEnableTriggers_32(hDictionary, pucObjectName, pucParent, ulOptions) : AdsDDEnableTriggers_64(hDictionary, pucObjectName, pucParent, ulOptions);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsCreateCriticalSection", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsCreateCriticalSection", CharSet = CharSet.Ansi)]
         private static extern uint AdsCreateCriticalSection_32(IntPtr hObj, uint ulOptions);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsCreateCriticalSection", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsCreateCriticalSection", CharSet = CharSet.Ansi)]
         private static extern uint AdsCreateCriticalSection_64(IntPtr hObj, uint ulOptions);
 
         public static uint AdsCreateCriticalSection(IntPtr hObj, uint ulOptions)
@@ -2231,10 +2231,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsCreateCriticalSection_32(hObj, ulOptions) : AdsCreateCriticalSection_64(hObj, ulOptions);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsWaitForObject", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsWaitForObject", CharSet = CharSet.Ansi)]
         private static extern uint AdsWaitForObject_32(IntPtr hObj, uint ulOptions);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsWaitForObject", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsWaitForObject", CharSet = CharSet.Ansi)]
         private static extern uint AdsWaitForObject_64(IntPtr hObj, uint ulOptions);
 
         public static uint AdsWaitForObject(IntPtr hObj, uint ulOptions)
@@ -2242,10 +2242,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsWaitForObject_32(hObj, ulOptions) : AdsWaitForObject_64(hObj, ulOptions);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsReleaseObject", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsReleaseObject", CharSet = CharSet.Ansi)]
         private static extern uint AdsReleaseObject_32(IntPtr hObj);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsReleaseObject", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsReleaseObject", CharSet = CharSet.Ansi)]
         private static extern uint AdsReleaseObject_64(IntPtr hObj);
 
         public static uint AdsReleaseObject(IntPtr hObj)
@@ -2253,7 +2253,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsReleaseObject_32(hObj) : AdsReleaseObject_64(hObj);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsBackupDatabase", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsBackupDatabase", CharSet = CharSet.Ansi)]
         private static extern uint AdsBackupDatabase_32(
         IntPtr hConnect,
         IntPtr hOutputTable,
@@ -2269,7 +2269,7 @@ namespace AdvantageClientEngine
         string pucCollation,
         byte ucDDConn);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsBackupDatabase", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsBackupDatabase", CharSet = CharSet.Ansi)]
         private static extern uint AdsBackupDatabase_64(
         IntPtr hConnect,
         IntPtr hOutputTable,
@@ -2303,7 +2303,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsBackupDatabase_32(hConnect, hOutputTable, pucSourcePath, pucSourceMask, pucDestPath, pucOptions, pucFreeTablePasswords, usCharType, usLockingMode, usCheckRights, usTableType, pucCollation, ucDDConn) : AdsBackupDatabase_64(hConnect, hOutputTable, pucSourcePath, pucSourceMask, pucDestPath, pucOptions, pucFreeTablePasswords, usCharType, usLockingMode, usCheckRights, usTableType, pucCollation, ucDDConn);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsRestoreDatabase", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsRestoreDatabase", CharSet = CharSet.Ansi)]
         private static extern uint AdsRestoreDatabase_32(
         IntPtr hConnect,
         IntPtr hOutputTable,
@@ -2320,7 +2320,7 @@ namespace AdvantageClientEngine
         string pucCollation,
         byte ucDDConn);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsRestoreDatabase", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsRestoreDatabase", CharSet = CharSet.Ansi)]
         private static extern uint AdsRestoreDatabase_64(
         IntPtr hConnect,
         IntPtr hOutputTable,
@@ -2356,10 +2356,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsRestoreDatabase_32(hConnect, hOutputTable, pucSourcePath, pucSourcePassword, pucDestPath, pucDestPassword, pucOptions, pucFreeTablePasswords, usCharType, usLockingMode, usCheckRights, usTableType, pucCollation, ucDDConn) : AdsRestoreDatabase_64(hConnect, hOutputTable, pucSourcePath, pucSourcePassword, pucDestPath, pucDestPassword, pucOptions, pucFreeTablePasswords, usCharType, usLockingMode, usCheckRights, usTableType, pucCollation, ucDDConn);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsSetRecordPartial", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsSetRecordPartial", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetRecordPartial_32(IntPtr hObj, string pucRec, uint ulLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsSetRecordPartial", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsSetRecordPartial", CharSet = CharSet.Ansi)]
         private static extern uint AdsSetRecordPartial_64(IntPtr hObj, string pucRec, uint ulLen);
 
         public static uint AdsSetRecordPartial(IntPtr hObj, string pucRec, uint ulLen)
@@ -2367,7 +2367,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsSetRecordPartial_32(hObj, pucRec, ulLen) : AdsSetRecordPartial_64(hObj, pucRec, ulLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDSetTriggerProperty", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDSetTriggerProperty", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDSetTriggerProperty_32(
         IntPtr hDictionary,
         string pucTriggerName,
@@ -2375,7 +2375,7 @@ namespace AdvantageClientEngine
         string pucProperty,
         ushort usPropertyLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDSetTriggerProperty", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDSetTriggerProperty", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDSetTriggerProperty_64(
         IntPtr hDictionary,
         string pucTriggerName,
@@ -2393,7 +2393,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDSetTriggerProperty_32(hDictionary, pucTriggerName, usPropertyID, pucProperty, usPropertyLen) : AdsDDSetTriggerProperty_64(hDictionary, pucTriggerName, usPropertyID, pucProperty, usPropertyLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDCreateFunction", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDCreateFunction", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDCreateFunction_32(
         IntPtr hDictionary,
         string pucName,
@@ -2403,7 +2403,7 @@ namespace AdvantageClientEngine
         string pucFuncBody,
         string pucComments);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDCreateFunction", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDCreateFunction", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDCreateFunction_64(
         IntPtr hDictionary,
         string pucName,
@@ -2425,7 +2425,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDCreateFunction_32(hDictionary, pucName, pucReturnType, usInputParamCnt, pucInputParams, pucFuncBody, pucComments) : AdsDDCreateFunction_64(hDictionary, pucName, pucReturnType, usInputParamCnt, pucInputParams, pucFuncBody, pucComments);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDCreateFunction100", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDCreateFunction100", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDCreateFunction100_32(
         IntPtr hDictionary,
         string pucName,
@@ -2437,7 +2437,7 @@ namespace AdvantageClientEngine
         uint ulEncoding,
         uint ulOptions);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDCreateFunction100", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDCreateFunction100", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDCreateFunction100_64(
         IntPtr hDictionary,
         string pucName,
@@ -2463,10 +2463,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDCreateFunction100_32(hDictionary, pucName, pucReturnType, usInputParamCnt, pucInputParams, pucFuncBody, pucComments, ulEncoding, ulOptions) : AdsDDCreateFunction100_64(hDictionary, pucName, pucReturnType, usInputParamCnt, pucInputParams, pucFuncBody, pucComments, ulEncoding, ulOptions);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDDropFunction", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDDropFunction", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDDropFunction_32(IntPtr hDictionary, string pucName);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDDropFunction", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDDropFunction", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDDropFunction_64(IntPtr hDictionary, string pucName);
 
         public static uint AdsDDDropFunction(IntPtr hDictionary, string pucName)
@@ -2474,7 +2474,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDDropFunction_32(hDictionary, pucName) : AdsDDDropFunction_64(hDictionary, pucName);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDGetObjectProperty", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDGetObjectProperty", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDGetObjectProperty_32(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2484,7 +2484,7 @@ namespace AdvantageClientEngine
         [In, Out] byte[] pvProperty,
         ref ushort pusPropertyLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDGetObjectProperty", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDGetObjectProperty", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDGetObjectProperty_64(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2506,7 +2506,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDGetObjectProperty_32(hDictionary, usObjectType, pucParent, pucName, usPropertyID, pvProperty, ref pusPropertyLen) : AdsDDGetObjectProperty_64(hDictionary, usObjectType, pucParent, pucName, usPropertyID, pvProperty, ref pusPropertyLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDGetObjectProperty", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDGetObjectProperty", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDGetObjectProperty_32(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2516,7 +2516,7 @@ namespace AdvantageClientEngine
         [In, Out] char[] pucProperty,
         ref ushort pusPropertyLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDGetObjectProperty", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDGetObjectProperty", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDGetObjectProperty_64(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2538,7 +2538,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDGetObjectProperty_32(hDictionary, usObjectType, pucParent, pucName, usPropertyID, pucProperty, ref pusPropertyLen) : AdsDDGetObjectProperty_64(hDictionary, usObjectType, pucParent, pucName, usPropertyID, pucProperty, ref pusPropertyLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDGetObjectProperty", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDGetObjectProperty", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDGetObjectProperty_32(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2548,7 +2548,7 @@ namespace AdvantageClientEngine
         ref ushort pusProperty,
         ref ushort pusPropertyLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDGetObjectProperty", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDGetObjectProperty", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDGetObjectProperty_64(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2570,7 +2570,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDGetObjectProperty_32(hDictionary, usObjectType, pucParent, pucName, usPropertyID, ref pusProperty, ref pusPropertyLen) : AdsDDGetObjectProperty_64(hDictionary, usObjectType, pucParent, pucName, usPropertyID, ref pusProperty, ref pusPropertyLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDGetObjectProperty100", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDGetObjectProperty100", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDGetObjectProperty100_32(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2581,7 +2581,7 @@ namespace AdvantageClientEngine
         ref ushort pusPropertyLen,
         out uint pulEncoding);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDGetObjectProperty100", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDGetObjectProperty100", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDGetObjectProperty100_64(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2605,7 +2605,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDGetObjectProperty100_32(hDictionary, usObjectType, pucParent, pucName, usPropertyID, pvProperty, ref pusPropertyLen, out pulEncoding) : AdsDDGetObjectProperty100_64(hDictionary, usObjectType, pucParent, pucName, usPropertyID, pvProperty, ref pusPropertyLen, out pulEncoding);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDGetObjectProperty100", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDGetObjectProperty100", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDGetObjectProperty100_32(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2616,7 +2616,7 @@ namespace AdvantageClientEngine
         ref ushort pusPropertyLen,
         out uint pulEncoding);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDGetObjectProperty100", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDGetObjectProperty100", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDGetObjectProperty100_64(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2640,7 +2640,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDGetObjectProperty100_32(hDictionary, usObjectType, pucParent, pucName, usPropertyID, pucProperty, ref pusPropertyLen, out pulEncoding) : AdsDDGetObjectProperty100_64(hDictionary, usObjectType, pucParent, pucName, usPropertyID, pucProperty, ref pusPropertyLen, out pulEncoding);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDGetObjectProperty100", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDGetObjectProperty100", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDGetObjectProperty100_32(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2651,7 +2651,7 @@ namespace AdvantageClientEngine
         ref ushort pusPropertyLen,
         out uint pulEncoding);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDGetObjectProperty100", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDGetObjectProperty100", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDGetObjectProperty100_64(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2675,7 +2675,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDGetObjectProperty100_32(hDictionary, usObjectType, pucParent, pucName, usPropertyID, ref pusProperty, ref pusPropertyLen, out pulEncoding) : AdsDDGetObjectProperty100_64(hDictionary, usObjectType, pucParent, pucName, usPropertyID, ref pusProperty, ref pusPropertyLen, out pulEncoding);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDSetObjectProperty", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDSetObjectProperty", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDSetObjectProperty_32(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2685,7 +2685,7 @@ namespace AdvantageClientEngine
         [In, Out] byte[] pvProperty,
         ushort usPropertyLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDSetObjectProperty", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDSetObjectProperty", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDSetObjectProperty_64(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2707,7 +2707,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDSetObjectProperty_32(hDictionary, usObjectType, pucParent, pucName, usPropertyID, pvProperty, usPropertyLen) : AdsDDSetObjectProperty_64(hDictionary, usObjectType, pucParent, pucName, usPropertyID, pvProperty, usPropertyLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDSetObjectProperty", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDSetObjectProperty", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDSetObjectProperty_32(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2717,7 +2717,7 @@ namespace AdvantageClientEngine
         [In, Out] char[] pucProperty,
         ushort usPropertyLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDSetObjectProperty", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDSetObjectProperty", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDSetObjectProperty_64(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2739,7 +2739,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDSetObjectProperty_32(hDictionary, usObjectType, pucParent, pucName, usPropertyID, pucProperty, usPropertyLen) : AdsDDSetObjectProperty_64(hDictionary, usObjectType, pucParent, pucName, usPropertyID, pucProperty, usPropertyLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDSetObjectProperty", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDSetObjectProperty", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDSetObjectProperty_32(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2749,7 +2749,7 @@ namespace AdvantageClientEngine
         ref ushort pusProperty,
         ushort usPropertyLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDSetObjectProperty", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDSetObjectProperty", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDSetObjectProperty_64(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2771,7 +2771,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDSetObjectProperty_32(hDictionary, usObjectType, pucParent, pucName, usPropertyID, ref pusProperty, usPropertyLen) : AdsDDSetObjectProperty_64(hDictionary, usObjectType, pucParent, pucName, usPropertyID, ref pusProperty, usPropertyLen);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDSetObjectProperty100", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDSetObjectProperty100", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDSetObjectProperty100_32(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2782,7 +2782,7 @@ namespace AdvantageClientEngine
         ushort usPropertyLen,
         uint ulEncoding);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDSetObjectProperty100", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDSetObjectProperty100", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDSetObjectProperty100_64(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2806,7 +2806,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDSetObjectProperty100_32(hDictionary, usObjectType, pucParent, pucName, usPropertyID, pvProperty, usPropertyLen, ulEncoding) : AdsDDSetObjectProperty100_64(hDictionary, usObjectType, pucParent, pucName, usPropertyID, pvProperty, usPropertyLen, ulEncoding);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDSetObjectProperty100", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDSetObjectProperty100", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDSetObjectProperty100_32(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2817,7 +2817,7 @@ namespace AdvantageClientEngine
         ushort usPropertyLen,
         uint ulEncoding);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDSetObjectProperty100", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDSetObjectProperty100", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDSetObjectProperty100_64(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2841,7 +2841,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDSetObjectProperty100_32(hDictionary, usObjectType, pucParent, pucName, usPropertyID, pucProperty, usPropertyLen, ulEncoding) : AdsDDSetObjectProperty100_64(hDictionary, usObjectType, pucParent, pucName, usPropertyID, pucProperty, usPropertyLen, ulEncoding);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDSetObjectProperty100", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDSetObjectProperty100", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDSetObjectProperty100_32(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2852,7 +2852,7 @@ namespace AdvantageClientEngine
         ushort usPropertyLen,
         uint ulEncoding);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDSetObjectProperty100", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDSetObjectProperty100", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDSetObjectProperty100_64(
         IntPtr hDictionary,
         ushort usObjectType,
@@ -2876,13 +2876,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDSetObjectProperty100_32(hDictionary, usObjectType, pucParent, pucName, usPropertyID, ref pusProperty, usPropertyLen, ulEncoding) : AdsDDSetObjectProperty100_64(hDictionary, usObjectType, pucParent, pucName, usPropertyID, ref pusProperty, usPropertyLen, ulEncoding);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDCreatePackage", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDCreatePackage", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDCreatePackage_32(
         IntPtr hDictionary,
         string pucName,
         string pucComments);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDCreatePackage", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDCreatePackage", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDCreatePackage_64(
         IntPtr hDictionary,
         string pucName,
@@ -2893,10 +2893,10 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDCreatePackage_32(hDictionary, pucName, pucComments) : AdsDDCreatePackage_64(hDictionary, pucName, pucComments);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsDDDropPackage", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsDDDropPackage", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDDropPackage_32(IntPtr hDictionary, string pucName);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsDDDropPackage", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsDDDropPackage", CharSet = CharSet.Ansi)]
         private static extern uint AdsDDDropPackage_64(IntPtr hDictionary, string pucName);
 
         public static uint AdsDDDropPackage(IntPtr hDictionary, string pucName)
@@ -2904,13 +2904,13 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsDDDropPackage_32(hDictionary, pucName) : AdsDDDropPackage_64(hDictionary, pucName);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsCopyTableStructure81", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsCopyTableStructure81", CharSet = CharSet.Ansi)]
         private static extern uint AdsCopyTableStructure81_32(
         IntPtr hTable,
         string pucFile,
         uint ulOptions);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsCopyTableStructure81", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsCopyTableStructure81", CharSet = CharSet.Ansi)]
         private static extern uint AdsCopyTableStructure81_64(
         IntPtr hTable,
         string pucFile,
@@ -2921,7 +2921,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsCopyTableStructure81_32(hTable, pucFile, ulOptions) : AdsCopyTableStructure81_64(hTable, pucFile, ulOptions);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsAccessVfpSystemField", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsAccessVfpSystemField", CharSet = CharSet.Ansi)]
         private static extern uint AdsAccessVfpSystemField_32(
         IntPtr hTable,
         string pucFldName,
@@ -2929,7 +2929,7 @@ namespace AdvantageClientEngine
         uint ulOptions,
         out ushort puFlag);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsAccessVfpSystemField", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsAccessVfpSystemField", CharSet = CharSet.Ansi)]
         private static extern uint AdsAccessVfpSystemField_64(
         IntPtr hTable,
         string pucFldName,
@@ -2947,7 +2947,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsAccessVfpSystemField_32(hTable, pucFldName, pucBuffer, ulOptions, out puFlag) : AdsAccessVfpSystemField_64(hTable, pucFldName, pucBuffer, ulOptions, out puFlag);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsAccessVfpSystemField", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsAccessVfpSystemField", CharSet = CharSet.Ansi)]
         private static extern uint AdsAccessVfpSystemField_32(
         IntPtr hTable,
         uint lFieldOrdinal,
@@ -2955,7 +2955,7 @@ namespace AdvantageClientEngine
         uint ulOptions,
         out ushort puFlag);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsAccessVfpSystemField", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsAccessVfpSystemField", CharSet = CharSet.Ansi)]
         private static extern uint AdsAccessVfpSystemField_64(
         IntPtr hTable,
         uint lFieldOrdinal,
@@ -2973,7 +2973,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsAccessVfpSystemField_32(hTable, lFieldOrdinal, pucBuffer, ulOptions, out puFlag) : AdsAccessVfpSystemField_64(hTable, lFieldOrdinal, pucBuffer, ulOptions, out puFlag);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsConvertCodePageToUnicode", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsConvertCodePageToUnicode", CharSet = CharSet.Ansi)]
         private static extern uint AdsConvertCodePageToUnicode_32(
         IntPtr hConn,
         uint ulCodePage,
@@ -2982,7 +2982,7 @@ namespace AdvantageClientEngine
         string pwcBuffer,
         out uint pulCodeUnits);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsConvertCodePageToUnicode", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsConvertCodePageToUnicode", CharSet = CharSet.Ansi)]
         private static extern uint AdsConvertCodePageToUnicode_64(
         IntPtr hConn,
         uint ulCodePage,
@@ -3002,7 +3002,7 @@ namespace AdvantageClientEngine
             return IntPtr.Size == 4 ? AdsConvertCodePageToUnicode_32(hConn, ulCodePage, pucBuffer, lByteLen, pwcBuffer, out pulCodeUnits) : AdsConvertCodePageToUnicode_64(hConn, ulCodePage, pucBuffer, lByteLen, pwcBuffer, out pulCodeUnits);
         }
 
-        [DllImport("ace32.dll", EntryPoint = "AdsConvertUnicodeToCodePage", CharSet = CharSet.Ansi)]
+        [DllImport("ace32", EntryPoint = "AdsConvertUnicodeToCodePage", CharSet = CharSet.Ansi)]
         private static extern uint AdsConvertUnicodeToCodePage_32(
         IntPtr hConn,
         uint ulCodePage,
@@ -3011,7 +3011,7 @@ namespace AdvantageClientEngine
         [In, Out] char[] pucBuffer,
         ref uint pulByteLen);
 
-        [DllImport("ace64.dll", EntryPoint = "AdsConvertUnicodeToCodePage", CharSet = CharSet.Ansi)]
+        [DllImport("ace64", EntryPoint = "AdsConvertUnicodeToCodePage", CharSet = CharSet.Ansi)]
         private static extern uint AdsConvertUnicodeToCodePage_64(
         IntPtr hConn,
         uint ulCodePage,
