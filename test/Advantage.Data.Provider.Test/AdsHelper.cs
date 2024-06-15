@@ -32,7 +32,8 @@ namespace Advantage.Data.Provider.Test
             {
                 DataSource = source,
                 ServerType = isLocal ? "local" : "remote",
-                TableType = type
+                TableType = type,
+                TrimTrailingSpaces = true
             };
             return bld.ConnectionString;
         }

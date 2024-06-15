@@ -13,4 +13,8 @@
     <ProjectReference Include="..\Advantage.Data.Provider.Test\Advantage.Data.Provider.Test.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
 </Project>

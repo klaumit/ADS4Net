@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Data.Common;
+using System.Data;
 using Advantage.Data.Provider;
 using Advantage.Data.Provider.Test;
+using Newtonsoft.Json;
 
 namespace SmallConsole
 {
@@ -21,8 +22,12 @@ namespace SmallConsole
             using var cmd = conn.CreateCommand();
             cmd.CommandText = "SELECT * FROM Poland";
 
-            using var reader = cmd.ExecuteReader();
-            Console.WriteLine(reader.FieldCount);
+            using var table = new DataTable();
+            var adapter = new AdsDataAdapter(cmd);
+            adapter.Fill(table);
+
+            var json = JsonConvert.SerializeObject(table);
+            Console.WriteLine(json);
         }
     }
 }
