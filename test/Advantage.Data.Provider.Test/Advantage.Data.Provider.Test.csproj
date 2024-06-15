@@ -19,5 +19,11 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\EntityFramework.Advantage.v12\EntityFramework.Advantage.v12.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="data\**\*.adt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   
 </Project>
