@@ -8,5 +8,11 @@
     <ProjectReference Include="..\..\src\EntityFramework.Advantage.v12\EntityFramework.Advantage.v12.csproj" />
     <ProjectReference Include="..\..\src\Advantage.Data.Provider.Ex\Advantage.Data.Provider.Ex.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="data\*.adt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   
 </Project>
