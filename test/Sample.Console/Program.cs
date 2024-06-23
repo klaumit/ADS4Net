@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sample.Con.Cases;
+using Sample.Con.Core;
 
 namespace Sample.Con
 {
@@ -6,7 +7,9 @@ namespace Sample.Con
     {
         private static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            var helper = new DelegateOutput();
+            TestAdoCases.RunSimple(helper);
+            TestOrmCases.RunEntity(helper);
         }
     }
 }
