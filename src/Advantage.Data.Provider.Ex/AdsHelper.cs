@@ -1,9 +1,8 @@
 using System;
 using System.Text;
 using System.IO;
-using System.Linq;
 
-namespace Advantage.Data.Provider.Test
+namespace Advantage.Data.Provider
 {
     public static class AdsHelper
     {

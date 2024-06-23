@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <NoWarn>CS0168;CS0642</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <RootNamespace>Advantage.Data.Provider</RootNamespace>
+    <Company>Sybase</Company>
+    <Description>Advantage .NET Data Provider Extended</Description>
+    <Copyright>Copyright © 2015 Sybase</Copyright>
+    <Title>Advantage .NET Data Provider Extended</Title>
+    <Product>Advantage .NET Data Provider Extended</Product>
+    <Version>12.0.2.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Advantage.Data.Provider\Advantage.Data.Provider.csproj" />
+  </ItemGroup>
+
+</Project>
