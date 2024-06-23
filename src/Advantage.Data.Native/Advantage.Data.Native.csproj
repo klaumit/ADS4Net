@@ -8,9 +8,77 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- Common for Windows -->
+    <Content Include="../../lib/all/adslocal.cfg" Link="runtimes/win-x64/native/adslocal.cfg">
+      <PackagePath>runtimes/win-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="../../lib/all/adscollate.adm" Link="runtimes/win-x64/native/adscollate.adm">
+      <PackagePath>runtimes/win-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="../../lib/all/adscollate.adt" Link="runtimes/win-x64/native/adscollate.adt">
+      <PackagePath>runtimes/win-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="../../lib/all/ansi.chr" Link="runtimes/win-x64/native/ansi.chr">
+      <PackagePath>runtimes/win-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="../../lib/all/extend.chr" Link="runtimes/win-x64/native/extend.chr">
+      <PackagePath>runtimes/win-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="../../lib/all/icudt40l.dat" Link="runtimes/win-x64/native/icudt40l.dat">
+      <PackagePath>runtimes/win-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  
+  <ItemGroup>
     <!-- Windows 64 bit -->
     <Content Include="../../lib/win/64/ace64.dll" Link="runtimes/win-x64/native/ace64.dll">
       <PackagePath>runtimes/win-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="../../lib/win/64/axcws64.dll" Link="runtimes/win-x64/native/axcws64.dll">
+      <PackagePath>runtimes/win-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="../../lib/win/64/adsloc64.dll" Link="runtimes/win-x64/native/adsloc64.dll">
+      <PackagePath>runtimes/win-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="../../lib/win/64/aicu64.dll" Link="runtimes/win-x64/native/aicu64.dll">
+      <PackagePath>runtimes/win-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <!-- Common for Linux -->
+    <Content Include="../../lib/all/adslocal.cfg" Link="runtimes/linux-x64/native/adslocal.cfg">
+      <PackagePath>runtimes/linux-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="../../lib/all/adscollate.adm" Link="runtimes/linux-x64/native/adscollate.adm">
+      <PackagePath>runtimes/linux-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="../../lib/all/adscollate.adt" Link="runtimes/linux-x64/native/adscollate.adt">
+      <PackagePath>runtimes/linux-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="../../lib/all/ansi.chr" Link="runtimes/linux-x64/native/ansi.chr">
+      <PackagePath>runtimes/linux-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="../../lib/all/extend.chr" Link="runtimes/linux-x64/native/extend.chr">
+      <PackagePath>runtimes/linux-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="../../lib/all/icudt40l.dat" Link="runtimes/linux-x64/native/icudt40l.dat">
+      <PackagePath>runtimes/linux-x64/native</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -22,6 +90,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="../../lib/linux/64/libadsloc.so.12.00.0.02" Link="runtimes/linux-x64/native/libadsloc.so.12.00">
+      <PackagePath>runtimes/linux-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="../../lib/linux/64/libaicu.so" Link="runtimes/linux-x64/native/libaicu.so">
       <PackagePath>runtimes/linux-x64/native</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

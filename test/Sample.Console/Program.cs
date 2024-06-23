@@ -1,4 +1,5 @@
-﻿using Advantage.Data.Native;
+﻿using System;
+using Advantage.Data.Native;
 using Sample.Con.Cases;
 using Sample.Con.Core;
 
@@ -8,9 +9,9 @@ namespace Sample.Con
     {
         private static void Main(string[] args)
         {
+            var helper = new DelegateOutput { WriteLiner = Console.WriteLine };
             NativeBoot.RegisterDefault();
 
-            var helper = new DelegateOutput();
             TestAdoCases.RunSimple(helper);
             TestOrmCases.RunEntity(helper);
         }

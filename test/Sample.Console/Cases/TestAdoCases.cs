@@ -9,7 +9,7 @@ namespace Sample.Con.Cases
         {
             @out.WriteLine($" === {nameof(RunSimple)} === ");
 
-            var source = AdsHelper.GetSource("sample");
+            var source = AdsHelper.GetSource("");
             var connStr = AdsHelper.GetConnStr(source, isLocal: true);
 
             using var conn = AdsHelper.GetConn(connStr);
