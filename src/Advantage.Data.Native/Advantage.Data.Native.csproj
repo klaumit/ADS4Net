@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Windows 64 bit -->
+    <Content Include="../../lib/win/64/ace64.dll" Link="runtimes/win-x64/native/ace64.dll">
+      <PackagePath>runtimes/win-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Linux 64 bit -->
+    <Content Include="../../lib/linux/64/libace.so.12.00.0.02" Link="runtimes/linux-x64/native/libace64.so">
+      <PackagePath>runtimes/linux-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="../../lib/linux/64/libadsloc.so.12.00.0.02" Link="runtimes/linux-x64/native/libadsloc.so.12.00">
+      <PackagePath>runtimes/linux-x64/native</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Advantage.Data.Provider\Advantage.Data.Provider.csproj" />
+  </ItemGroup>
+
+</Project>

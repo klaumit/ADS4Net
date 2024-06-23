@@ -11,6 +11,7 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Advantage.Data.Native\Advantage.Data.Native.csproj" />
     <ProjectReference Include="..\Sample.Model\Sample.Model.csproj" />
   </ItemGroup>
 
