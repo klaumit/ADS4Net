@@ -1,7 +1,7 @@
 using System.Data.Entity;
-using static Advantage.Data.Provider.Test.AdsHelper;
+using static Advantage.Data.Provider.AdsHelper;
 
-namespace Advantage.Data.Provider.Test
+namespace Sample.Model
 {
     [DbConfigurationType(typeof(ProductConfig))]
     public class ProductContext : DbContext

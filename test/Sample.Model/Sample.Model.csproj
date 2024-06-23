@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\EntityFramework.Advantage.v12\EntityFramework.Advantage.v12.csproj" />
+    <ProjectReference Include="..\..\src\Advantage.Data.Provider.Ex\Advantage.Data.Provider.Ex.csproj" />
+  </ItemGroup>
+  
+</Project>

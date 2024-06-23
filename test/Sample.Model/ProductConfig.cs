@@ -1,6 +1,7 @@
 using System.Data.Entity;
+using Advantage.Data.Provider;
 
-namespace Advantage.Data.Provider.Test
+namespace Sample.Model
 {
     public class ProductConfig : DbConfiguration
     {

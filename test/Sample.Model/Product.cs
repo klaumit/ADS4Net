@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Advantage.Data.Provider.Test
+namespace Sample.Model
 {
     public class Product
     {
