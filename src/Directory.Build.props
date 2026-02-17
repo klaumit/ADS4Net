@@ -1,0 +1,54 @@
+<Project>
+
+  <PropertyGroup>
+    <Copyright>Copyright (C) 2026 ADS4Net project and contributors</Copyright>
+    <Authors>ADS4Net project and contributors</Authors>
+    <NoWarn>CS0168;CS0642;CS1591;NU1510;CA1416;CA2200</NoWarn>
+
+    <Version>1.0.0</Version>
+    <InformationalVersion>$(Version)</InformationalVersion>
+
+    <LangVersion>latest</LangVersion>
+    <AnalysisLevel>latest</AnalysisLevel>
+
+    <Description>ADS4Net legacy database driver</Description>
+    <Title>$(Description)</Title>
+   
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/klaumit/ADS4Net</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/klaumit/ADS4Net.git</RepositoryUrl>
+
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageVersion>$(InformationalVersion)</PackageVersion>
+    <PackageTags>ADS;database;legacy</PackageTags>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Deterministic>true</Deterministic>
+
+    <PackageDescription>ADS4Net is a driver for legacy database written in C#.</PackageDescription>
+    <PackageReleaseNotes>https://github.com/klaumit/ADS4Net/releases</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="" />
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="" />
+    <None Include="..\..\logo.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
+</Project>

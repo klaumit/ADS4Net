@@ -1,10 +1,26 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <RootNamespace>Advantage.Data.Provider</RootNamespace>
+    <!-- <Company>Sybase</Company> -->
+    <Description>Advantage .NET Data Provider Native</Description>
+    <!-- <Copyright>Copyright © 2015 Sybase</Copyright> -->
+    <Title>Advantage .NET Data Provider Native</Title>
+    <Product>Advantage .NET Data Provider Native</Product>
+    <!-- <Version>12.0.2.0</Version> -->
+  </PropertyGroup>
+
+  <PropertyGroup>  
+    <AssemblyTitle>ADS4Net.Native</AssemblyTitle>
+    <AssemblyName>ADS4Net.Native</AssemblyName>
+    <PackageId>ADS4Net.Native</PackageId>
   </PropertyGroup>
 
   <ItemGroup>

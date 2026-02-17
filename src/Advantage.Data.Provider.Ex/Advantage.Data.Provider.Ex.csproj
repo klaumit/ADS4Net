@@ -1,25 +1,30 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>net10.0;netstandard2.1;netstandard2.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
-    <NoWarn>CS0168;CS0642</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>
     <RootNamespace>Advantage.Data.Provider</RootNamespace>
-    <Company>Sybase</Company>
+    <!-- <Company>Sybase</Company> -->
     <Description>Advantage .NET Data Provider Extended</Description>
-    <Copyright>Copyright © 2015 Sybase</Copyright>
+    <!-- <Copyright>Copyright © 2015 Sybase</Copyright> -->
     <Title>Advantage .NET Data Provider Extended</Title>
     <Product>Advantage .NET Data Provider Extended</Product>
-    <Version>12.0.2.0</Version>
+    <!-- <Version>12.0.2.0</Version> -->
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyTitle>ADS4Net.Extended</AssemblyTitle>
+    <AssemblyName>ADS4Net.Extended</AssemblyName>
+    <PackageId>ADS4Net.Extended</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.3" />
   </ItemGroup>
 
   <ItemGroup>

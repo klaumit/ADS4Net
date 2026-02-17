@@ -1,19 +1,24 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <LangVersion>latest</LangVersion>
-    <NoWarn>CS0168;CS0642</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>
     <RootNamespace>Advantage.Data.Provider</RootNamespace>
-    <Company>Sybase</Company>
+    <!-- <Company>Sybase</Company> -->
     <Description>Advantage .NET Data Provider</Description>
-    <Copyright>Copyright © 2015 Sybase</Copyright>
+    <!-- <Copyright>Copyright © 2015 Sybase</Copyright> -->
     <Title>Advantage .NET Data Provider</Title>
     <Product>Advantage .NET Data Provider</Product>
-    <Version>12.0.2.0</Version>
+    <!-- <Version>12.0.2.0</Version> -->
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyTitle>ADS4Net.Provider</AssemblyTitle>
+    <AssemblyName>ADS4Net.Provider</AssemblyName>
+    <PackageId>ADS4Net.Provider</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,7 +27,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="System.Drawing.Common" Version="8.0.6" />
+    <PackageReference Include="System.Drawing.Common" Version="10.0.3" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
   </ItemGroup>
 

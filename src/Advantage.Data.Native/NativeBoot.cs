@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -25,11 +25,6 @@ namespace Advantage.Data.Native
 
             var currDir = Environment.CurrentDirectory;
             var rtDir = FindRuntimeDir(assDir, exeDir, currDir);
-
-            Console.WriteLine($" HACK1 {assDir} ?? ");
-            Console.WriteLine($" HACK2 {exeDir} ?? ");
-            Console.WriteLine($" HACK3 {currDir} ?? ");
-            Console.WriteLine($" HACK4 {rtDir} ?? ");
             
             CopyFiles(rtDir!, assDir!);
         }
@@ -40,8 +35,6 @@ namespace Advantage.Data.Native
             {
                 var label = file.Replace(source, string.Empty).Trim(Path.DirectorySeparatorChar);
                 var dest = Path.Combine(target, label);
-
-                Console.WriteLine(" # " + file + "   --- " + dest);
 
                 File.Copy(file, dest, overwrite: true);
             }
